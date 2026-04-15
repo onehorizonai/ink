@@ -90,9 +90,9 @@ Good first prompts:
 - `Outline a blog post about...`
 - `Refresh my local context from my website and LinkedIn`
 
-## Manual
+# Usage guides
 
-### Set up Ink once
+## Set up Ink once
 
 Run `local-context-setup` once after cloning, then again any time your local context changes.
 
@@ -127,7 +127,7 @@ What happens:
 - checks whether anything can be overwritten
 - creates or updates `.local/context/`
 
-### Find what to write next
+## Find what to write next
 
 Use `content-idea-finder` if you want ideas before you commit to a post or an article.
 
@@ -138,7 +138,7 @@ Find five content ideas for me.
 Give me three LinkedIn ideas and two blog ideas based on my current context, recent themes, and gaps in my existing content.
 ```
 
-### Write a LinkedIn post
+## Write a LinkedIn post
 
 Use `linkedin-social-writer` to draft the post itself.
 
@@ -179,7 +179,7 @@ How LinkedIn publishing works:
 - Use `linkedin-finalize-post` if the draft still needs a final pass before you save it.
 - Use `linkedin-store-post` if you already published it and just want the exact text logged.
 
-### Write a blog post
+## Write a blog post
 
 Use `blog-post-writer` for a full article draft.
 
@@ -193,35 +193,40 @@ Blog workflow:
 
 ```mermaid
 flowchart TD
-    A["Build the article brief"] --> B["Resolve blog paths from .local/context/blog-publishing.local.md"]
-    B --> C["Research the published blog archive first"]
-    C --> D["Run a lightweight external research pass"]
-    D --> E["Load the minimum local context"]
-    E --> F["Draft the outline"]
-    F --> G["Plan the cover image and inline images"]
-    G --> H["Validate the outline"]
-    H --> I["Write pass one"]
-    I --> J["Write pass two"]
-    J --> K["Run humanizer pass"]
-    K --> L["Run style review"]
-    L --> M["Run fact check"]
-    M --> N["Run source URL check"]
-    N --> O["Run tone review"]
-    O --> P["Run Ramsay review"]
-    P --> Q{"Working draft or final draft?"}
-    Q --> R["Save unpublished draft to content/blog/drafts/ if needed"]
-    Q --> S["Write published article to publish_output_dir when requested"]
+    A["Build the article brief"] --> B["Check .local/context/blog-publishing.local.md"]
+    B --> C{"File exists and paths work?"}
+    C -- "No" --> D["Ask for source and publish folders"]
+    D --> E["Update blog-publishing.local.md"]
+    E --> F["Research the published blog archive first"]
+    C -- "Yes" --> F
+    F --> G["Run a lightweight external research pass"]
+    G --> H["Load the minimum local context"]
+    H --> I["Draft the outline"]
+    I --> J["Plan the cover image and inline images"]
+    J --> K["Validate the outline"]
+    K --> L["Write pass one"]
+    L --> M["Write pass two"]
+    M --> N["Run humanizer pass"]
+    N --> O["Run style review"]
+    O --> P["Run fact check"]
+    P --> Q["Run source URL check"]
+    Q --> R["Run tone review"]
+    R --> S["Run Ramsay review"]
+    S --> T{"Working draft or final draft?"}
+    T --> U["Save unpublished draft to content/blog/drafts/ if needed"]
+    T --> V["Write published article to publish_output_dir when requested"]
 ```
 
 How blog publishing works:
 
 - Ink reads `.local/context/blog-publishing.local.md` to find `source_articles_dir` and `publish_output_dir`.
+- If that file is missing, unset, or points to a folder that no longer exists, Ink asks for the correct folders first.
 - It uses `source_articles_dir` to read your published archive.
 - It uses `publish_output_dir` to write finished articles.
 - Unpublished working drafts still belong in `content/blog/drafts/`.
 - If you use blog images, `blog-image-finder` handles search and download, and `blog-image-uploader` handles S3 upload.
 
-### Review a draft without starting over
+## Review a draft without starting over
 
 Use the review skills when you already have a draft and only want one kind of pass.
 
@@ -232,7 +237,7 @@ Use the review skills when you already have a draft and only want one kind of pa
 - `source-url-check`: verify URLs in blog articles
 - `blog-post-ramsay-review`: get a blunt late-stage review of a blog draft
 
-### Store published content in the corpus
+## Store published content in the corpus
 
 Use these two skills when the writing already exists and you want it logged in the corpus.
 
