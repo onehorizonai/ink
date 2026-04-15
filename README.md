@@ -58,6 +58,8 @@ Open the repo as the workspace root so Codex can pick up the local [.mcp.json](.
 
 Start a fresh Codex session after syncing skills so the new skill list is available immediately.
 
+If you do not see the repo skills in Codex, restart the Codex app or CLI and open the repo again.
+
 ## Getting Started
 
 ### 1. Create your local folders
