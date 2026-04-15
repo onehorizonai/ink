@@ -158,6 +158,17 @@ UV_CACHE_DIR=/tmp/uv-cache uv run .agents/mcp/verify_servers.py
 
 ### Unsplash image search
 
+You need an Unsplash developer app before this works.
+
+1. Create or sign in to your Unsplash account.
+2. Open [your Unsplash apps](https://unsplash.com/oauth/applications) and create a new application.
+3. Copy the app's `Access Key`.
+4. Save that key in `.secrets/image-provider.json` as `access_key`.
+
+New Unsplash apps start in demo mode, which is enough to test the setup. If you plan to use this more heavily, apply for production access from the Unsplash dashboard after your integration is working.
+
+Keep the key local. Do not commit it. If you plan to ship an Unsplash-backed workflow publicly, review the [Unsplash API documentation](https://unsplash.com/documentation) and the [API guidelines](https://help.unsplash.com/en/articles/2511245-unsplash-api-guidelines), especially around attribution and download tracking.
+
 Create `.secrets/image-provider.json`:
 
 ```json
