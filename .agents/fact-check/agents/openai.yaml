@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fact Check"
+  short_description: "Check draft claims before publishing"
+  default_prompt: "Use $fact-check to verify factual claims, dates, names, numbers, and recent-event references in a draft."

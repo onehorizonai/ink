@@ -1,0 +1,4 @@
+interface:
+  display_name: "Source URL Check"
+  short_description: "Verify source URLs before publishing"
+  default_prompt: "Use $source-url-check to verify that source URLs in a blog draft exist and match the expected content before publishing."

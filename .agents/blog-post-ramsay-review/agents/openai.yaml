@@ -1,0 +1,4 @@
+interface:
+  display_name: "Blog Ramsay Review"
+  short_description: "Blunt audience-first blog draft review"
+  default_prompt: "Use $blog-post-ramsay-review to give this full blog draft a blunt publish-no-publish review, score it out of 15, list the blocking must-fix issues with evidence and fixes, and treat those issues as mandatory before finalizing."

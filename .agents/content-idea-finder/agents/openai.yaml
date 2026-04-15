@@ -1,0 +1,4 @@
+interface:
+  display_name: "Content Idea Finder"
+  short_description: "Find trend-backed blog and LinkedIn ideas"
+  default_prompt: "Use $content-idea-finder to recommend a blog article or LinkedIn post based on my goal, current context, and recent trends."

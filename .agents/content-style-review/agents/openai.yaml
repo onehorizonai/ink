@@ -1,0 +1,4 @@
+interface:
+  display_name: "Content Style Review"
+  short_description: "Review structure, flow, and clarity"
+  default_prompt: "Use $content-style-review to tighten structure, clarity, and flow in an editorial draft."

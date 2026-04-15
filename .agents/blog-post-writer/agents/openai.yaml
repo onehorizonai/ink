@@ -1,0 +1,4 @@
+interface:
+  display_name: "Blog Post Writer"
+  short_description: "Research and draft blog posts in two passes"
+  default_prompt: "Use $blog-post-writer to research, outline, write in two passes, and run the six mandatory review passes in order. Do not call the article final until you report a Review Ledger covering Humanizer, Style review, Fact check, Source URL check, Tone review, and Ramsay review, with the Ramsay verdict, score, and Must Fix items resolved or explicitly waived."

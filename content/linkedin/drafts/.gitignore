@@ -1,0 +1,13 @@
+*
+!.gitignore
+!README.md
+!posts/
+!posts/.gitkeep
+!comment-replies/
+!comment-replies/.gitkeep
+!dms/
+!dms/.gitkeep
+!dm-replies/
+!dm-replies/.gitkeep
+!reposts/
+!reposts/.gitkeep

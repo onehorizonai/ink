@@ -1,0 +1,4 @@
+interface:
+  display_name: "Content Tone Review"
+  short_description: "Check tone against the saved corpus"
+  default_prompt: "Use $content-tone-review to compare a draft against the saved voice and flag tone drift."
