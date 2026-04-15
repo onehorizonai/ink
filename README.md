@@ -1,5 +1,7 @@
 # Ink
 
+![Ink banner](assets/readme/ink-banner-1280x640.png)
+
 Local-first writing workflows for Codex.
 
 Use Ink to draft LinkedIn posts and blog articles with repo-scoped skills, while keeping your real context, drafts, and secrets on your machine.
