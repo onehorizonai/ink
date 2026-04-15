@@ -1,0 +1,65 @@
+name: Feature request
+description: Suggest a new workflow, skill, integration, or usability improvement for Ink.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion. Focus on the problem first, then the shape of the solution.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part of Ink should improve?
+      options:
+        - Setup / onboarding
+        - Local context setup
+        - LinkedIn writing
+        - Blog writing
+        - Content review
+        - MCP / integrations
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the pain point clearly.
+      placeholder: It is hard to...
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like Ink to do?
+      description: Describe the improvement or new capability.
+      placeholder: Add a workflow that...
+    validations:
+      required: true
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Example workflow
+      description: Show how someone would use this in practice.
+      placeholder: |
+        1. Open Ink in ...
+        2. Ask ...
+        3. Ink should ...
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: If you already tried another approach, include it here.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: This is not a support request for private local content or secrets
+          required: true
+        - label: I checked whether this already exists as a repo skill or documented workflow
+          required: false
