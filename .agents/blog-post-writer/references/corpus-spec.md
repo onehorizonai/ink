@@ -2,15 +2,13 @@
 
 ## Path Resolution
 
-Read `../../context/blog-publishing.md` for the contract.
-
 Read `../../../.local/context/blog-publishing.local.md` for the active path values.
 
 - Use `source_articles_dir` to load existing published articles for internal examples.
 - Use `publish_output_dir` when writing a published blog post.
+- Use the field names in `.local/context/blog-publishing.local.md` exactly as written.
 - If the local file is missing, ask the user for the correct folders and create it before continuing.
 - If either path is `[unset]` or missing on disk, ask the user for the correct folder and update the local file before continuing.
-- Do not store runtime path values in `../../context/blog-publishing.md`.
 - Do not assume `content/blog/posts/`.
 
 The read folder and write folder may be the same or different.

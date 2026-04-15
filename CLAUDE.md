@@ -10,4 +10,6 @@ Read in this order:
 4. [blog-post-writer/SKILL.md](.agents/blog-post-writer/SKILL.md) for blog work
 
 Use the shared references instead of inventing duplicate local rules.
-Keep live user and company context in `.local/context/`, not in tracked repo files.
+Use `.local/README.md` as the local setup contract.
+Use `.local/context/` for live user and company context.
+Do not use tracked repo files outside `.local/` for live runtime context.

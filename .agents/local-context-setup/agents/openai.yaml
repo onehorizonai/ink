@@ -1,0 +1,4 @@
+interface:
+  display_name: "Local Context Setup"
+  short_description: "Set up .local/context from confirmed sources"
+  default_prompt: "Use $local-context-setup to ask for the relevant public URLs, prefer the company website when available, always ask for the LinkedIn profile URL, confirm whether existing local files may be overwritten, gather the remaining missing inputs, and write .local/context only after explicit approval."

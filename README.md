@@ -1,10 +1,14 @@
 # Ink
 
-Writing agents for LinkedIn posts and blog articles, with local context, local draft workspaces, and repo-local MCP helpers.
+Local-first writing workflows for Codex.
+
+Use Ink to draft LinkedIn posts and blog articles with repo-scoped skills, while keeping your real context, drafts, and secrets on your machine.
 
 Built by [One Horizon](https://onehorizon.ai).
 
-## Quick Start
+## Installation
+
+You can get Ink running in a few minutes.
 
 ### 1. Clone the repo
 
@@ -15,107 +19,138 @@ cd ink
 
 ### 2. Install `uv`
 
+Ink uses `uv` to run helper scripts and local MCP servers.
+
 On macOS:
 
 ```bash
 brew install uv
 ```
 
-See the [uv docs](https://docs.astral.sh/uv/) for other platforms.
+On other platforms, use the [official uv installation guide](https://docs.astral.sh/uv/).
 
-### 3. Sync the repo skills into Codex
+### 3. Sync the repo skills before you start
 
 ```bash
 ./scripts/sync_repo_skills.sh codex
 ```
 
-Start a fresh Codex session after syncing so the skill list refreshes.
+Run this before your first Codex session in the repo.
 
-### 4. Create your local context directory
+This command links Ink's repo-local skills from `.agents/` into your Codex skill directory so Codex can actually use them in this workspace.
+
+That includes skills such as:
+
+- `Setup ink`
+- the LinkedIn writer
+- the blog writer
+- the local review and helper skills shipped with the repo
+
+If you skip this step, Codex may open the repo without those skills available.
+
+If you pull new repo changes later, or if the repo skills are updated, run the same command again to refresh the links.
+
+### 4. Open the repo in Codex
+
+Open this repo as the workspace root so Codex can pick up the local [.mcp.json](.mcp.json) configuration.
+
+Start a fresh Codex session after syncing skills so the new skill list is available immediately.
+
+## Getting Started
+
+### 1. Create your local folders
 
 ```bash
-mkdir -p .local/context
+mkdir -p .local/context .secrets
 ```
 
-Copy the starter templates into `.local/context/`:
+### 2. Set up your local context
+
+The easiest path is to let Ink guide you.
+
+In Codex, run:
+
+```text
+Setup ink
+```
+
+The setup workflow will:
+
+- ask for the public URLs you want to use
+- prefer your company site as the main source when you have one
+- ask for your LinkedIn profile URL
+- check whether any existing local context can be overwritten
+- confirm everything before it writes a file
+
+### 3. Or set up the context manually
+
+If you want to do it yourself, start with [.local/README.md](.local/README.md), then copy the starter templates:
 
 ```bash
-for src in .agents/context/templates/*.template.md; do
+for src in .local/templates/*.template.md; do
   name="$(basename "$src" .template.md)"
   cp "$src" ".local/context/$name.md"
 done
 ```
 
-Update the copied files with your own local identity, company, and blog path data.
+Then update the copied files with your own context.
 
-### 5. Create your local secrets directory
-
-```bash
-mkdir -p .secrets
-```
-
-### 6. Open the repo in Codex
-
-This repo ships a workspace-local [.mcp.json](.mcp.json). Open the repo as the workspace root so Codex can load those MCP registrations directly.
-
-## What This Repo Includes
-
-- LinkedIn writing orchestration in [.agents/linkedin-social-writer](.agents/linkedin-social-writer/SKILL.md)
-- Blog writing orchestration in [.agents/blog-post-writer](.agents/blog-post-writer/SKILL.md)
-- Review passes for humanizing, tone, style, fact checking, and URL validation
-- Local draft workspaces under [content/linkedin/drafts](content/linkedin/drafts/README.md) and [content/blog/drafts](content/blog/drafts/README.md)
-- Repo-local MCP helpers for research and optional image workflows
-
-## What Stays Local
-
-Keep these out of version control:
-
-- `.local/context/` for live user, company, and blog-path context
-- `.secrets/` for API keys, local config JSON, and download history
-- real LinkedIn corpus files under `content/linkedin/`
-- real unpublished drafts under `content/linkedin/drafts/` and `content/blog/drafts/`
-
-Tracked files in this repo are the public workflow, templates, scripts, and keep files. Your actual writing corpus and runtime context stay local.
-
-## Local Context Contract
-
-Public context contracts live in [.agents/context](.agents/context/index.md).
-
-Live runtime context belongs in `.local/context/`. The main files are:
+Most setups start with:
 
 - `.local/context/profile.md`
 - `.local/context/current-work.md`
 - `.local/context/market-context.md`
 - `.local/context/work-history.md`
-- `.local/context/personal-interests.md`
-- `.local/context/personal-life.md`
-- `.local/context/blog-publishing.local.md`
 
-Starter templates live in [.agents/context/templates](.agents/context/templates/README.md).
+You can add `personal-interests.md` and `personal-life.md` when you want more voice and personal context in the writing workflow.
 
-## Optional Local MCP Services
+### 4. Start writing
 
-The repo-local `.mcp.json` registers:
+Once your local context is in place, you are ready to use the writing skills in Codex.
+
+Good first prompts:
+
+- `Use the LinkedIn writer to draft a post about...`
+- `Use the blog writer to outline an article about...`
+- `Refresh my local context from my website and LinkedIn`
+
+## What Stays Local
+
+Ink is designed so the useful workflow is tracked, while your real working data stays private.
+
+Keep these local and uncommitted:
+
+- `.local/context/` for live author, company, and writing context
+- `.secrets/` for API keys and local config files
+- `content/linkedin/` for your real LinkedIn corpus
+- `content/linkedin/drafts/` for unpublished LinkedIn drafts
+- `content/blog/drafts/` for unpublished blog drafts
+
+The repo tracks templates, workflow instructions, helper scripts, and keep files. Your real runtime data stays on your machine.
+
+## Optional MCP Helpers
+
+Ink includes a workspace-local `.mcp.json` with optional helpers for research and blog images:
 
 - `linkedin-social-research`
 - `blog-image-finder`
 - `blog-image-uploader`
 
-The research server is useful for writing workflows. The image servers are only needed if you want image sourcing and upload support for blog work.
+Use the research server for writing workflows. Use the image servers only if you want image sourcing and S3 upload support for blog posts.
 
-To verify the local MCP wiring:
+To verify the MCP wiring:
 
 ```bash
 uv run .agents/mcp/verify_servers.py
 ```
 
-If `uv` cache permissions get in the way, use a writable cache directory:
+If `uv` cache permissions get in the way:
 
 ```bash
 UV_CACHE_DIR=/tmp/uv-cache uv run .agents/mcp/verify_servers.py
 ```
 
-## Optional Secret Config Files
+## Optional Secret Config
 
 ### Unsplash image search
 
@@ -153,21 +188,15 @@ Create `.secrets/blog-image-s3.json`:
 
 Use `addressing_style: "path"` for path-style S3 endpoints. Use `virtual` for bucket-subdomain hosts with matching TLS support.
 
-## Workspace Layout
-
-- [.agents](.agents): skills, references, templates, and MCP helpers
-- [.agents/context](.agents/context/index.md): public context contracts and starter templates
-- [content/linkedin](content/linkedin/README.md): local LinkedIn corpus workspace
-- [content/blog](content/blog/README.md): local blog workspace
-- [scripts](scripts): repo helpers such as skill syncing
-
 ## Common Commands
 
-Sync skills:
+Sync repo skills:
 
 ```bash
-./scripts/sync_repo_skills.sh
+./scripts/sync_repo_skills.sh codex
 ```
+
+Use this after cloning, after pulling skill updates, or any time Codex is missing one of the repo's local skills.
 
 Validate MCP registrations:
 
@@ -175,7 +204,7 @@ Validate MCP registrations:
 uv run .agents/mcp/verify_servers.py
 ```
 
-Create a LinkedIn draft:
+Create a LinkedIn draft file:
 
 ```bash
 uv run .agents/linkedin-social-writer/scripts/create_draft.py \
@@ -198,14 +227,13 @@ Validate the local LinkedIn corpus:
 uv run .agents/linkedin-social-writer/scripts/validate_corpus.py
 ```
 
-## Working Rules
+## Repo Map
 
-- Start with [AGENTS.md](AGENTS.md) for repo-specific agent rules.
-- Use [.agents/linkedin-social-writer](.agents/linkedin-social-writer/SKILL.md) as the LinkedIn orchestrator.
-- Use [.agents/blog-post-writer](.agents/blog-post-writer/SKILL.md) as the blog orchestrator.
-- Keep live context in `.local/context/`, not in tracked repo files.
-- Keep real drafts and corpora local.
-- Reuse the shared references instead of duplicating workflow rules.
+- [.agents](.agents): repo skills, references, templates, and MCP helpers
+- [.local](.local/README.md): local context contract, starter templates, and ignored runtime context
+- [content/linkedin](content/linkedin/README.md): local LinkedIn corpus workspace
+- [content/blog](content/blog/README.md): local blog workspace
+- [scripts](scripts): repo helpers such as skill syncing
 
 ## License
 

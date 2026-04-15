@@ -12,9 +12,12 @@ Review whether the draft sounds like the author, not just like good generic copy
 - the active writer skill's workflow file
 - the active writer skill's review-passes file
 - the active writer skill's style-capture file if one exists
-- `../context/index.md`
+- `../../.local/README.md`
 
 Then load only the relevant context files and 3-5 matching corpus examples.
+
+Use `.local/context/*.md` for live runtime context.
+Do not infer live context from tracked repo files outside `.local/`.
 
 ## Check
 

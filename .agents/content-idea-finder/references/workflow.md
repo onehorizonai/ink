@@ -15,7 +15,7 @@ If the goal, audience, or timing is unclear, ask at most 3 short questions total
 
 ## 2. Load the minimum context
 
-Start with `../../context/index.md`.
+Start with `../../../.local/README.md`.
 
 Load:
 
@@ -24,11 +24,12 @@ Load:
 - `.local/context/work-history.md` only when founder background or credibility is part of the angle
 
 Do not load personal files just because they exist.
+Do not use tracked repo files outside `.local/` for live runtime context.
 
 ## 3. Check the archive first
 
 - Search the LinkedIn corpus in `../../content/linkedin/posts/`.
-- If blog is a possible channel, read `../../context/blog-publishing.md` and `../../../.local/context/blog-publishing.local.md`.
+- If blog is a possible channel, read `../../../.local/context/blog-publishing.local.md`.
 - If the local file is missing, ask the user for the existing blog articles folder and create the local file before scanning blog coverage.
 - If `source_articles_dir` is `[unset]` or missing on disk, ask the user for the existing blog articles folder and update the local file before scanning blog coverage.
 - Search the configured blog source folder for the same keywords, adjacent concepts, launches, and recent dates.

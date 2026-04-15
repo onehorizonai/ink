@@ -11,6 +11,7 @@ Use this as one of the first passes after a raw draft exists.
 
 - the active writer skill's workflow file
 - the active writer skill's review-passes file
+- `../../.local/README.md` for the local-context contract
 - `../../.local/context/profile.md` if you need a voice anchor
 
 ## Scope

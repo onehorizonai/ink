@@ -7,7 +7,7 @@ description: Orchestrate blog writing from brief to final draft using the repo b
 
 ## Overview
 
-Ground every article in the published blog corpus resolved from `../../.local/context/blog-publishing.local.md`, using `../context/blog-publishing.md` as the contract. Start by finding related internal articles for angle, structure, and voice, not for reusable sourcing. Then build a fresh external source set, validate an outline, and write long-form copy in two passes that fits the thesis, the audience, and the desired next step.
+Ground every article in the published blog corpus resolved from `../../.local/context/blog-publishing.local.md`. Start by finding related internal articles for angle, structure, and voice, not for reusable sourcing. Then build a fresh external source set, validate an outline, and write long-form copy in two passes that fits the thesis, the audience, and the desired next step.
 
 Use the workflow in `references/workflow.md` as the authoritative sequence for this skill. Every workflow step is mandatory. Do not skip, collapse, reorder, or silently defer any step. If a step has no substantive output, record that outcome explicitly instead of omitting the step.
 Before presenting anything as final, complete and report a visible review ledger. Silent completion does not count. If the Ramsay line is missing, or its `Must Fix` items are still open, the article is still a working draft.
@@ -15,13 +15,13 @@ Before presenting anything as final, complete and report a visible review ledger
 ## Quick Start
 
 1. Read `references/workflow.md`.
-2. Read `../context/blog-publishing.md`.
+2. Read `../../.local/README.md`.
 3. Read `../../.local/context/blog-publishing.local.md`.
 4. If the local file is missing, or if either stored folder is `[unset]` or missing on disk, ask the user for the existing blog articles folder and the published blog output folder, then update `../../.local/context/blog-publishing.local.md` before continuing.
 5. Search `source_articles_dir` from `../../.local/context/blog-publishing.local.md` for up to 3-7 relevant internal examples. Prefer the same theme, argument shape, or article type first. Use them for voice and structure only. Do not inherit their source lists or citations. If none are relevant, say so explicitly and continue.
 6. Read `../linkedin-social-writer/references/mcp-tools.md`.
 7. Do a lightweight external research pass on the topic. Build a fresh source set for the article with the local MCP research tools.
-8. Load only the relevant user context files listed in `../context/index.md`.
+8. Load only the relevant local context files from `.local/context/`.
 9. Distill voice markers with `references/style-capture.md`.
 10. Draft an outline and image plan and validate both against `references/format-playbooks.md` and the brief constraints.
 11. Use `search_images` then `download_image` from `../blog-image-finder/SKILL.md` for final external blog assets.
@@ -33,10 +33,10 @@ Before presenting anything as final, complete and report a visible review ledger
 ## Working Agreement
 
 - Use the blog corpus as the source of truth for tone, pacing, argument style, section shape, CTA intensity, and how directly to sell.
-- Read `../context/blog-publishing.md` for the contract and `../../.local/context/blog-publishing.local.md` for the active path values.
+- Read `../../.local/README.md` for the local-context rules and `../../.local/context/blog-publishing.local.md` for the active path values.
+- Use `.local/context/*.md` for live runtime context. Do not use tracked repo files outside `.local/` for live context.
 - If the local file is missing, create it after asking the user for the required folders.
 - If a stored folder no longer exists, ask the user for the new folder and update `../../.local/context/blog-publishing.local.md` before continuing.
-- Do not store runtime path values in `../context/blog-publishing.md`.
 - Do not assume `content/blog/posts/`.
 - Research internally first so the archive shapes the angle before outside sources do, but do not treat earlier articles as a reusable source bank.
 - Do not reuse or carry forward source lists, citations, or outbound links from other articles. If an older piece points to something useful, treat it as a lead and re-open the original source directly before deciding whether it belongs in the new draft.
@@ -153,9 +153,8 @@ Unless the user asks differently, return:
 - Read `references/review-passes.md` for pass order and responsibilities.
 - Read `references/style-capture.md` when extracting voice markers.
 - Read `references/format-playbooks.md` for article-shape rules.
-- Read `../context/blog-publishing.md` before blog corpus research or published output work.
 - Read `../../.local/context/blog-publishing.local.md` for the active blog source and publish folders.
-- Read `../context/index.md` before loading any user context.
+- Read `../../.local/README.md` before loading any user context.
 - Read `../../content/blog/README.md` only if `../../.local/context/blog-publishing.local.md` points into this repo and the local naming is unclear.
 - Read `../linkedin-social-writer/references/mcp-tools.md` before using local research tools.
 - Read `../blog-image-finder/references/setup.md` before sourcing external blog images.

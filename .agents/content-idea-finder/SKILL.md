@@ -14,8 +14,8 @@ Find what matters now, check whether the repo already covered it, then turn the 
 ## Quick Start
 
 1. Read `references/workflow.md`.
-2. Read `../context/index.md`, then usually load `../../.local/context/profile.md` and `../../.local/context/current-work.md`.
-3. If blog is in scope, read `../context/blog-publishing.md` and `../../.local/context/blog-publishing.local.md`, then resolve `source_articles_dir` from the local file before scanning blog coverage.
+2. Read `../../.local/README.md`, then load only the relevant files from `../../.local/context/`.
+3. If blog is in scope, read `../../.local/context/blog-publishing.local.md`, then resolve `source_articles_dir` from the local file before scanning blog coverage.
 4. Search `../../content/linkedin/posts/` and the configured blog source folder for overlaps, repeats, and gaps.
 5. Read `../linkedin-social-writer/references/mcp-tools.md`.
 6. Use `google_trends_keyword_insights` on 2-5 seed topics pulled from the goal, current work, or the current event.
@@ -27,10 +27,11 @@ Find what matters now, check whether the repo already covered it, then turn the 
 
 - Start from the desired outcome: awareness, product education, launch support, trust or credibility, SEO, demand capture, recruiting, or event follow-up.
 - Ask at most 3 short questions only when goal, audience, or timing are genuinely unclear.
-- When blog coverage matters, use `../context/blog-publishing.md` for the contract and `../../.local/context/blog-publishing.local.md` for the active blog archive location. Do not assume `content/blog/posts/`.
+- When blog coverage matters, use `../../.local/context/blog-publishing.local.md` for the active blog archive location. Do not assume `content/blog/posts/`.
 - Treat `../../.local/context/current-work.md` as the boundary for what the team can credibly talk about.
+- Use `.local/context/*.md` for live runtime context. Do not use tracked repo files outside `.local/` for live context.
 - Check the corpus before the web so new ideas do not repeat recent posts or articles.
-- Use trend tools as signal, not as the thesis. Translate a signal into a One Horizon point of view.
+- Use trend tools as signal, not as the thesis. Translate a signal into a point of view the team can credibly own.
 - Prefer ideas with proof, examples, product context, or lived experience. Avoid generic "AI is changing everything" angles.
 - Do not recommend a format just because the signal is fresh. Timely sharp takes usually fit LinkedIn. Durable explainers, comparisons, and search-intent topics usually fit the blog.
 - When no useful trend signal exists, say so and propose evergreen ideas that still fit the goal.
@@ -56,8 +57,7 @@ Unless the user asks differently, return:
 
 - Read `references/workflow.md` for the orchestration flow.
 - Read `references/channel-fit.md` when selecting blog vs LinkedIn.
-- Read `../context/index.md` before loading any user context.
-- Read `../context/blog-publishing.md` before scanning blog coverage or building a blog handoff.
+- Read `../../.local/README.md` before loading any user context.
 - Read `../../.local/context/blog-publishing.local.md` for the active blog source folder.
 - Read `../linkedin-social-writer/references/mcp-tools.md` before using the local research tools.
 - Search `../../content/linkedin/posts/` and the configured blog source folder before recommending a topic.

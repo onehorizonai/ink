@@ -12,7 +12,7 @@ Ground every draft in the published corpus. Extract the voice from a small set o
 ## Quick Start
 
 1. Read `references/workflow.md`.
-2. Load only the relevant user context files listed in `../context/index.md`.
+2. Read `../../.local/README.md`, then load only the relevant files from `../../.local/context/`.
 3. Search `../../content/linkedin/` for 3-7 relevant examples. Prefer the same format first, then widen only if the archive is thin.
 4. Distill voice markers with `references/style-capture.md`.
 5. Draft against the matching playbook in `references/format-playbooks.md`.
@@ -25,6 +25,7 @@ Ground every draft in the published corpus. Extract the voice from a small set o
 
 - Use the corpus as the source of truth for tone, pacing, formatting, CTA style, and how directly to sell.
 - Use local context files to make the writing authentic, but load only what is relevant to the task.
+- Use `.local/context/*.md` for live runtime context. Do not use tracked repo files outside `.local/` for live context.
 - Reuse patterns, not sentences. Do not remix published copy line by line.
 - Prefer a narrow, evidence-based voice profile over generic LinkedIn language.
 - Treat asset descriptions as part of the brief. If an image or carousel exists, make the text and visual work together.
@@ -95,7 +96,7 @@ Unless the user asks differently, return:
 - Read `references/review-passes.md` for pass order and responsibilities.
 - Read `references/style-capture.md` when extracting voice markers.
 - Read `references/format-playbooks.md` for format-specific drafting rules.
-- Read `../context/index.md` before loading any user context.
+- Read `../../.local/README.md` before loading any user context.
 - Read `../../content/linkedin/README.md` if the corpus location or naming is unclear.
 - Read `references/mcp-tools.md` before using local research tools.
 - Read `templates/README.md` when the request involves reusable format templates.

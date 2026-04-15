@@ -1,6 +1,6 @@
 # Blog Workspace
 
-The blog path contract lives in `.agents/context/blog-publishing.md`.
+The local blog path contract lives in `.local/README.md`.
 
 The active published-blog source folder and publish output folder are stored in the gitignored local file `.local/context/blog-publishing.local.md`.
 
@@ -17,5 +17,6 @@ The active published-blog source folder and publish output folder are stored in 
 ## Notes
 
 - Published blog content may live outside this repo.
+- Use `.local/context/blog-publishing.local.md` for live path state. Do not store that state anywhere else in the repo.
 - Keep real published content and working drafts local. This repo only tracks workspace docs and keep files.
 - Treat the configured published articles as the source of truth for blog voice, section shape, and CTA intensity.

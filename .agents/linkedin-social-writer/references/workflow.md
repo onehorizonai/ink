@@ -28,7 +28,7 @@ Do not ask for information that can be recovered from the corpus, the local cont
 
 ## 3. Load the minimum user context
 
-Start with `../../context/index.md`.
+Start with `../../../.local/README.md`.
 
 Load:
 
@@ -39,6 +39,7 @@ Load:
 - `.local/context/personal-life.md` only when the post is explicitly personal or reflective
 
 Do not load personal files just because they exist.
+Do not use tracked repo files outside `.local/` for live runtime context.
 
 ## 4. Retrieve examples
 

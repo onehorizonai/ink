@@ -180,4 +180,10 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
-.local/
+.local/*
+!.local/README.md
+!.local/templates/
+!.local/templates/**
+!.local/context/
+.local/context/*
+!.local/context/.gitkeep

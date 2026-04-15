@@ -17,15 +17,15 @@ Capture:
 
 ## 2. Resolve blog paths
 
-- Read `../../context/blog-publishing.md` for the contract.
+- Read `../../../.local/README.md` for the local-context rules.
 - Read `../../../.local/context/blog-publishing.local.md` for the active path values.
 - If the local file is missing, ask the user where to load existing blog articles from and where to publish finished blog posts, then create the local file.
 - If `source_articles_dir` is `[unset]`, ask the user where to load existing blog articles from.
 - If `publish_output_dir` is `[unset]`, ask the user where to publish finished blog posts.
 - If either stored folder no longer exists on disk, ask the user for the new folder and update the local file before continuing.
 - Keep the total question budget for this workflow to 3 short questions. Use path questions first when the paths are unresolved.
-- Do not store runtime path values in `../../context/blog-publishing.md`.
 - Do not assume `../../content/blog/posts/`.
+- Use `.local/context/*.md` for live runtime context. Do not use tracked repo files outside `.local/` for live context.
 
 ## 3. Research internally first
 
@@ -64,7 +64,7 @@ Do not ask for information that can be recovered from the corpus, the local cont
 
 ## 6. Load the minimum user context
 
-Start with `../../context/index.md`.
+Start with `../../../.local/README.md`.
 
 Load:
 
