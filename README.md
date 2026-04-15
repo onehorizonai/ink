@@ -2,15 +2,22 @@
 
 ![Ink banner](assets/readme/ink-banner-1280x640.png)
 
-Local-first writing workflows for Codex.
+Turn your context, corpus, and research into publish-ready LinkedIn posts and blog drafts.
 
-Ink helps you draft LinkedIn posts and blog articles in Codex without checking your real context, drafts, or secrets into git.
+Ink is a [One Horizon](https://onehorizon.ai) project for running repeatable writing workflows in Claude Code, Cursor, or Codex using local context, saved content, and optional research and image tooling.
 
-Built by [One Horizon](https://onehorizon.ai).
+It works with Claude Code, Cursor, and Codex. Claude and Cursor are the simplest path. Codex works too, but needs one extra sync step so it can see the repo's local skills.
 
-## Installation
+## What Ink does
 
-Getting Ink running is quick.
+- Finds content ideas from your current context, published content, and live research
+- Drafts LinkedIn posts, comment replies, DMs, DM replies, and reposts
+- Drafts long-form blog posts with research, review passes, and optional image support
+- Reviews drafts for tone, structure, facts, URLs, and AI-sounding copy
+- Stores approved LinkedIn posts back into a local corpus
+- Keeps live context, secrets, and real content out of git
+
+## Quick start
 
 ### 1. Clone the repo
 
@@ -21,7 +28,7 @@ cd ink
 
 ### 2. Install `uv`
 
-Ink uses `uv` to run helper scripts and local MCP servers.
+Ink uses `uv` to run local helpers and MCP servers.
 
 On macOS:
 
@@ -31,118 +38,111 @@ brew install uv
 
 On other platforms, use the [official uv installation guide](https://docs.astral.sh/uv/).
 
-### 3. Sync the repo skills before you start
+### 3. Open the cloned folder in your assistant
+
+Open the repo root, not a subfolder. That lets the assistant pick up the repo files and the local [.mcp.json](.mcp.json) config.
+
+- Claude Code: start Claude Code from the `ink/` folder
+- Cursor: open `ink/` as the project or workspace
+- Codex: add `ink/` as a project
+
+### 4. If you use Codex, run the Codex sync step once
 
 ```bash
 ./scripts/sync_repo_skills.sh codex
 ```
 
-Run this before your first Codex session in the repo.
+This step is for Codex only.
 
-It links the skills in `.agents/` into your Codex skill directory so they are available in this workspace.
+Codex does not automatically load repo-local skills from `.agents/`. The sync script creates links from this repo's skill folders into your local Codex skills directory so Codex can discover and use them.
 
-That includes:
+Run it:
 
-- `Setup ink`
-- the LinkedIn writer
-- the blog writer
-- the local review and helper skills shipped with the repo
+- once after cloning
+- again after pulling changes that update repo skills
+- any time Codex is missing the repo skills
 
-If you skip this step, Codex will still open the repo, but the repo's own skills may be missing.
+If the skills still do not appear in Codex, restart the Codex app or CLI and open the repo again.
 
-If you pull new repo changes later, or if the repo skills are updated, run the same command again to refresh the links.
+### 5. Run the one-time setup
 
-### 4. Open the repo in Codex
-
-Open the repo as the workspace root so Codex can pick up the local [.mcp.json](.mcp.json) configuration.
-
-Start a fresh Codex session after syncing skills so the new skill list is available immediately.
-
-If you do not see the repo skills in Codex, restart the Codex app or CLI and open the repo again.
-
-## Getting Started
-
-### 1. Create your local folders
-
-```bash
-mkdir -p .local/context .secrets
-```
-
-### 2. Set up your local context
-
-The easiest way to do this is to let Ink guide you.
-
-In Codex, run:
+In your assistant, run:
 
 ```text
 Setup ink
 ```
 
-The setup workflow will:
+This is the normal setup path. You do not need to create `.local/` folders by hand first.
 
-- ask for the public URLs you want to use
-- prefer your company site as the main source when you have one
-- ask for your LinkedIn profile URL
-- check whether any existing local context can be overwritten
-- confirm everything before it writes a file
+The setup flow will:
 
-### 3. Or set up the context manually
+- ask for your website and LinkedIn profile
+- pull in the public context it needs
+- confirm anything that might overwrite existing local context
+- create or update the local context files under `.local/context/`
 
-If you want to do it yourself, start with [.local/README.md](.local/README.md), then copy the starter templates:
-
-```bash
-for src in .local/templates/*.template.md; do
-  name="$(basename "$src" .template.md)"
-  cp "$src" ".local/context/$name.md"
-done
-```
-
-Then fill in the copied files with your own context.
-
-Most setups start with:
-
-- `.local/context/profile.md`
-- `.local/context/current-work.md`
-- `.local/context/market-context.md`
-- `.local/context/work-history.md`
-
-You can add `personal-interests.md` and `personal-life.md` when you want more voice and personal context in the writing workflow.
-
-### 4. Start writing
-
-Once your local context is in place, you can start writing.
+### 6. Start writing
 
 Good first prompts:
 
-- `Use the LinkedIn writer to draft a post about...`
-- `Use the blog writer to outline an article about...`
+- `Find three content ideas I should write next`
+- `Draft a LinkedIn post about...`
+- `Outline a blog post about...`
 - `Refresh my local context from my website and LinkedIn`
 
-## What Stays Local
+## Skills included
 
-The workflow lives in git. Your working data does not.
+### Core workflows
+
+- `local-context-setup`: one-time setup and refresh for `.local/context/`
+- `content-idea-finder`: finds what to write next
+- `linkedin-social-writer`: drafts LinkedIn posts, replies, DMs, and reposts
+- `linkedin-finalize-post`: gives a LinkedIn draft its final pass and stores it when approved
+- `linkedin-store-post`: stores LinkedIn posts that already exist
+- `blog-post-writer`: writes full blog drafts from brief to article
+
+### Review and quality passes
+
+- `content-humanizer`: removes AI-sounding copy early in the editing flow
+- `content-tone-review`: checks whether the draft sounds like the author
+- `content-style-review`: tightens structure, readability, and persuasion
+- `fact-check`: verifies unstable claims and external facts
+- `source-url-check`: checks blog source URLs before publishing
+- `blog-post-ramsay-review`: gives blog drafts a blunt publish-or-don't-publish review
+
+### Optional image workflow
+
+- `blog-image-finder`: searches Unsplash and downloads candidate blog images
+- `blog-image-uploader`: uploads approved blog images to your configured S3 bucket
+
+## What stays local
+
+Ink is local-first. The workflow is tracked in git. Your real working data is not.
 
 Keep these local and uncommitted:
 
-- `.local/context/` for live author, company, and writing context
-- `.secrets/` for API keys and local config files
+- `.local/context/` for live identity, company, and writing context
+- `.secrets/` for API keys and local config
 - `content/linkedin/` for your real LinkedIn corpus
 - `content/linkedin/drafts/` for unpublished LinkedIn drafts
 - `content/blog/drafts/` for unpublished blog drafts
+- any published blog source folder referenced by `.local/context/blog-publishing.local.md`
 
-The repo tracks templates, workflow instructions, helper scripts, and keep files. Your real working data stays on your machine.
+## Advanced setup
 
-## Optional MCP Helpers
+You only need this section if you want MCP-backed research or the blog image workflow.
 
-Ink includes a workspace-local `.mcp.json` with optional helpers for research and blog images:
+### MCP capabilities
 
-- `linkedin-social-research`
-- `blog-image-finder`
-- `blog-image-uploader`
+This repo ships a workspace-local [.mcp.json](.mcp.json) with three local MCP servers:
 
-Use the research server for writing workflows. Use the image servers only if you want image sourcing and S3 upload support for blog posts.
+- `linkedin-social-research` for research during writing
+- `blog-image-finder` for Unsplash-backed image search and download
+- `blog-image-uploader` for S3-backed image upload
 
-To verify the MCP wiring:
+If your assistant supports workspace MCP config, opening the repo root is usually enough for discovery.
+
+If you want to verify the MCP setup:
 
 ```bash
 uv run .agents/mcp/verify_servers.py
@@ -154,11 +154,9 @@ If `uv` cache permissions get in the way:
 UV_CACHE_DIR=/tmp/uv-cache uv run .agents/mcp/verify_servers.py
 ```
 
-## Optional Secret Config
+### Unsplash setup for `blog-image-finder`
 
-### Unsplash image search
-
-You need an Unsplash developer app before this works.
+You need an Unsplash developer app before image search will work.
 
 1. Create or sign in to your Unsplash account.
 2. Open [your Unsplash apps](https://unsplash.com/oauth/applications) and create a new application.
@@ -166,8 +164,6 @@ You need an Unsplash developer app before this works.
 4. Save that key in `.secrets/image-provider.json` as `access_key`.
 
 New Unsplash apps start in demo mode, which is enough to test the setup. If you plan to use this more heavily, apply for production access from the Unsplash dashboard after your integration is working.
-
-Keep the key local. Do not commit it. If you plan to ship an Unsplash-backed workflow publicly, review the [Unsplash API documentation](https://unsplash.com/documentation) and the [API guidelines](https://help.unsplash.com/en/articles/2511245-unsplash-api-guidelines), especially around attribution and download tracking.
 
 Create `.secrets/image-provider.json`:
 
@@ -181,7 +177,9 @@ Create `.secrets/image-provider.json`:
 }
 ```
 
-### S3-compatible blog image uploads
+Keep the key local. Do not commit it. If you plan to ship an Unsplash-backed workflow publicly, review the [Unsplash API documentation](https://unsplash.com/documentation) and the [API guidelines](https://help.unsplash.com/en/articles/2511245-unsplash-api-guidelines), especially around attribution and download tracking.
+
+### S3 setup for `blog-image-uploader`
 
 Create `.secrets/blog-image-s3.json`:
 
@@ -203,52 +201,39 @@ Create `.secrets/blog-image-s3.json`:
 
 Use `addressing_style: "path"` for path-style S3 endpoints. Use `virtual` for bucket-subdomain hosts with matching TLS support.
 
-## Common Commands
+### Manual local setup
 
-Sync repo skills:
+You only need this if you do not want to use `Setup ink`.
 
-```bash
-./scripts/sync_repo_skills.sh codex
-```
-
-Use this after cloning, after pulling skill updates, or any time Codex is missing one of the repo's local skills.
-
-Validate MCP registrations:
+Start with [.local/README.md](.local/README.md), then copy the templates into `.local/context/`:
 
 ```bash
-uv run .agents/mcp/verify_servers.py
+mkdir -p .local/context
+
+for src in .local/templates/*.template.md; do
+  name="$(basename "$src" .template.md)"
+  cp "$src" ".local/context/$name.md"
+done
 ```
 
-Create a LinkedIn draft file:
+## Troubleshooting
 
-```bash
-uv run .agents/linkedin-social-writer/scripts/create_draft.py \
-  --format post \
-  --title "Replace with title" \
-  --body "Replace with draft text"
-```
+- Codex does not show the repo skills:
+  Run `./scripts/sync_repo_skills.sh codex`, then restart the Codex app or CLI and open the repo again.
+- MCP tools are missing:
+  Make sure you opened the repo root so the assistant can see `.mcp.json`.
+- Writing feels generic:
+  Run `Setup ink` again or ask Ink to refresh your local context.
+- Unsplash image search does not work:
+  Confirm you created an Unsplash app and saved the `Access Key` in `.secrets/image-provider.json`.
 
-Store a published LinkedIn post locally:
+## Repo layout
 
-```bash
-uv run .agents/linkedin-social-writer/scripts/store_published.py \
-  --format post \
-  --body "Replace with published text"
-```
-
-Validate the local LinkedIn corpus:
-
-```bash
-uv run .agents/linkedin-social-writer/scripts/validate_corpus.py
-```
-
-## Repo Map
-
-- [.agents](.agents): repo skills, references, templates, and MCP helpers
-- [.local](.local/README.md): local context contract, starter templates, and ignored runtime context
+- [.agents](.agents): the repo skills, references, templates, and MCP helpers
+- [.local](.local/README.md): local setup contract, starter templates, and ignored runtime context
 - [content/linkedin](content/linkedin/README.md): local LinkedIn corpus workspace
 - [content/blog](content/blog/README.md): local blog workspace
-- [scripts](scripts): repo helpers such as skill syncing
+- [scripts](scripts): repo helper scripts
 
 ## License
 
