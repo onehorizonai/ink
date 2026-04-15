@@ -4,18 +4,18 @@
 
 Local-first writing workflows for Codex.
 
-Use Ink to draft LinkedIn posts and blog articles with repo-scoped skills, while keeping your real context, drafts, and secrets on your machine.
+Ink helps you draft LinkedIn posts and blog articles in Codex without checking your real context, drafts, or secrets into git.
 
 Built by [One Horizon](https://onehorizon.ai).
 
 ## Installation
 
-You can get Ink running in a few minutes.
+Getting Ink running is quick.
 
 ### 1. Clone the repo
 
 ```bash
-git clone <your-github-url> ink
+git clone https://github.com/onehorizonai/ink ink
 cd ink
 ```
 
@@ -39,22 +39,22 @@ On other platforms, use the [official uv installation guide](https://docs.astral
 
 Run this before your first Codex session in the repo.
 
-This command links Ink's repo-local skills from `.agents/` into your Codex skill directory so Codex can actually use them in this workspace.
+It links the skills in `.agents/` into your Codex skill directory so they are available in this workspace.
 
-That includes skills such as:
+That includes:
 
 - `Setup ink`
 - the LinkedIn writer
 - the blog writer
 - the local review and helper skills shipped with the repo
 
-If you skip this step, Codex may open the repo without those skills available.
+If you skip this step, Codex will still open the repo, but the repo's own skills may be missing.
 
 If you pull new repo changes later, or if the repo skills are updated, run the same command again to refresh the links.
 
 ### 4. Open the repo in Codex
 
-Open this repo as the workspace root so Codex can pick up the local [.mcp.json](.mcp.json) configuration.
+Open the repo as the workspace root so Codex can pick up the local [.mcp.json](.mcp.json) configuration.
 
 Start a fresh Codex session after syncing skills so the new skill list is available immediately.
 
@@ -68,7 +68,7 @@ mkdir -p .local/context .secrets
 
 ### 2. Set up your local context
 
-The easiest path is to let Ink guide you.
+The easiest way to do this is to let Ink guide you.
 
 In Codex, run:
 
@@ -95,7 +95,7 @@ for src in .local/templates/*.template.md; do
 done
 ```
 
-Then update the copied files with your own context.
+Then fill in the copied files with your own context.
 
 Most setups start with:
 
@@ -108,7 +108,7 @@ You can add `personal-interests.md` and `personal-life.md` when you want more vo
 
 ### 4. Start writing
 
-Once your local context is in place, you are ready to use the writing skills in Codex.
+Once your local context is in place, you can start writing.
 
 Good first prompts:
 
@@ -118,7 +118,7 @@ Good first prompts:
 
 ## What Stays Local
 
-Ink is designed so the useful workflow is tracked, while your real working data stays private.
+The workflow lives in git. Your working data does not.
 
 Keep these local and uncommitted:
 
@@ -128,7 +128,7 @@ Keep these local and uncommitted:
 - `content/linkedin/drafts/` for unpublished LinkedIn drafts
 - `content/blog/drafts/` for unpublished blog drafts
 
-The repo tracks templates, workflow instructions, helper scripts, and keep files. Your real runtime data stays on your machine.
+The repo tracks templates, workflow instructions, helper scripts, and keep files. Your real working data stays on your machine.
 
 ## Optional MCP Helpers
 
