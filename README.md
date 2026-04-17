@@ -4,7 +4,7 @@
 
 A local writing system for LinkedIn posts and blog articles.
 
-Ink is a [One Horizon](https://onehorizon.ai) project for Claude Code, Cursor, and Codex. It pulls in your local context, checks your saved content, runs a structured writing flow, and keeps the working files on your machine.
+Ink is a [One Horizon](https://onehorizon.ai/?utm_source=github&utm_medium=ink&utm_content=readme) project for Claude Code, Cursor, and Codex. It pulls in your local context, checks your saved content, runs a structured writing flow, and keeps the working files on your machine.
 
 Claude Code and Cursor are the easy path. Codex works too, but needs one extra sync step so it can see the repo's local skills.
 
