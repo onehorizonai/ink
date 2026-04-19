@@ -12,6 +12,7 @@ If one or more targets are provided, sync only those targets.
 
 Configured targets:
   - codex
+  - claude
 
 Examples:
   ./scripts/sync_repo_skills.sh
@@ -21,12 +22,16 @@ EOF
 
 configured_targets() {
   printf '%s\n' "codex"
+  printf '%s\n' "claude"
 }
 
 resolve_target_dir() {
   case "$1" in
     codex)
       printf '%s\n' "${CODEX_HOME:-$HOME/.codex}/skills"
+      ;;
+    claude)
+      printf '%s\n' "${CLAUDE_HOME:-$HOME/.claude}/agents"
       ;;
     *)
       return 1
@@ -44,6 +49,8 @@ warn_for_target() {
       if [ ! -f "${skill_dir}/agents/openai.yaml" ]; then
         printf 'warn: %s is missing agents/openai.yaml; syncing anyway\n' "${skill_name}" >&2
       fi
+      ;;
+    claude)
       ;;
   esac
 }
@@ -83,13 +90,21 @@ sync_target() {
     [ -f "${skill_dir}/SKILL.md" ] || continue
 
     skill_name="$(basename "${skill_dir}")"
-    target_path="${target_dir}/${skill_name}"
+
+    # claude expects a single <name>.md file; other targets get the full directory
+    if [ "${target_name}" = "claude" ]; then
+      link_source="${skill_dir}/SKILL.md"
+      target_path="${target_dir}/${skill_name}.md"
+    else
+      link_source="${skill_dir}"
+      target_path="${target_dir}/${skill_name}"
+    fi
 
     warn_for_target "${target_name}" "${skill_dir}" "${skill_name}"
 
     if [ -L "${target_path}" ]; then
       current_target="$(readlink "${target_path}")"
-      if [ "${current_target}" = "${skill_dir}" ]; then
+      if [ "${current_target}" = "${link_source}" ]; then
         printf 'ok: %s already linked\n' "${skill_name}"
         existing_count=$((existing_count + 1))
         continue
@@ -104,8 +119,8 @@ sync_target() {
       exit 1
     fi
 
-    ln -s "${skill_dir}" "${target_path}"
-    printf 'linked: %s -> %s\n' "${skill_name}" "${skill_dir}"
+    ln -s "${link_source}" "${target_path}"
+    printf 'linked: %s -> %s\n' "${skill_name}" "${link_source}"
     linked_count=$((linked_count + 1))
   done
 
