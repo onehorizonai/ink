@@ -15,4 +15,5 @@ Start with [README.md](README.md).
 - If a repo skill is missing from the current Codex session, run `./scripts/sync_repo_skills.sh` from the repo root to sync repo skills into every configured app skill directory, then restart the session if needed.
 - Keep unpublished drafts in `content/linkedin/drafts/`.
 - Keep unpublished blog drafts in `content/blog/drafts/`.
+- For blog files, do not use the `NN--blog--` filename prefix; use date + slug only for published files.
 - Do not duplicate workflow or context rules across files unless there is a clear need.

@@ -17,10 +17,12 @@ Store drafts under:
 Use:
 
 ```text
-YYYY-MM-DD-NN--draft--blog--short-slug.mdx
+YYYY-MM-DD--draft--short-slug.mdx
 ```
 
-`NN` is the follow-up number for that date.
+Do not add `NN--blog--` to draft blog filenames.
+
+If the same date and slug need more than one draft file, append `-2`, `-3`, etc.
 
 ## Working Shape
 

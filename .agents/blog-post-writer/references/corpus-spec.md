@@ -24,16 +24,18 @@ Do not store unpublished drafts here. Store those in `content/blog/drafts/`.
 Use:
 
 ```text
-YYYY-MM-DD-NN--blog--short-slug.mdx
+YYYY-MM-DD-short-slug.mdx
 ```
 
 Example:
 
 ```text
-2026-02-16-01--blog--product-roadmaps-vs-engineering-reality.mdx
+2026-02-16-product-roadmaps-vs-engineering-reality.mdx
 ```
 
-`NN` is the follow-up number for that date.
+Do not add `NN--blog--` to published blog filenames.
+
+If the same date and slug need more than one file, append `-2`, `-3`, etc.
 
 ## File Shape
 
