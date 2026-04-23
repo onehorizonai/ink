@@ -72,7 +72,7 @@ Use the local thin skills first because they are tuned for this repo's workflow:
 
 If the session also includes external writing skills, use them in support of this skill instead of replacing it.
 
-- Use `$copywriting` to sharpen structure or CTA options after the corpus voice is established.
+- Use `../copywriting/SKILL.md` to sharpen structure or CTA options after the corpus voice is established.
 - Use `$humanizer` as reference material for the local humanizer pass, not as a replacement for the repo workflow.
 - Use `$prompt-engineering-patterns` principles to keep the workflow strict, progressive, and low-noise.
 

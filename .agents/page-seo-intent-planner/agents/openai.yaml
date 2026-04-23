@@ -1,0 +1,4 @@
+interface:
+  display_name: "Page SEO Intent Planner"
+  short_description: "Plan page search intent and exact SEO fields"
+  default_prompt: "Use $page-seo-intent-planner to define search intent, exact metadata, URL slug, internal links, structured-data decisions, and supporting-content modules for a page brief, and ask targeted verification questions if the SEO contract is still ambiguous."

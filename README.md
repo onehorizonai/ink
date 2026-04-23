@@ -13,6 +13,7 @@ Claude Code and Cursor are the easy path. Codex works too, but needs one extra s
 - Finds content ideas from your context, published content, and live research
 - Drafts LinkedIn posts, comment replies, DMs, DM replies, and reposts
 - Writes blog posts with research, review passes, and optional image support
+- Creates strategic implementation briefs for new or updated website pages
 - Reviews drafts for tone, structure, facts, URLs, and AI-sounding copy
 - Stores approved LinkedIn posts back into a local corpus
 - Keeps live context, secrets, and real content out of git
@@ -62,7 +63,9 @@ Run it:
 - again after pulling changes that update repo skills
 - any time Codex is missing the repo skills
 
-If the skills still do not appear in Codex, restart the Codex app or CLI and open the repo again.
+Codex loads the skill list when a session starts. Running the sync script in an already-open thread does not reliably refresh that thread's available skills.
+
+If the skills still do not appear in Codex after syncing, start a new Codex thread or restart the Codex app or CLI and open the repo again.
 
 ### 4. Run setup once
 
@@ -226,6 +229,84 @@ How blog publishing works:
 - Unpublished working drafts still belong in `content/blog/drafts/`.
 - If you use blog images, `blog-image-finder` handles search and download, and `blog-image-uploader` handles S3 upload.
 
+## Create a website page brief
+
+Use `page-brief-builder` when you need a proper brief for a new or updated website page before anyone starts writing copy or building.
+
+In Codex, if a natural prompt does not route correctly, name the entry skill directly:
+
+```text
+Use page-brief-builder to create a brief to update our alternative to Linear page.
+```
+
+Typical prompts:
+
+```text
+Create a brief for a new product page about automated reporting.
+```
+
+```text
+Write a landing page brief for our AI support offering.
+```
+
+```text
+Update the brief for this existing help page: https://example.com/help/billing
+```
+
+```text
+Use page-brief-builder to create a structured brief for a comparison page between our product and manual workflows.
+```
+
+It will:
+
+- ask for missing context before it starts guessing
+- look at relevant pages on your site
+- check competitor or comparable pages
+- brainstorm up to 3 possible page directions
+- recommend one direction or pause and ask you to choose when multiple directions stay viable
+- work through SEO, positioning, proof, objections, and CTA logic
+- use [copywriting](.agents/copywriting/SKILL.md) to lock exact H1, metadata, section headings, supporting-content modules, and CTA labels inside the brief
+- validate claims when needed
+- return one concise locked implementation brief with exact page changes, required links, and CTA labels
+
+It will not:
+
+- write final marketing copy
+- output HTML, CSS, JS, React, or components
+- turn the brief into implementation code
+- return a loose research summary disguised as a brief
+
+## When to use [copywriting](.agents/copywriting/SKILL.md)
+
+Use [copywriting](.agents/copywriting/SKILL.md) when you want actual page copy drafted, rewritten, or tightened.
+
+The clearest trigger is to name it directly:
+
+```text
+Use copywriting to write homepage copy for our analytics product.
+```
+
+It should also trigger from plain requests like:
+
+- `Write copy for this landing page`
+- `Rewrite this feature page`
+- `Improve this page copy`
+- `Give me headline help`
+- `Give me CTA copy for this pricing page`
+
+In this repo, the split is simple:
+
+- `page-brief-builder` for the strategy and brief
+- `page-brief-copy-playbook` for copy guidance inside that brief
+- [copywriting](.agents/copywriting/SKILL.md) for the final page copy once the brief is clear
+
+If you want both, just say so:
+
+```text
+Use page-brief-builder to create the brief first.
+After that, use copywriting to draft the page copy.
+```
+
 ## Review a draft without starting over
 
 Use the review skills when you already have a draft and only want one kind of pass.
@@ -256,6 +337,23 @@ Use these two skills when the writing already exists and you want it logged in t
 | `linkedin-finalize-post` | Final-pass a LinkedIn draft and store it when approved |
 | `linkedin-store-post` | Store LinkedIn posts that already exist |
 | `blog-post-writer` | Write full blog drafts from brief to article |
+| `page-brief-builder` | Create a concise locked brief for a new or updated website page |
+| `copywriting` | Write, rewrite, or improve final marketing copy for website pages |
+
+### Website page brief suite
+
+| Skill | Use it for |
+| --- | --- |
+| `website-brief-intake` | Capture required inputs and missing context |
+| `website-pattern-analyzer` | Inspect same-site page patterns and update-page changes |
+| `competitor-page-research` | Research competitor or comparable pages |
+| `page-seo-intent-planner` | Plan search intent, exact metadata, links, and overlap risk |
+| `page-positioning-strategist` | Define value proposition, proof, objections, and claims ledger |
+| `conversion-cta-planner` | Plan CTA logic, friction handling, and conversion support |
+| `page-brief-assembler` | Assemble the final locked brief |
+| `page-brief-page-playbook` | Apply local page-type defaults when site evidence is thin |
+| `page-brief-seo-playbook` | Apply local SEO and internal-linking rules to the brief |
+| `page-brief-copy-playbook` | Apply local hero, proof, CTA, and exact copy-atom rules to the brief |
 
 ### Review and quality passes
 

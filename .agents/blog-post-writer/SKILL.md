@@ -123,7 +123,7 @@ Use the local shared review skills first because they are tuned for this repo's 
 
 If the session also includes external writing skills, use them in support of this skill instead of replacing it.
 
-- Use `$copywriting` to sharpen structure or CTA options after the corpus voice is established.
+- Use `../copywriting/SKILL.md` to sharpen structure or CTA options after the corpus voice is established.
 - Use `$prompt-engineering-patterns` principles to keep the workflow strict, progressive, and low-noise.
 
 Keep the published corpus and shared repo references as the source of truth when those skills pull in a different style.

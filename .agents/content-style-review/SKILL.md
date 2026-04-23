@@ -15,7 +15,7 @@ Focus on structure and readability, not on identity or factual verification. Fol
 
 ## Use
 
-- the copy clarity and specificity principles from `$copywriting`
+- the copy clarity and specificity principles from `../copywriting/SKILL.md`
 - the format rules in the active writer playbooks
 
 ## Check

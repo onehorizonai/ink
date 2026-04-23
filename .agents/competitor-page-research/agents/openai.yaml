@@ -1,0 +1,4 @@
+interface:
+  display_name: "Competitor Page Research"
+  short_description: "Research comparable competitor pages"
+  default_prompt: "Use $competitor-page-research to analyze competitor or comparable pages for a website brief."

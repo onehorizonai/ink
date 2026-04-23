@@ -1,0 +1,4 @@
+interface:
+  display_name: "Website Pattern Analyzer"
+  short_description: "Analyze site patterns for page briefs"
+  default_prompt: "Use $website-pattern-analyzer to inspect a site and summarize the page patterns a new or updated page should follow."

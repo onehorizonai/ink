@@ -1,0 +1,4 @@
+interface:
+  display_name: "Website Brief Intake"
+  short_description: "Capture page-brief inputs and gaps"
+  default_prompt: "Use $website-brief-intake to run a guided clarification loop for a website page brief, asking the next 1-4 related verification questions needed to lock the strategy."

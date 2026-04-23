@@ -1,0 +1,4 @@
+interface:
+  display_name: "Page Positioning Strategist"
+  short_description: "Brainstorm and choose page directions"
+  default_prompt: "Use $page-positioning-strategist to brainstorm up to 3 page directions, choose one direction or ask for a choice, and ask targeted verification questions if the winning direction still lacks enough strategy detail to continue."
