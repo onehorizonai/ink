@@ -17,32 +17,29 @@ from social_validation import iter_corpus_files, validate_social_file  # noqa: E
 
 SKILL_ROOT, REPO_ROOT = resolve_storage_roots(Path(__file__))
 
-ALLOWED_FORMATS = {"post", "comment-reply", "dm", "dm-reply", "repost"}
+ALLOWED_FORMATS = {"post", "comment-reply"}
 FORMAT_BY_FOLDER = {
     "posts": "post",
     "comment-replies": "comment-reply",
-    "dms": "dm",
-    "dm-replies": "dm-reply",
-    "reposts": "repost",
 }
-ALLOWED_ASSET_TYPES = {"none", "image", "carousel", "video", "document", "link", "other"}
-REQUIRED_FIELDS = ("channel", "format", "published_at", "context", "asset_type")
+ALLOWED_ASSET_TYPES = {"none", "image", "video", "link", "poll", "other"}
+REQUIRED_FIELDS = ("channel", "format", "published_at", "subreddit", "context", "asset_type")
 RECOMMENDED_FIELDS = ("audience", "goal", "topic_tags")
 FILENAME_RE = re.compile(
-    r"^(?P<date>\d{4}-\d{2}-\d{2})-(?P<seq>\d{2})--linkedin--(?P<format>[a-z-]+)--(?P<slug>.+)\.md$",
+    r"^(?P<date>\d{4}-\d{2}-\d{2})-(?P<seq>\d{2})--reddit--(?P<format>[a-z-]+)--(?P<slug>.+)\.md$",
 )
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Validate the published-post corpus for linkedin-social-writer.",
+        description="Validate the published-post corpus for reddit-social-writer.",
     )
-    default_root = REPO_ROOT / "content" / "linkedin"
+    default_root = REPO_ROOT / "content" / "reddit"
     parser.add_argument(
         "--root",
         type=Path,
         default=default_root,
-        help="Corpus root directory. Defaults to content/linkedin at the repo root.",
+        help="Corpus root directory. Defaults to content/reddit at the repo root.",
     )
     return parser.parse_args()
 
@@ -52,7 +49,7 @@ def validate_file(path: Path) -> tuple[list[str], list[str], str | None]:
         path,
         repo_root=REPO_ROOT,
         filename_re=FILENAME_RE,
-        channel="linkedin",
+        channel="reddit",
         allowed_formats=ALLOWED_FORMATS,
         folder_to_format=FORMAT_BY_FOLDER,
         allowed_asset_types=ALLOWED_ASSET_TYPES,

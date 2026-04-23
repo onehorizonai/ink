@@ -23,13 +23,10 @@ from social_storage import (  # noqa: E402
     yaml_string,
 )
 
-CHANNEL = "linkedin"
+CHANNEL = "reddit"
 FORMAT_BY_FOLDER = {
     "post": "posts",
     "comment-reply": "comment-replies",
-    "dm": "dms",
-    "dm-reply": "dm-replies",
-    "repost": "reposts",
 }
 
 
@@ -43,5 +40,7 @@ def build_published_filename(folder: Path, date_prefix: str, format_name: str, t
 
 def default_format_template(format_name: str) -> str:
     if format_name == "post":
-        return "default-post"
+        return "discussion-post"
+    if format_name == "comment-reply":
+        return "discussion-reply"
     return ""

@@ -83,6 +83,77 @@ Note:
 
 - This uses Google Trends web endpoints, not an official public API. It can rate-limit. If it fails, fall back to `web_search`.
 
+### `reddit_find_subreddits`
+
+Use for:
+
+- finding subreddits that match an audience, niche, or problem space
+- building a shortlist before inspecting rules and top posts
+- comparing subscriber scale and activity across likely communities
+
+Inputs:
+
+- `query`
+- `limit`
+- `sort` optional
+
+### `reddit_subreddit_details`
+
+Use for:
+
+- checking a subreddit's title, description, subscriber scale, and posting mode
+- loading posting guidance and subreddit rules before drafting
+- confirming whether a subreddit is a bad fit for promotional or link-heavy posts
+
+Inputs:
+
+- `subreddit`
+
+### `reddit_top_posts`
+
+Use for:
+
+- pulling the top posts from a subreddit over the last day, week, month, or longer
+- identifying recurring hooks, formats, and discussion triggers
+- spotting whether the subreddit rewards text posts, link posts, stories, or debates
+
+Inputs:
+
+- `subreddit`
+- `limit`
+- `sort` optional
+- `timeframe` optional
+
+### `reddit_search_posts`
+
+Use for:
+
+- finding topic-specific posts inside a shortlisted subreddit
+- checking whether a seed angle already appears often in that community
+- collecting examples closer to the user's topic than the general top posts
+
+Inputs:
+
+- `subreddit`
+- `query`
+- `limit`
+- `sort` optional
+- `timeframe` optional
+
+### `reddit_post_thread`
+
+Use for:
+
+- reading a post plus its top comments before drafting a reply
+- checking what kind of follow-up discussion the community rewards
+- validating whether a proposed angle or question would fit the thread energy
+
+Inputs:
+
+- `url`
+- `comment_limit` optional
+- `comment_sort` optional
+
 ## When to use the tools
 
 - Use `web_search` and `fetch_page` from the fact-check pass.
@@ -90,5 +161,6 @@ Note:
 - Do not use `search_unsplash` as the primary final-asset path for blog posts when the dedicated `blog-image-finder` MCP tools are available.
 - Use `google_trends_keyword_insights` when testing content angles, phrasing, or adjacent topics before drafting.
 - Use `google_trends_trending_searches` when looking for a timely hook in a specific geography.
+- Use the Reddit tools from `reddit-research` and `reddit-social-writer` when the user wants subreddit discovery, weekly top-post analysis, topic-specific subreddit examples, or thread-aware Reddit replies.
 - Do not use web search for stable personal context that should come from the local context files.
 - Do not let mass-market or celebrity trends dictate B2B content unless the connection is real.

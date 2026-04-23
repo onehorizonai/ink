@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reddit Store Post"
+  short_description: "Store approved Reddit posts in the corpus"
+  default_prompt: "Use $reddit-store-post to save already-written Reddit posts or comment replies into the local Reddit corpus with the correct subreddit and format."

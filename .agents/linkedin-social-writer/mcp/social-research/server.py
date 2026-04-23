@@ -4,6 +4,7 @@
 # ///
 from __future__ import annotations
 
+import html
 import json
 import re
 import subprocess
@@ -22,6 +23,7 @@ from typing import Any
 SERVER_NAME = "linkedin-social-research"
 SERVER_VERSION = "0.1.0"
 PROTOCOL_VERSION = "2024-11-05"
+DEFAULT_USER_AGENT = "Mozilla/5.0 (compatible; InkBot/1.0; +https://github.com/onehorizonai/ink)"
 
 
 TOOLS = [
@@ -103,6 +105,101 @@ TOOLS = [
             "additionalProperties": False,
         },
     },
+    {
+        "name": "reddit_find_subreddits",
+        "description": "Find subreddits related to an audience, niche, or topic using public Reddit search.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "query": {"type": "string"},
+                "limit": {"type": "integer", "minimum": 1, "maximum": 10, "default": 5},
+                "sort": {
+                    "type": "string",
+                    "enum": ["relevance", "activity"],
+                    "default": "relevance",
+                },
+            },
+            "required": ["query"],
+            "additionalProperties": False,
+        },
+    },
+    {
+        "name": "reddit_subreddit_details",
+        "description": "Fetch subreddit metadata, posting guidance, and community rules using public Reddit endpoints.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "subreddit": {"type": "string"},
+            },
+            "required": ["subreddit"],
+            "additionalProperties": False,
+        },
+    },
+    {
+        "name": "reddit_top_posts",
+        "description": "Fetch top or feed-ranked posts from a subreddit over a selected timeframe.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "subreddit": {"type": "string"},
+                "limit": {"type": "integer", "minimum": 1, "maximum": 10, "default": 5},
+                "sort": {
+                    "type": "string",
+                    "enum": ["top", "hot", "new", "rising", "controversial"],
+                    "default": "top",
+                },
+                "timeframe": {
+                    "type": "string",
+                    "enum": ["hour", "day", "week", "month", "year", "all"],
+                    "default": "week",
+                },
+            },
+            "required": ["subreddit"],
+            "additionalProperties": False,
+        },
+    },
+    {
+        "name": "reddit_search_posts",
+        "description": "Search posts inside a subreddit and return a ranked list of matching posts.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "subreddit": {"type": "string"},
+                "query": {"type": "string"},
+                "limit": {"type": "integer", "minimum": 1, "maximum": 10, "default": 5},
+                "sort": {
+                    "type": "string",
+                    "enum": ["relevance", "top", "new", "comments"],
+                    "default": "relevance",
+                },
+                "timeframe": {
+                    "type": "string",
+                    "enum": ["hour", "day", "week", "month", "year", "all"],
+                    "default": "month",
+                },
+            },
+            "required": ["subreddit", "query"],
+            "additionalProperties": False,
+        },
+    },
+    {
+        "name": "reddit_post_thread",
+        "description": "Fetch a Reddit post and its top comments using a post URL or permalink.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "url": {"type": "string"},
+                "comment_limit": {"type": "integer", "minimum": 1, "maximum": 20, "default": 6},
+                "comment_sort": {
+                    "type": "string",
+                    "enum": ["best", "top", "new", "controversial", "old", "qa"],
+                    "default": "best",
+                },
+            },
+            "required": ["url"],
+            "additionalProperties": False,
+        },
+    },
 ]
 
 
@@ -176,7 +273,7 @@ def http_get(url: str, *, accept: str = "text/html,application/xhtml+xml", max_b
     req = urllib.request.Request(
         url,
         headers={
-            "User-Agent": "Mozilla/5.0",
+            "User-Agent": DEFAULT_USER_AGENT,
             "Accept": accept,
             "Accept-Language": "en-US,en;q=0.9",
         },
@@ -193,7 +290,7 @@ def http_get(url: str, *, accept: str = "text/html,application/xhtml+xml", max_b
                 "-L",
                 "-sS",
                 "-A",
-                "Mozilla/5.0",
+                DEFAULT_USER_AGENT,
                 "-H",
                 f"Accept: {accept}",
                 url,
@@ -218,7 +315,7 @@ def curl_get(
         "-L",
         "-sS",
         "-A",
-        "Mozilla/5.0",
+        DEFAULT_USER_AGENT,
         "-H",
         f"Accept: {accept}",
         "-H",
@@ -576,6 +673,237 @@ def search_unsplash(arguments: dict[str, Any]) -> str:
     )
 
 
+def normalize_subreddit_name(value: str) -> str:
+    subreddit = value.strip()
+    subreddit = re.sub(r"^https?://(?:old\.)?reddit\.com/r/", "", subreddit, flags=re.IGNORECASE)
+    subreddit = subreddit.replace("/r/", "")
+    subreddit = subreddit.strip("/")
+    subreddit = re.sub(r"[^A-Za-z0-9_]+", "", subreddit)
+    if not subreddit:
+        raise ValueError("A subreddit name is required")
+    return subreddit
+
+
+def reddit_text(value: str | None) -> str:
+    if not value:
+        return ""
+    unescaped = html.unescape(value)
+    parser = TextExtractor()
+    parser.feed(unescaped)
+    text = parser.get_text()
+    if text:
+        return text
+    return re.sub(r"\s+", " ", unescaped).strip()
+
+
+def reddit_json(url: str) -> Any:
+    payload, _ = http_get(url, accept="application/json,text/json,*/*")
+    return json.loads(payload)
+
+
+def reddit_listing_posts(payload: dict[str, Any], max_items: int) -> list[dict[str, Any]]:
+    items: list[dict[str, Any]] = []
+    children = payload.get("data", {}).get("children", [])
+    for child in children[:max_items]:
+        data = child.get("data", {})
+        items.append(
+            {
+                "subreddit": data.get("subreddit"),
+                "title": data.get("title"),
+                "author": data.get("author"),
+                "score": data.get("score"),
+                "num_comments": data.get("num_comments"),
+                "created_utc": data.get("created_utc"),
+                "upvote_ratio": data.get("upvote_ratio"),
+                "is_self": data.get("is_self"),
+                "post_hint": data.get("post_hint"),
+                "link_flair_text": data.get("link_flair_text"),
+                "domain": data.get("domain"),
+                "url": data.get("url"),
+                "permalink": "https://old.reddit.com" + data.get("permalink", ""),
+                "selftext_excerpt": reddit_text(data.get("selftext"))[:400],
+            }
+        )
+    return items
+
+
+def reddit_comment_listing(payload: dict[str, Any], max_items: int) -> list[dict[str, Any]]:
+    comments: list[dict[str, Any]] = []
+    children = payload.get("data", {}).get("children", [])
+    for child in children:
+        if len(comments) >= max_items:
+            break
+        if child.get("kind") != "t1":
+            continue
+        data = child.get("data", {})
+        replies = data.get("replies")
+        reply_count = 0
+        if isinstance(replies, dict):
+            reply_count = len(replies.get("data", {}).get("children", []))
+        comments.append(
+            {
+                "author": data.get("author"),
+                "score": data.get("score"),
+                "created_utc": data.get("created_utc"),
+                "body": reddit_text(data.get("body"))[:800],
+                "reply_count": reply_count,
+                "permalink": "https://old.reddit.com" + data.get("permalink", ""),
+            }
+        )
+    return comments
+
+
+def reddit_find_subreddits(arguments: dict[str, Any]) -> str:
+    query = str(arguments["query"]).strip()
+    limit = int(arguments.get("limit", 5))
+    sort = str(arguments.get("sort", "relevance")).strip() or "relevance"
+    url = (
+        "https://old.reddit.com/subreddits/search.json?"
+        + urllib.parse.urlencode({"q": query, "limit": limit, "sort": sort})
+    )
+    payload = reddit_json(url)
+
+    results = []
+    for child in payload.get("data", {}).get("children", [])[:limit]:
+        data = child.get("data", {})
+        results.append(
+            {
+                "name": data.get("display_name"),
+                "title": data.get("title"),
+                "public_description": reddit_text(data.get("public_description")),
+                "subscribers": data.get("subscribers"),
+                "active_user_count": data.get("active_user_count"),
+                "submission_type": data.get("submission_type"),
+                "over18": data.get("over18"),
+                "url": "https://old.reddit.com" + data.get("url", ""),
+            }
+        )
+
+    return json.dumps(
+        {"query": query, "sort": sort, "results": results},
+        indent=2,
+        ensure_ascii=False,
+    )
+
+
+def reddit_subreddit_details(arguments: dict[str, Any]) -> str:
+    subreddit = normalize_subreddit_name(str(arguments["subreddit"]))
+    about = reddit_json(f"https://old.reddit.com/r/{subreddit}/about.json")
+    rules = reddit_json(f"https://old.reddit.com/r/{subreddit}/about/rules.json")
+    data = about.get("data", {})
+    result = {
+        "subreddit": subreddit,
+        "title": data.get("title"),
+        "public_description": reddit_text(data.get("public_description")),
+        "description": reddit_text(data.get("description")),
+        "subscribers": data.get("subscribers"),
+        "active_user_count": data.get("active_user_count"),
+        "submission_type": data.get("submission_type"),
+        "allow_images": data.get("allow_images"),
+        "allow_videos": data.get("allow_videos"),
+        "over18": data.get("over18"),
+        "lang": data.get("lang"),
+        "posting_guidance": reddit_text(data.get("submit_text_html")),
+        "rules": [
+            {
+                "short_name": rule.get("short_name"),
+                "description": reddit_text(rule.get("description")),
+                "kind": rule.get("kind"),
+                "violation_reason": rule.get("violation_reason"),
+            }
+            for rule in rules.get("rules", [])
+        ],
+        "url": f"https://old.reddit.com/r/{subreddit}/",
+    }
+    return json.dumps(result, indent=2, ensure_ascii=False)
+
+
+def reddit_top_posts(arguments: dict[str, Any]) -> str:
+    subreddit = normalize_subreddit_name(str(arguments["subreddit"]))
+    limit = int(arguments.get("limit", 5))
+    sort = str(arguments.get("sort", "top")).strip() or "top"
+    timeframe = str(arguments.get("timeframe", "week")).strip() or "week"
+    params = {"limit": limit}
+    if sort in {"top", "controversial"}:
+        params["t"] = timeframe
+    url = f"https://old.reddit.com/r/{subreddit}/{sort}.json?" + urllib.parse.urlencode(params)
+    payload = reddit_json(url)
+    return json.dumps(
+        {
+            "subreddit": subreddit,
+            "sort": sort,
+            "timeframe": timeframe,
+            "results": reddit_listing_posts(payload, limit),
+        },
+        indent=2,
+        ensure_ascii=False,
+    )
+
+
+def reddit_search_posts(arguments: dict[str, Any]) -> str:
+    subreddit = normalize_subreddit_name(str(arguments["subreddit"]))
+    query = str(arguments["query"]).strip()
+    limit = int(arguments.get("limit", 5))
+    sort = str(arguments.get("sort", "relevance")).strip() or "relevance"
+    timeframe = str(arguments.get("timeframe", "month")).strip() or "month"
+    url = (
+        f"https://old.reddit.com/r/{subreddit}/search.json?"
+        + urllib.parse.urlencode(
+            {
+                "q": query,
+                "restrict_sr": "1",
+                "sort": sort,
+                "t": timeframe,
+                "limit": limit,
+            }
+        )
+    )
+    payload = reddit_json(url)
+    return json.dumps(
+        {
+            "subreddit": subreddit,
+            "query": query,
+            "sort": sort,
+            "timeframe": timeframe,
+            "results": reddit_listing_posts(payload, limit),
+        },
+        indent=2,
+        ensure_ascii=False,
+    )
+
+
+def reddit_post_thread(arguments: dict[str, Any]) -> str:
+    url = str(arguments["url"]).strip()
+    comment_limit = int(arguments.get("comment_limit", 6))
+    comment_sort = str(arguments.get("comment_sort", "best")).strip() or "best"
+    normalized = url
+    if normalized.startswith("/"):
+        normalized = "https://old.reddit.com" + normalized
+    normalized = re.sub(r"^https?://(?:www\.)?reddit\.com", "https://old.reddit.com", normalized)
+    normalized = normalized.rstrip("/")
+    if not normalized.endswith(".json"):
+        normalized += ".json"
+    separator = "&" if "?" in normalized else "?"
+    payload = reddit_json(
+        normalized + separator + urllib.parse.urlencode({"limit": comment_limit, "sort": comment_sort}),
+    )
+    if not isinstance(payload, list) or len(payload) < 2:
+        raise ValueError("Reddit thread response did not contain post and comment listings")
+
+    post_listing = payload[0]
+    comment_listing = payload[1]
+    posts = reddit_listing_posts(post_listing, 1)
+    if not posts:
+        raise ValueError("Reddit thread response did not include a post")
+
+    result = {
+        "post": posts[0],
+        "comments": reddit_comment_listing(comment_listing, comment_limit),
+        "comment_sort": comment_sort,
+    }
+    return json.dumps(result, indent=2, ensure_ascii=False)
+
+
 def call_tool(name: str, arguments: dict[str, Any]) -> str:
     if name == "web_search":
         return web_search(arguments)
@@ -587,6 +915,16 @@ def call_tool(name: str, arguments: dict[str, Any]) -> str:
         return google_trends_trending_searches(arguments)
     if name == "google_trends_keyword_insights":
         return google_trends_keyword_insights(arguments)
+    if name == "reddit_find_subreddits":
+        return reddit_find_subreddits(arguments)
+    if name == "reddit_subreddit_details":
+        return reddit_subreddit_details(arguments)
+    if name == "reddit_top_posts":
+        return reddit_top_posts(arguments)
+    if name == "reddit_search_posts":
+        return reddit_search_posts(arguments)
+    if name == "reddit_post_thread":
+        return reddit_post_thread(arguments)
     raise ValueError(f"Unknown tool: {name}")
 
 

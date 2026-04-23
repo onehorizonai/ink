@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reddit Social Writer"
+  short_description: "Draft Reddit posts and follow-up replies"
+  default_prompt: "Use $reddit-social-writer to draft a Reddit post or comment reply grounded in one target subreddit, its rules, and its recent winning posts."

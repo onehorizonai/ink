@@ -2,20 +2,22 @@
 
 ![Ink banner](assets/readme/ink-banner-1280x640.png)
 
-A local writing system for LinkedIn posts and blog articles.
+A local writing system for LinkedIn posts, Reddit discussions, and blog articles. Your drafts, context, and working files stay on your machine.
 
-Ink is a [One Horizon](https://onehorizon.ai/?utm_source=github&utm_medium=ink&utm_content=readme) project for Claude Code, Cursor, and Codex. It pulls in your local context, checks your saved content, runs a structured writing flow, and keeps the working files on your machine.
+Ink is a [One Horizon](https://onehorizon.ai/?utm_source=github&utm_medium=ink&utm_content=readme) project for Claude Code, Cursor, and Codex. It uses your local context, looks at the content you already wrote, runs a consistent workflow, and leaves the files local.
 
-Claude Code and Cursor are the easy path. Codex works too, but needs one extra sync step so it can see the repo's local skills.
+Claude Code and Cursor are the smoothest path. Codex works too; it just needs one extra sync step so it can see the repo-local skills.
 
 ## What Ink does
 
-- Finds content ideas from your context, published content, and live research
+- Finds content ideas from your context, published content, and recent research
 - Drafts LinkedIn posts, comment replies, DMs, DM replies, and reposts
+- Checks which subreddits fit the topic before it starts drafting
+- Drafts Reddit posts and follow-up replies that sound like they belong there
 - Writes blog posts with research, review passes, and optional image support
 - Creates strategic implementation briefs for new or updated website pages
-- Reviews drafts for tone, structure, facts, URLs, and AI-sounding copy
-- Stores approved LinkedIn posts back into a local corpus
+- Reviews drafts for tone, structure, facts, URLs, and obvious AI tells
+- Logs approved LinkedIn and Reddit posts back into local corpora
 - Keeps live context, secrets, and real content out of git
 
 ## Quick start
@@ -41,13 +43,15 @@ On other platforms, use the [official uv installation guide](https://docs.astral
 
 ### 3. Open the cloned folder in your assistant
 
-Open the repo root, not a subfolder. That gives the assistant access to the repo files and the local [.mcp.json](.mcp.json) config.
+Open the repo root, not a subfolder. That gives the assistant access to the repo files and the local MCP config.
 
 - Claude Code: start Claude Code from the `ink/` folder
 - Cursor: open `ink/` as the project or workspace
 - Codex: add `ink/` as a project
 
-#### Codex only: run the sync step once
+Claude Code and Cursor read the workspace [.mcp.json](.mcp.json). Codex uses the repo-scoped [.codex/config.toml](.codex/config.toml).
+
+#### Codex only: run the sync step once for skills
 
 ```bash
 ./scripts/sync_repo_skills.sh codex
@@ -57,6 +61,8 @@ This step is for Codex only.
 
 Codex does not automatically pick up repo-local skills from `.agents/`. This script links the repo's skill folders into your local Codex skills directory so Codex can see them.
 
+The repo-scoped [.codex/config.toml](.codex/config.toml) already exposes the local MCP servers for this project. You should not need to add them by hand unless you want a different setup.
+
 Run it:
 
 - once after cloning
@@ -65,7 +71,7 @@ Run it:
 
 Codex loads the skill list when a session starts. Running the sync script in an already-open thread does not reliably refresh that thread's available skills.
 
-If the skills still do not appear in Codex after syncing, start a new Codex thread or restart the Codex app or CLI and open the repo again.
+If the skills or local MCP tools still do not appear in Codex after syncing, start a new Codex thread or restart the Codex app or CLI and open the repo again.
 
 ### 4. Run setup once
 
@@ -75,7 +81,7 @@ In your assistant, run:
 Setup ink
 ```
 
-This is the normal way to do it. You do not need to create `.local/` folders by hand first.
+This is the normal path. You do not need to create `.local/` folders by hand first.
 
 It will:
 
@@ -90,6 +96,8 @@ Good first prompts:
 
 - `Find three content ideas I should write next`
 - `Draft a LinkedIn post about...`
+- `Research the best Reddit communities for...`
+- `Draft a Reddit post about...`
 - `Outline a blog post about...`
 - `Refresh my local context from my website and LinkedIn`
 
@@ -132,7 +140,7 @@ What happens:
 
 ## Find what to write next
 
-Use `content-idea-finder` if you want ideas before you commit to a post or an article.
+Start with `content-idea-finder` when you want to choose the topic before you commit to a post or article.
 
 Example prompt:
 
@@ -143,7 +151,7 @@ Give me three LinkedIn ideas and two blog ideas based on my current context, rec
 
 ## Write a LinkedIn post
 
-Use `linkedin-social-writer` to draft the post itself.
+Use `linkedin-social-writer` when you are ready to draft.
 
 Example prompt:
 
@@ -182,9 +190,37 @@ How LinkedIn publishing works:
 - Use `linkedin-finalize-post` if the draft still needs a final pass before you save it.
 - Use `linkedin-store-post` if you already published it and just want the exact text logged.
 
+## Research Reddit communities
+
+Start with `reddit-research` when the first question is where the topic belongs.
+
+Example prompt:
+
+```text
+Find the best Reddit communities and recent winning post patterns for founders talking about AI workflow reliability.
+```
+
+## Write a Reddit post
+
+Once you know the subreddit and angle, `reddit-social-writer` handles the draft.
+
+Example prompt:
+
+```text
+Draft a Reddit post for r/startups about why early founder outreach should stay manual before automation.
+```
+
+How Reddit writing works:
+
+- Ink does not post to Reddit for you.
+- It checks subreddit fit, rules, and recent top posts before it starts writing.
+- It writes posts and follow-up replies locally.
+- Use `reddit-finalize-post` if the draft still needs a final review before you save it.
+- Use `reddit-store-post` if it is already live and you just want the exact text logged.
+
 ## Write a blog post
 
-Use `blog-post-writer` for a full article draft.
+Use `blog-post-writer` when you want a full article draft.
 
 Example prompt:
 
@@ -262,7 +298,7 @@ It will:
 - ask for missing context before it starts guessing
 - look at relevant pages on your site
 - check competitor or comparable pages
-- brainstorm up to 3 possible page directions
+- brainstorm up to 3 viable page directions
 - recommend one direction or pause and ask you to choose when multiple directions stay viable
 - work through SEO, positioning, proof, objections, and CTA logic
 - use [copywriting](.agents/copywriting/SKILL.md) to lock exact H1, metadata, section headings, supporting-content modules, and CTA labels inside the brief
@@ -280,7 +316,7 @@ It will not:
 
 Use [copywriting](.agents/copywriting/SKILL.md) when you want actual page copy drafted, rewritten, or tightened.
 
-The clearest trigger is to name it directly:
+If routing is ambiguous, name it directly:
 
 ```text
 Use copywriting to write homepage copy for our analytics product.
@@ -309,7 +345,7 @@ After that, use copywriting to draft the page copy.
 
 ## Review a draft without starting over
 
-Use the review skills when you already have a draft and only want one kind of pass.
+If the draft already exists and you only want one kind of pass, call the review skill directly.
 
 - `content-humanizer`: remove AI tells early
 - `content-tone-review`: check voice, stance, and personal-detail level
@@ -320,10 +356,12 @@ Use the review skills when you already have a draft and only want one kind of pa
 
 ## Store published content in the corpus
 
-Use these two skills when the writing already exists and you want it logged in the corpus.
+Use these skills when the writing already exists and you want it saved in the corpus.
 
 - `linkedin-finalize-post`: final pass, then optional storage when approval is explicit
 - `linkedin-store-post`: store content that was already shared or published
+- `reddit-finalize-post`: final pass, then optional storage when approval is explicit
+- `reddit-store-post`: store Reddit content that was already shared or published
 
 ## Skill guide
 
@@ -336,6 +374,10 @@ Use these two skills when the writing already exists and you want it logged in t
 | `linkedin-social-writer` | Draft LinkedIn posts, replies, DMs, and reposts |
 | `linkedin-finalize-post` | Final-pass a LinkedIn draft and store it when approved |
 | `linkedin-store-post` | Store LinkedIn posts that already exist |
+| `reddit-research` | Find the right subreddits, rules, and recent winning post patterns |
+| `reddit-social-writer` | Draft Reddit posts and follow-up comment replies |
+| `reddit-finalize-post` | Final-pass a Reddit draft and store it when approved |
+| `reddit-store-post` | Store Reddit posts or replies that already exist |
 | `blog-post-writer` | Write full blog drafts from brief to article |
 | `page-brief-builder` | Create a concise locked brief for a new or updated website page |
 | `copywriting` | Write, rewrite, or improve final marketing copy for website pages |
@@ -375,7 +417,7 @@ Use these two skills when the writing already exists and you want it logged in t
 
 ## What stays local
 
-The repo keeps the process. Your actual context, drafts, and secrets stay on your machine.
+The repo keeps the workflow. Your real context, drafts, and secrets stay on your machine.
 
 Keep these local and uncommitted:
 
@@ -383,6 +425,8 @@ Keep these local and uncommitted:
 - `.secrets/` for API keys and local config
 - `content/linkedin/` for your real LinkedIn corpus
 - `content/linkedin/drafts/` for unpublished LinkedIn drafts
+- `content/reddit/` for your real Reddit corpus
+- `content/reddit/drafts/` for unpublished Reddit drafts
 - `content/blog/drafts/` for unpublished blog drafts
 - any published blog source folder referenced by `.local/context/blog-publishing.local.md`
 
@@ -394,11 +438,11 @@ Skip this section unless you want MCP research or the blog image flow.
 
 The repo includes a workspace-local [.mcp.json](.mcp.json) with three local MCP servers:
 
-- `linkedin-social-research` for research during writing
+- `linkedin-social-research` for LinkedIn and Reddit research during writing
 - `blog-image-finder` for Unsplash-backed image search and download
 - `blog-image-uploader` for S3-backed image upload
 
-If your assistant supports workspace MCP config, opening the repo root is usually enough.
+If your assistant supports workspace MCP config, opening the repo root is usually enough to pick them up.
 
 If you want to verify the MCP setup:
 
@@ -421,7 +465,7 @@ You need an Unsplash developer app before image search will work.
 3. Copy the app's `Access Key`.
 4. Save that key in `.secrets/image-provider.json` as `access_key`.
 
-New Unsplash apps start in demo mode, which is enough for setup and testing. If you want to use this more seriously, apply for production access from the Unsplash dashboard after the integration works.
+New Unsplash apps start in demo mode, which is enough for setup and testing. If you end up using this in a real workflow, apply for production access from the Unsplash dashboard after the integration works.
 
 Create `.secrets/image-provider.json`:
 
@@ -461,7 +505,7 @@ Use `addressing_style: "path"` for path-style S3 endpoints. Use `virtual` for bu
 
 ### Manual local setup
 
-You only need this if you do not want to use `Setup ink`.
+Only use this if you do not want to run `Setup ink`.
 
 Start with [.local/README.md](.local/README.md), then copy the templates into `.local/context/`:
 
@@ -490,6 +534,7 @@ done
 - [.agents](.agents): the repo skills, references, templates, and MCP helpers
 - [.local](.local/README.md): local setup contract, starter templates, and ignored runtime context
 - [content/linkedin](content/linkedin/README.md): local LinkedIn corpus workspace
+- [content/reddit](content/reddit/README.md): local Reddit corpus workspace
 - [content/blog](content/blog/README.md): local blog workspace
 - [scripts](scripts): repo helper scripts
 
@@ -509,7 +554,7 @@ If you want to contribute:
 4. Update the README or skill docs when setup or behavior changes.
 5. Never commit `.local/`, `.secrets/`, private corpora, or other local-only content.
 
-This repo includes:
+The repo also includes:
 
 - a pull request template for describing the change, review path, and checks
 - a bug report template for setup, workflow, MCP, and skill issues
