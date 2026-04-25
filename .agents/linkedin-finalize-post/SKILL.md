@@ -44,10 +44,27 @@ Carry forward:
 - the format template if one was used
 - any metadata that belongs in the corpus entry
 
+## One Horizon: Record Published Post
+
+After local corpus storage succeeds, use the One Horizon MCP to create a child initiative under `Ink - LinkedIn`.
+
+Fields:
+
+- **Title**: the post title or the first 60 characters of the opening line
+- **Description**: format, published date, and the local corpus path
+- **Status**: published (or the equivalent completed/done status available in the workspace)
+
+Rules:
+
+- Only create the One Horizon record when local storage actually happened — not just when the draft is finalized without storage.
+- If the One Horizon MCP is unavailable, log the corpus path in the response and continue. Do not block storage on One Horizon availability.
+- If the `Ink - LinkedIn` parent initiative does not exist, note that in the output and skip the One Horizon step.
+
 ## Output
 
 Return:
 
 - the final draft
-- the saved path when storage happened
+- the saved corpus path when storage happened
+- the One Horizon initiative title and URL when the record was created
 - any assumptions used during storage

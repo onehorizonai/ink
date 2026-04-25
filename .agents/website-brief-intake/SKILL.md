@@ -16,8 +16,7 @@ When critical strategy inputs are missing, ask the next small pack of related ve
 ## Read First
 
 - `../page-brief-builder/references/clarification-loop.md`
-- `../../.local/README.md`
-- only the relevant files from `../../.local/context/`
+- only the relevant author-scoped One Horizon context docs. Resolve the author with One Horizon tools and use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract.
 
 ## Required Inputs
 
@@ -48,7 +47,7 @@ If the request is an update, also capture:
 ## Rules
 
 - Always confirm the target website or web property.
-- Always ask for additional business-specific context even when `.local/context/*.md` already provides partial context.
+- Always ask for additional business-specific context even when author-scoped One Horizon context docs already provide partial context.
 - Never continue straight to final briefing from a generic topic alone.
 - Ask 2-4 tightly related verification questions when the same decision is blocked by several missing inputs.
 - Ask one question only when one blocking uncertainty remains.
@@ -60,6 +59,7 @@ If the request is an update, also capture:
 - If the page type is unclear, offer likely options but ask the user to confirm the choice.
 - If the CTA is unknown, state that it is unresolved rather than inventing one.
 - Do not treat tracked repo files outside `.local/` as live runtime context.
+- If a One Horizon tool call is missing or fails, read `../one-horizon-context-setup/references/mcp-readiness.md` for recovery. Do not search tracked repo files as a substitute for live context.
 - Do not analyze same-site patterns, competitors, SEO, or messaging strategy here.
 - For updates to public pages, capture the live public URL. If the user names a page but does not give a URL, resolve it on the target site with web search. Do not search repo files unless the user explicitly provides a local file path or asks for repo-file analysis.
 - Do not produce code, wireframes, or final page copy.

@@ -162,5 +162,5 @@ Inputs:
 - Use `google_trends_keyword_insights` when testing content angles, phrasing, or adjacent topics before drafting.
 - Use `google_trends_trending_searches` when looking for a timely hook in a specific geography.
 - Use the Reddit tools from `reddit-research` and `reddit-social-writer` when the user wants subreddit discovery, weekly top-post analysis, topic-specific subreddit examples, or thread-aware Reddit replies.
-- Do not use web search for stable personal context that should come from the local context files.
+- Do not use web search for stable personal context that should come from One Horizon context docs.
 - Do not let mass-market or celebrity trends dictate B2B content unless the connection is real.

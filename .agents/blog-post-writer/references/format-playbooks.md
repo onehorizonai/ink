@@ -26,6 +26,16 @@ Apply these rules to every blog article:
 - avoid bullet points and numbered lists unless the brief or evidence genuinely requires them
 - use `---` between major sections
 
+## Type Selection
+
+- Ask the user to confirm the general blog post type before drafting.
+- If the user gives a broad label such as `article`, `story`, or `essay`, map it to the nearest playbook below and verify that mapping back to the user.
+- Use one primary playbook per article. Secondary elements are fine, but the opening move, proof model, and close should still follow one main type.
+- Supported primary playbooks: `opinion / argument`, `explainer`, `comparison`, `product / deep dive`, `personal essay / rant`, `journal / dispatch`, `reflective / inspirational`, and `review`.
+- Use an exact confirmation prompt when the type is missing: `Before I draft this, what general blog post type should it be? Pick one primary type: opinion / argument, explainer, comparison, product / deep dive, personal essay / rant, journal / dispatch, reflective / inspirational, or review.`
+- Use an exact verification prompt when the brief already implies the type: `I read this as a <mapped type>. Confirm or correct that before I research or outline.`
+- Do not accept `article`, `blog post`, `story`, or `essay` as the final stored type unless they are normalized to one playbook and confirmed back to the user.
+
 ## Opinion / Argument
 
 Purpose:
@@ -134,3 +144,111 @@ Avoid:
 - hiding the core claim behind too much setup
 - aggressive CTA pressure that the archive would not support
 - list-heavy walkthroughs that read like release notes in disguise
+
+## Personal Essay / Rant
+
+Purpose:
+
+- turn a lived frustration, observation, or hard-earned lesson into a specific argument without losing the rawness that makes it worth reading
+
+Build with:
+
+- a concrete trigger, scene, or moment
+- first-person stakes
+- specific failures, surprises, or reversals
+- a takeaway grounded in experience instead of generic advice
+
+Check:
+
+- the voice stays personal and specific
+- the frustration points somewhere useful instead of drifting into vague venting
+- the article still lands on a clear takeaway
+- the close feels earned rather than abruptly therapeutic
+
+Avoid:
+
+- abstract complaining
+- fake swagger
+- sanding the piece down until it loses all friction
+- turning the rant into a list of tips
+
+## Journal / Dispatch
+
+Purpose:
+
+- document what changed, what was learned, and what now looks different from a real checkpoint in time
+
+Build with:
+
+- a clear time window or moment
+- what changed since the last state
+- notable decisions, misses, or surprises
+- the implication or next move
+
+Check:
+
+- it reads like a real dispatch, not a vague progress update
+- time markers and decisions are concrete
+- uncertainty is admitted when it is real
+- visuals or screenshots anchor the update when they exist
+
+Avoid:
+
+- generic milestone language
+- retroactive certainty
+- turning the piece into release notes or standup bullets
+- faking closure when the work is still open
+
+## Reflective / Inspirational
+
+Purpose:
+
+- extract a grounded perspective shift or lesson from experience without drifting into generic motivation copy
+
+Build with:
+
+- one real observation or tension
+- a concrete example or lived moment
+- what changed in how the writer sees the work
+- a restrained close
+
+Check:
+
+- the uplift feels earned
+- specifics keep the piece out of cliche
+- the tone stays honest and unsentimental
+- any CTA stays light
+
+Avoid:
+
+- poster-copy inspiration
+- vague life lessons
+- manipulative emotional beats
+- pretending the lesson applies universally
+
+## Review
+
+Purpose:
+
+- judge a product, tool, book, process, or operating model based on direct use or credible hands-on evidence
+
+Build with:
+
+- the subject and context of use
+- what held up
+- what broke or disappointed
+- a bottom line with caveats
+
+Check:
+
+- judgments are supported by concrete experience or evidence
+- the tradeoffs matter more than the feature list
+- the reader can tell who the review is for
+- the verdict stays fair and specific
+
+Avoid:
+
+- affiliate-style puffery
+- unsupported verdicts
+- exhaustive feature tours
+- hiding conflicts, caveats, or limitations

@@ -58,7 +58,7 @@ Look for:
 - wrong balance between story and argument
 - wrong CTA pressure
 - wrong level of founder certainty or restraint
-- irrelevant local context details
+- irrelevant One Horizon context details
 - a draft that sounds too safe, too corporate, or not reportorial enough for the desired blog voice
 - list-heavy formatting that kills momentum or flattens the voice
 

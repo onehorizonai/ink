@@ -12,7 +12,7 @@ Capture:
 
 ## 2. Ask only if the research would be misleading
 
-Ask only when the audience, topic, or promotional boundary is missing and cannot be recovered from the local context or prompt.
+Ask only when the audience, topic, or promotional boundary is missing and cannot be recovered from One Horizon context docs or the prompt.
 
 High-value questions:
 
@@ -20,16 +20,16 @@ High-value questions:
 - What can or cannot be mentioned?
 - Are we looking for broad community fit or one post angle right now?
 
-## 3. Load the minimum local context
+## 3. Load the minimum user context
 
-Start with `../../../.local/README.md`.
+Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract:
 
-Load:
+- `Profile` for identity basics
+- `Current Work` for almost every business topic
+- `Market Context` when audience fit or positioning matters
+- `Work History` only when founder credibility or experience changes the angle
 
-- `.local/context/profile.md` for identity basics
-- `.local/context/current-work.md` for almost every business topic
-- `.local/context/market-context.md` when audience fit or positioning matters
-- `.local/context/work-history.md` only when founder credibility or experience changes the angle
+If a required One Horizon tool call is missing or fails, follow `../../one-horizon-context-setup/references/mcp-readiness.md`.
 
 ## 4. Generate seed queries
 

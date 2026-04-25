@@ -2,23 +2,23 @@
 
 ![Ink banner](assets/readme/ink-banner-1280x640.png)
 
-A local writing system for LinkedIn posts, Reddit discussions, and blog articles. Your drafts, context, and working files stay on your machine.
+A writing system for LinkedIn posts, Reddit discussions, and blog articles. Your drafts and corpus files stay on your machine. Your context and content pipeline live in One Horizon.
 
-Ink is a [One Horizon](https://onehorizon.ai/?utm_source=github&utm_medium=ink&utm_content=readme) project for Claude Code, Cursor, and Codex. It uses your local context, looks at the content you already wrote, runs a consistent workflow, and leaves the files local.
+Ink is a [One Horizon](https://onehorizon.ai/?utm_source=github&utm_medium=ink&utm_content=readme) project for Claude Code, Cursor, and Codex. It reads your published archive and One Horizon context, runs a consistent workflow, and tracks your content pipeline without locking anything in the cloud.
 
-Claude Code and Cursor are the smoothest path. Codex works too; it just needs one extra sync step so it can see the repo-local skills.
+Claude Code and Cursor are the smoothest path. Codex works too; it just needs one extra sync step to pick up the repo skills.
 
 ## What Ink does
 
-- Finds content ideas from your context, published content, and recent research
+- Surfaces content ideas from your archive, live signals, and One Horizon context — then logs each selected idea as a planned initiative
 - Drafts LinkedIn posts, comment replies, DMs, DM replies, and reposts
-- Checks which subreddits fit the topic before it starts drafting
-- Drafts Reddit posts and follow-up replies that sound like they belong there
-- Writes blog posts with research, review passes, and optional image support
-- Creates strategic implementation briefs for new or updated website pages
-- Reviews drafts for tone, structure, facts, URLs, and obvious AI tells
-- Logs approved LinkedIn and Reddit posts back into local corpora
-- Keeps live context, secrets, and real content out of git
+- Researches subreddits before drafting so the post fits the community
+- Drafts Reddit posts and follow-up replies that read native to the thread
+- Writes blog posts with internal research, staged review passes, and optional image sourcing
+- Creates concise locked briefs for new or updated website pages
+- Runs humanizer, tone, style, fact-check, and URL review on every draft
+- Logs approved posts to local corpora and records each published item as a One Horizon initiative
+- Keeps drafts, secrets, and corpus files local and out of git
 
 ## Quick start
 
@@ -43,13 +43,13 @@ On other platforms, use the [official uv installation guide](https://docs.astral
 
 ### 3. Open the cloned folder in your assistant
 
-Open the repo root, not a subfolder. That gives the assistant access to the repo files and the local MCP config.
+Open the repo root, not a subfolder. That gives the assistant access to the repo files and repo-local skills.
 
 - Claude Code: start Claude Code from the `ink/` folder
 - Cursor: open `ink/` as the project or workspace
 - Codex: add `ink/` as a project
 
-Claude Code and Cursor read the workspace [.mcp.json](.mcp.json). Codex uses the repo-scoped [.codex/config.toml](.codex/config.toml).
+Ink commits repo-local MCP config for its local research and image tools. Install One Horizon separately in the assistant you use, then open the repo root so the assistant can see the repo-local skills, references, and local MCP config.
 
 #### Codex only: run the sync step once for skills
 
@@ -61,8 +61,6 @@ This step is for Codex only.
 
 Codex does not automatically pick up repo-local skills from `.agents/`. This script links the repo's skill folders into your local Codex skills directory so Codex can see them.
 
-The repo-scoped [.codex/config.toml](.codex/config.toml) already exposes the local MCP servers for this project. You should not need to add them by hand unless you want a different setup.
-
 Run it:
 
 - once after cloning
@@ -73,7 +71,19 @@ Codex loads the skill list when a session starts. Running the sync script in an 
 
 If the skills or local MCP tools still do not appear in Codex after syncing, start a new Codex thread or restart the Codex app or CLI and open the repo again.
 
-### 4. Run setup once
+### 4. Connect One Horizon
+
+Ink stores your live author and company context in [One Horizon](https://onehorizon.ai/?utm_source=github&utm_medium=ink&utm_content=readme) so it is available across sessions and assistants.
+
+Install the One Horizon MCP server in the assistant you use:
+
+- [Claude Code setup](https://onehorizon.ai/docs/integrations/claude-code)
+- [Cursor setup](https://onehorizon.ai/docs/integrations/cursor)
+- [Codex setup](https://onehorizon.ai/docs/integrations/codex)
+
+After setup, Ink workflows use the needed One Horizon tool call directly. If a One Horizon tool call is missing or fails, start a new session or restart the assistant and open the repo again.
+
+### 5. Run setup once
 
 In your assistant, run:
 
@@ -85,12 +95,13 @@ This is the normal path. You do not need to create `.local/` folders by hand fir
 
 It will:
 
+- verify the One Horizon MCP connection
 - ask for your website and LinkedIn profile
 - pull in the public context it needs
-- confirm anything that might overwrite existing local context
-- create or update the local context files under `.local/context/`
+- confirm any new author context docs before creating them
+- create missing author-scoped context docs in One Horizon
 
-### 5. Start writing
+### 6. Start writing
 
 Good first prompts:
 
@@ -99,13 +110,13 @@ Good first prompts:
 - `Research the best Reddit communities for...`
 - `Draft a Reddit post about...`
 - `Outline a blog post about...`
-- `Refresh my local context from my website and LinkedIn`
+- `Create missing context docs from my website and LinkedIn`
 
 # Usage guides
 
 ## Set up Ink once
 
-Run `local-context-setup` once after cloning, then again any time your local context changes.
+Run `one-horizon-context-setup` once after cloning, then again any time your context changes.
 
 Guided example:
 
@@ -126,21 +137,23 @@ User:
 https://www.linkedin.com/in/richard-hendricks
 
 Agent:
-I’ll use the standard setup and skip personal-life for now. If I find existing local context, I’ll stop and ask before changing it.
+I’ll resolve the author in One Horizon, use the standard setup, and skip personal-life for now. If author context docs already exist, I’ll leave them unchanged.
 
 ...
 ```
 
 What happens:
 
-- reads the local setup contract
+- verifies the One Horizon MCP connection
+- resolves the author through One Horizon
+- checks for existing author-scoped One Horizon context docs
 - asks for the minimum missing facts
 - checks whether anything can be overwritten
-- creates or updates `.local/context/`
+- creates missing One Horizon author context docs and parent initiatives
 
 ## Find what to write next
 
-Start with `content-idea-finder` when you want to choose the topic before you commit to a post or article.
+Start with `content-idea-finder` when you want to choose the topic before you commit to a post or article. When you pick an idea, it logs that idea as a planned initiative in One Horizon under the right channel parent so nothing slips through.
 
 Example prompt:
 
@@ -164,7 +177,7 @@ LinkedIn workflow:
 ```mermaid
 flowchart TD
     A["Build the brief"] --> B["Ask only the missing questions"]
-    B --> C["Load the minimum local context"]
+    B --> C["Load the minimum One Horizon context"]
     C --> D["Pull 3 to 5 relevant LinkedIn examples"]
     D --> E["Draft the post"]
     E --> F["Run humanizer pass"]
@@ -222,42 +235,68 @@ How Reddit writing works:
 
 Use `blog-post-writer` when you want a full article draft.
 
-Example prompt:
+If you already know the shape you want, say it up front. If you do not, Ink will ask before it starts research or outlining.
+
+Supported blog post types:
+
+- `opinion / argument`
+- `explainer`
+- `comparison`
+- `product / deep dive`
+- `personal essay / rant`
+- `journal / dispatch`
+- `reflective / inspirational`
+- `review`
+
+Example prompts:
 
 ```text
 Write a blog post about why agent workflows break between demo and deployment.
+```
+
+```text
+Write an explainer blog post about why agent workflows break between demo and deployment.
+```
+
+```text
+Write a comparison blog post about roadmap-first versus ticket-first AI workflows.
 ```
 
 Blog workflow:
 
 ```mermaid
 flowchart TD
-    A["Build the article brief"] --> B["Check .local/context/blog-publishing.local.md"]
-    B --> C{"File exists and paths work?"}
-    C -- "No" --> D["Ask for source and publish folders"]
-    D --> E["Update blog-publishing.local.md"]
-    E --> F["Research the published blog archive first"]
-    C -- "Yes" --> F
-    F --> G["Run a lightweight external research pass"]
-    G --> H["Load the minimum local context"]
-    H --> I["Draft the outline"]
-    I --> J["Plan the cover image and inline images"]
-    J --> K["Validate the outline"]
-    K --> L["Write pass one"]
-    L --> M["Write pass two"]
-    M --> N["Run humanizer pass"]
-    N --> O["Run style review"]
-    O --> P["Run fact check"]
-    P --> Q["Run source URL check"]
-    Q --> R["Run tone review"]
-    R --> S["Run Ramsay review"]
-    S --> T{"Working draft or final draft?"}
-    T --> U["Save unpublished draft to content/blog/drafts/ if needed"]
-    T --> V["Write published article to publish_output_dir when requested"]
+    A["Build the article brief"] --> B["Ask and confirm the blog post type"]
+    B --> C["Check .local/context/blog-publishing.local.md"]
+    C --> D{"File exists and paths work?"}
+    D -- "No" --> E["Ask for source and publish folders"]
+    E --> F["Update blog-publishing.local.md"]
+    F --> G["Research the published blog archive first"]
+    D -- "Yes" --> G
+    G --> H["Run a lightweight external research pass"]
+    H --> I["Load the minimum One Horizon context"]
+    I --> J["Draft the outline"]
+    J --> K["Plan the cover image and inline images"]
+    K --> L["Validate the outline against the chosen type"]
+    L --> M["Write pass one"]
+    M --> N["Write pass two"]
+    N --> O["Run humanizer pass"]
+    O --> P["Run style review"]
+    P --> Q["Run fact check"]
+    Q --> R["Run source URL check"]
+    R --> S["Run tone review"]
+    S --> T["Run Ramsay review"]
+    T --> U{"Working draft or final draft?"}
+    U --> V["Save unpublished draft to content/blog/drafts/ if needed"]
+    U --> W["Write published article to publish_output_dir when requested"]
 ```
 
-How blog publishing works:
+How blog writing works:
 
+- Ink asks what kind of post this should be before it researches, outlines, or drafts.
+- If you already imply a type, Ink reflects that guess back and asks you to confirm or correct it.
+- If you say something broad like `article`, `story`, or `essay`, Ink maps that to a concrete post type and checks the mapping with you first.
+- That confirmed type shapes the archive examples it pulls, the playbook it validates against, and how much personal context it loads.
 - Ink reads `.local/context/blog-publishing.local.md` to find `source_articles_dir` and `publish_output_dir`.
 - If that file is missing, unset, or points to a folder that no longer exists, Ink asks for the correct folders first.
 - It uses `source_articles_dir` to read your published archive.
@@ -356,7 +395,7 @@ If the draft already exists and you only want one kind of pass, call the review 
 
 ## Store published content in the corpus
 
-Use these skills when the writing already exists and you want it saved in the corpus.
+Use these skills when the writing already exists and you want it saved in the corpus. Each skill also creates a One Horizon child initiative under the matching channel parent (`Ink - LinkedIn` or `Ink - Reddit`) so your published work is tracked in one place.
 
 - `linkedin-finalize-post`: final pass, then optional storage when approval is explicit
 - `linkedin-store-post`: store content that was already shared or published
@@ -369,7 +408,7 @@ Use these skills when the writing already exists and you want it saved in the co
 
 | Skill | Use it for |
 | --- | --- |
-| `local-context-setup` | Set up or refresh `.local/context/` |
+| `one-horizon-context-setup` | Create missing One Horizon author context docs |
 | `content-idea-finder` | Decide what to write next |
 | `linkedin-social-writer` | Draft LinkedIn posts, replies, DMs, and reposts |
 | `linkedin-finalize-post` | Final-pass a LinkedIn draft and store it when approved |
@@ -421,7 +460,7 @@ The repo keeps the workflow. Your real context, drafts, and secrets stay on your
 
 Keep these local and uncommitted:
 
-- `.local/context/` for live identity, company, and writing context
+- `.local/context/blog-publishing.local.md` for machine-local blog path state
 - `.secrets/` for API keys and local config
 - `content/linkedin/` for your real LinkedIn corpus
 - `content/linkedin/drafts/` for unpublished LinkedIn drafts
@@ -436,25 +475,28 @@ Skip this section unless you want MCP research or the blog image flow.
 
 ### MCP setup
 
-The repo includes a workspace-local [.mcp.json](.mcp.json) with three local MCP servers:
+Ink ships repo-local MCP registration for local stdio servers only:
 
-- `linkedin-social-research` for LinkedIn and Reddit research during writing
-- `blog-image-finder` for Unsplash-backed image search and download
-- `blog-image-uploader` for S3-backed image upload
+- `.mcp.json` for assistants that read workspace MCP config
+- `.codex/config.toml` for Codex project-local MCP config
 
-If your assistant supports workspace MCP config, opening the repo root is usually enough to pick them up.
+Required for live context and write-back:
 
-If you want to verify the MCP setup:
+- One Horizon MCP: follow the official setup for [Claude Code](https://onehorizon.ai/docs/integrations/claude-code), [Cursor](https://onehorizon.ai/docs/integrations/cursor), or [Codex](https://onehorizon.ai/docs/integrations/codex). Do not add One Horizon to repo-local MCP config.
+
+Repo-local tools used by some writing workflows:
+
+- `linkedin-social-research`: `uv run ./.agents/linkedin-social-writer/mcp/social-research/server.py`
+- `blog-image-finder`: `uv run ./.agents/blog-image-finder/mcp/image-provider/server.py`
+- `blog-image-uploader`: `uv run ./.agents/blog-image-uploader/mcp/blog-image-s3/server.py`
+
+If you want to verify the local MCP setup:
 
 ```bash
 uv run .agents/mcp/verify_servers.py
 ```
 
-If `uv` cache permissions get in the way:
-
-```bash
-UV_CACHE_DIR=/tmp/uv-cache uv run .agents/mcp/verify_servers.py
-```
+This script verifies the repo-local stdio servers only. It does not verify One Horizon, because One Horizon is configured in your assistant or user-level tooling.
 
 ### Unsplash setup for `blog-image-finder`
 
@@ -503,29 +545,36 @@ Create `.secrets/blog-image-s3.json`:
 
 Use `addressing_style: "path"` for path-style S3 endpoints. Use `virtual` for bucket-subdomain hosts with matching TLS support.
 
-### Manual local setup
+### Manual blog path setup
 
-Only use this if you do not want to run `Setup ink`.
+Only use this if you want to set the blog path without running `Setup ink`.
 
-Start with [.local/README.md](.local/README.md), then copy the templates into `.local/context/`:
+Create `.local/context/blog-publishing.local.md` with the required fields:
 
-```bash
-mkdir -p .local/context
+```md
+# Blog Publishing Local Config
 
-for src in .local/templates/*.template.md; do
-  name="$(basename "$src" .template.md)"
-  cp "$src" ".local/context/$name.md"
-done
+This file stores machine-local blog path values for this workspace.
+
+## Active Paths
+
+- `source_articles_dir`: `/absolute/path/to/published/articles`
+- `publish_output_dir`: `/absolute/path/to/published/articles`
+- `last_confirmed_on`: `YYYY-MM-DD`
 ```
 
 ## Troubleshooting
 
 - Codex does not show the repo skills:
   Run `./scripts/sync_repo_skills.sh codex`, then restart the Codex app or CLI and open the repo again.
-- MCP tools are missing:
-  Make sure you opened the repo root so the assistant can see `.mcp.json`.
+- One Horizon MCP tools are missing in Codex:
+  Follow the official [Codex setup](https://onehorizon.ai/docs/integrations/codex), authenticate One Horizon, then start a fresh thread from the repo root.
+- One Horizon MCP tools are missing in Claude Code or Cursor:
+  Follow the official [Claude Code setup](https://onehorizon.ai/docs/integrations/claude-code) or [Cursor setup](https://onehorizon.ai/docs/integrations/cursor), authenticate One Horizon, then start a fresh session from the repo root.
+- Other MCP tools are missing:
+  Make sure you opened the repo root so the assistant can see `.mcp.json` or `.codex/config.toml`. Start a new session if the server does not appear.
 - Writing feels generic:
-  Run `Setup ink` again or ask Ink to refresh your local context.
+  Run `Setup ink` again or ask Ink to refresh your context from your website and LinkedIn.
 - Unsplash image search does not work:
   Confirm you created an Unsplash app and saved the `Access Key` in `.secrets/image-provider.json`.
 

@@ -1,6 +1,6 @@
 ---
 name: content-tone-review
-description: Review a draft against the saved corpus and local user context to catch tone drift, stance drift, and the wrong level of personal detail. Use when Codex needs to compare a content draft such as a LinkedIn post or blog article to the author's actual voice near the end of the editing loop or wherever the active writer workflow places tone review before finalization.
+description: Review a draft against the saved corpus and One Horizon context docs to catch tone drift, stance drift, and the wrong level of personal detail. Use when Codex needs to compare a content draft such as a LinkedIn post or blog article to the author's actual voice near the end of the editing loop or wherever the active writer workflow places tone review before finalization.
 ---
 
 # Content Tone Review
@@ -12,12 +12,11 @@ Review whether the draft sounds like the author, not just like good generic copy
 - the active writer skill's workflow file
 - the active writer skill's review-passes file
 - the active writer skill's style-capture file if one exists
-- `../../.local/README.md`
 
-Then load only the relevant context files and 3-5 matching corpus examples.
+Then resolve the author with One Horizon MCP and load only the relevant author-scoped One Horizon context docs plus 3-5 matching corpus examples. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract.
 
-Use `.local/context/*.md` for live runtime context.
-Do not infer live context from tracked repo files outside `.local/`.
+Use One Horizon context docs for live runtime context.
+Do not infer live context from tracked repo files.
 
 ## Check
 

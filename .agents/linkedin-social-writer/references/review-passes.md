@@ -37,7 +37,7 @@ Look for:
 - wrong CTA pressure
 - wrong level of personal detail
 - wrong mix of directness and reflection
-- irrelevant local context details
+- irrelevant One Horizon context details
 
 ## Style review
 

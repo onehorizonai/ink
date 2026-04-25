@@ -1,40 +1,28 @@
 # Local Workspace
 
-`.local/` is the home for repo-specific runtime context.
+`.local/` holds machine-local runtime state that cannot live in One Horizon because it is specific to this machine and this installation.
 
-Use this as the only tracked contract for live context.
+Live author, company, and personal context now lives in author-scoped One Horizon context docs. See `one-horizon-context-setup` to create missing docs for an author.
 
-Use it for:
+Use this folder only for:
 
-- live author or team context
-- company or project positioning
-- personal context used by the writing agents
 - machine-local blog path state
 
 ## Layout
 
 - `.local/context/`
   Runtime files. These stay ignored by git.
-- `.local/templates/`
-  Starter files you can copy into `.local/context/`.
 
 ## Hard Rules
 
-- Use `.local/context/*.md` for live runtime context.
-- Do not store live runtime context in `README.md`, `AGENTS.md`, `CLAUDE.md`, `.agents/`, `content/`, or any other tracked repo path.
+- Do not store live author or company context here. Use author-scoped One Horizon context docs instead.
 - Do not commit `.local/context/*`.
 - Use the filenames in this document exactly. Do not rename them.
 
 ## Runtime Files
 
-Create the files you need under `.local/context/`:
+The only required runtime file is:
 
-- `profile.md`
-- `current-work.md`
-- `market-context.md`
-- `work-history.md`
-- `personal-interests.md`
-- `personal-life.md`
 - `blog-publishing.local.md`
 
 ## Blog Path Contract
@@ -80,14 +68,3 @@ Invalid:
 - missing any required field
 - renaming the field keys
 - storing relative paths when the workflow expects a concrete local folder
-
-## Starter Templates
-
-Copy the templates from `.local/templates/` into `.local/context/` and rename them without the `.template` suffix.
-
-Example:
-
-- `.local/templates/profile.template.md` -> `.local/context/profile.md`
-- `.local/templates/blog-publishing.local.template.md` -> `.local/context/blog-publishing.local.md`
-
-Keep the copied runtime files local and untracked.

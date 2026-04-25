@@ -1,6 +1,6 @@
 ---
 name: reddit-social-writer
-description: Draft Reddit posts and follow-up comment replies using local context, subreddit research, the Reddit corpus, and Ink's staged review passes. Use when Codex needs to write or revise Reddit content that should fit subreddit norms instead of sounding like generic social copy.
+description: Draft Reddit posts and follow-up comment replies using One Horizon context docs, subreddit research, the Reddit corpus, and Ink's staged review passes. Use when Codex needs to write or revise Reddit content that should fit subreddit norms instead of sounding like generic social copy.
 ---
 
 # Reddit Social Writer
@@ -19,7 +19,7 @@ Ground every Reddit draft in the subreddit first, then in the author's context a
 ## Quick Start
 
 1. Read `references/workflow.md`.
-2. Read `../../.local/README.md`, then load only the relevant files from `../../.local/context/`.
+2. Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract.
 3. Read `../reddit-research/references/tool-contracts.md` if you need to call Reddit tools directly.
 4. Run `../reddit-research/SKILL.md` unless the user already supplied a stable subreddit brief with rules and angle constraints.
 5. Search `../../content/reddit/` for 3-5 relevant examples when the local Reddit corpus exists.
@@ -32,13 +32,14 @@ Ground every Reddit draft in the subreddit first, then in the author's context a
 
 - Prioritize subreddit fit over generic brand voice. Reddit punishes tone mismatch faster than LinkedIn does.
 - Use the Reddit corpus as the source of truth for what this author has already posted, but if the corpus is thin, let subreddit norms drive the draft.
-- Use local context files to make the writing authentic, but load only what is relevant to the task.
-- Use `.local/context/*.md` for live runtime context. Do not use tracked repo files outside `.local/` for live context.
+- Use One Horizon context docs to make the writing authentic, but load only what is relevant to the task.
+- Use One Horizon context docs for live runtime context. Do not use tracked repo files for live context.
+- If a One Horizon tool call is missing or fails, follow `../one-horizon-context-setup/references/mcp-readiness.md`. Do not search tracked repo files as a substitute for live context.
 - Reuse patterns, not sentences. Do not lift title shapes or body phrasing from top Reddit posts.
 - Treat subreddit rules and anti-promo norms as hard constraints, not suggestions.
 - Default to text-first discussion posts. Do not assume links, screenshots, or product mentions are welcome.
 - Do not draft until you have one target subreddit plus the rule and anti-promo constraints that apply there. If those are missing, run `../reddit-research/SKILL.md`.
-- Ask only the smallest set of high-leverage questions. If the prompt, research, and local context are enough, do not ask.
+- Ask only the smallest set of high-leverage questions. If the prompt, research, and One Horizon context are enough, do not ask.
 - Keep unpublished drafts separate from the published Reddit corpus at all times.
 - If the user asks to store, save, import, or log existing Reddit posts, route to `../reddit-store-post/SKILL.md`.
 - If the user asks to finalize and then optionally store an approved Reddit draft, route to `../reddit-finalize-post/SKILL.md`.
@@ -91,7 +92,7 @@ Unless the user asks differently, return:
 
 - the final draft first
 - the recommended subreddit and research inputs used
-- the local context files and corpus examples used
+- the One Horizon context docs and corpus examples used
 - a short note on the rules, tone, and anti-promo constraints that shaped the draft
 - any assumptions or missing facts that could change the draft
 - the saved draft path if you persisted the draft to `content/reddit/drafts/`
@@ -108,10 +109,11 @@ For `comment-reply`, return the reply only unless the user asks for alternatives
 - Read `references/corpus-spec.md` for the archive schema.
 - Read `references/draft-spec.md` for unpublished draft storage.
 - Read `references/workflow.md` for the orchestration flow.
+- If a One Horizon tool call fails, read `../one-horizon-context-setup/references/mcp-readiness.md` for recovery.
 - Read `references/review-passes.md` for pass order and responsibilities.
 - Read `references/format-playbooks.md` for format-specific drafting rules.
 - Read `../reddit-research/references/tool-contracts.md` if you need to call the Reddit tools directly.
-- Read `../../.local/README.md` before loading any user context.
+- Resolve the author with One Horizon MCP tools, then load relevant author-scoped context from One Horizon using the contract in `../one-horizon-context-setup/references/context-doc-templates.md`.
 - Read `../../content/reddit/README.md` if the corpus location or naming is unclear.
 - Read `../linkedin-social-writer/references/mcp-tools.md` before using the local research tools.
 - Use `scripts/create_draft.py` when you need to persist an unpublished draft.

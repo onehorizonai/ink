@@ -25,21 +25,20 @@ High-value questions:
 - What is the main outcome of this post?
 - Are there any product mentions, links, or claims that must stay out?
 
-Do not ask for information that can be recovered from the research skill, the local context files, or the supplied brief.
+Do not ask for information that can be recovered from the research skill, One Horizon context docs, or the supplied brief.
 
 ## 3. Load the minimum user context
 
-Start with `../../../.local/README.md`.
+Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract:
 
-Load:
+- `Profile` for identity basics
+- `Current Work` for almost every business draft
+- `Market Context` when audience or positioning matters
+- `Work History` only when credibility or lived experience matters
 
-- `.local/context/profile.md` for identity basics
-- `.local/context/current-work.md` for almost every business draft
-- `.local/context/market-context.md` when audience or positioning matters
-- `.local/context/work-history.md` only when credibility or lived experience matters
-
-Do not load unrelated personal files just because they exist.
-Do not use tracked repo files outside `.local/` for live runtime context.
+Do not load unrelated personal docs just because they exist.
+Do not use tracked repo files for live runtime context.
+If a required One Horizon tool call is missing or fails, follow `../../one-horizon-context-setup/references/mcp-readiness.md`.
 
 ## 4. Run Reddit research
 
@@ -68,7 +67,7 @@ If the request is a comment reply and includes a Reddit URL, use `reddit_post_th
 
 ## 6. Draft fast
 
-- Write a fresh draft from the brief, the research, the selected examples, and the local context.
+- Write a fresh draft from the brief, the research, the selected examples, and the One Horizon context.
 - Stay close to the subreddit fit, not to any single source post.
 - Keep one central idea per draft.
 - Default to a useful, discussion-first close instead of a CTA.

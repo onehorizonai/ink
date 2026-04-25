@@ -80,7 +80,7 @@ Tool failures return a structured JSON error payload with one of these `type` va
 
 ## Local MCP Config
 
-Treat the repo-root `.mcp.json` as the canonical registration for this server. If you need to mirror that config elsewhere, use:
+Treat the repo-root `.mcp.json` as the canonical registration for this server. Codex also mirrors this server in `.codex/config.toml`. The registration uses this command shape:
 
 ```json
 {

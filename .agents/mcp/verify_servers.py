@@ -12,7 +12,6 @@ import os
 import select
 import shutil
 import subprocess
-import sys
 import time
 from pathlib import Path
 from typing import Any
@@ -134,8 +133,7 @@ def _remaining_seconds(deadline: float) -> float:
 def _readline(fd: int, deadline: float) -> bytes:
     chunks: list[bytes] = []
     while True:
-        timeout = _remaining_seconds(deadline)
-        ready, _, _ = select.select([fd], [], [], timeout)
+        ready, _, _ = select.select([fd], [], [], _remaining_seconds(deadline))
         if not ready:
             raise VerificationError("Timed out while waiting for MCP response headers")
         chunk = os.read(fd, 1)
@@ -150,8 +148,7 @@ def _readexact(fd: int, size: int, deadline: float) -> bytes:
     chunks: list[bytes] = []
     remaining = size
     while remaining > 0:
-        timeout = _remaining_seconds(deadline)
-        ready, _, _ = select.select([fd], [], [], timeout)
+        ready, _, _ = select.select([fd], [], [], _remaining_seconds(deadline))
         if not ready:
             raise VerificationError("Timed out while waiting for an MCP response body")
         chunk = os.read(fd, remaining)
@@ -309,7 +306,7 @@ def main() -> int:
         print_status("FAIL", str(exc))
         return 1
 
-    print_status("OK", f"Loaded MCP config from {MCP_CONFIG_PATH}")
+    print_status("OK", f"Loaded local MCP config from {MCP_CONFIG_PATH}")
 
     failures = 0
     warnings = 0

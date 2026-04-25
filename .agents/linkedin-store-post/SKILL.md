@@ -77,9 +77,26 @@ The batch script accepts the same metadata flags as `store_published.py` and app
 
 Do not handcraft filenames or file bodies manually when the scripts can do it.
 
+## One Horizon: Record Published Post
+
+After each local corpus write succeeds, use the One Horizon MCP to create a child initiative under `Ink - LinkedIn`.
+
+Fields:
+
+- **Title**: the post title or the first 60 characters of the opening line
+- **Description**: format, published date, and the local corpus path
+- **Status**: published (or the equivalent completed/done status available in the workspace)
+
+Rules:
+
+- Create one One Horizon record per stored post, not one record for the whole batch.
+- If the One Horizon MCP is unavailable, log the corpus path in the response and continue. Do not block storage on One Horizon availability.
+- If the `Ink - LinkedIn` parent initiative does not exist, note that in the output and skip the One Horizon step for that item.
+
 ## Output
 
 Return:
 
-- the saved path for each stored item
+- the saved corpus path for each stored item
+- the One Horizon initiative title for each item where the record was created
 - the assumptions used for date, format, or template

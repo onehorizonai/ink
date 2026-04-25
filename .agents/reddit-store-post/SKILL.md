@@ -75,9 +75,26 @@ python3 .agents/reddit-social-writer/scripts/store_published_batch.py \
 Do not handcraft filenames or file bodies manually when the scripts can do it.
 Do not handwrite YAML frontmatter for normal storage flows when the scripts can do it.
 
+## One Horizon: Record Published Post
+
+After each local corpus write succeeds, use the One Horizon MCP to create a child initiative under `Ink - Reddit`.
+
+Fields:
+
+- **Title**: the post title or the first 60 characters of the opening line, with the subreddit in parentheses — e.g. `Why manual outreach beats automation early (r/startups)`
+- **Description**: subreddit, format, published date, and the local corpus path
+- **Status**: published (or the equivalent completed/done status available in the workspace)
+
+Rules:
+
+- Create one One Horizon record per stored item, not one record for the whole batch.
+- If the One Horizon MCP is unavailable, log the corpus path in the response and continue. Do not block storage on One Horizon availability.
+- If `Ink - Reddit` does not exist, note that and skip the One Horizon step for that item.
+
 ## Output
 
 Return:
 
-- the saved path for each stored item
+- the saved corpus path for each stored item
+- the One Horizon initiative title for each item where the record was created
 - the assumptions used for date, format, or template

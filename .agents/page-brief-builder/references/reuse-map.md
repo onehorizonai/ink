@@ -38,10 +38,8 @@ These replace the earlier dependency on globally installed page, SEO, and copy s
 
 ## Local Context Rules
 
-- `../../../.local/README.md` is the contract for live context.
-- Use only the relevant files from `../../../.local/context/`.
-- Do not use tracked repo files outside `.local/` as live runtime context.
-- If local context is missing and the user wants it formalized, hand off to `../../local-context-setup/SKILL.md`.
+- Use author-scoped One Horizon context docs for live runtime context. Do not use tracked repo files for live context.
+- If author context docs are missing and the user wants them created, hand off to `../../one-horizon-context-setup/SKILL.md`.
 
 ## Tool Guidance
 

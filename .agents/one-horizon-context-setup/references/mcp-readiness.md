@@ -1,0 +1,37 @@
+# One Horizon MCP Recovery
+
+Use this when an Ink workflow depends on One Horizon context docs, task writes, feature-request reports, or parent initiatives.
+
+## Operating Contract
+
+Use the intended One Horizon tool directly. Do not run an upfront MCP readiness check, inspect server status, list resources, or check visible skills/plugins before the real tool call.
+
+Examples:
+
+- Resolve the active workspace when a write requires `workspaceId`.
+- Resolve the author before loading or creating author-scoped context docs.
+- Read or create the needed One Horizon document directly.
+- Report or update the selected work item directly.
+
+Visible server status, skill lists, plugin lists, resource listings, or integration lists are not a substitute for the actual tool call. They can be stale, unavailable, or unrelated to callable tools in the current assistant session.
+
+## If The Tool Call Works
+
+Continue into the calling workflow. Do not mention setup or recovery.
+
+## If The Tool Is Missing Or Fails
+
+Use the smallest recovery path that matches the failure:
+
+- If the One Horizon tool itself is not callable in the current session, stop the One Horizon-dependent part of the workflow and give the recovery message below.
+- If the tool is callable but a required author context doc is missing, run `../SKILL.md` to create missing docs through the confirmation flow.
+- If the tool is callable but required IDs or fields are missing, resolve them with One Horizon tools or ask the smallest targeted question. Do not guess IDs.
+- If an optional One Horizon write fails after the core work is done, report the skipped write and continue any non-One-Horizon handoff that does not depend on that write.
+
+Recovery message:
+
+```text
+One Horizon is configured or authenticated, but its MCP tools are not callable in this chat. Open the Ink repo root, authenticate the One Horizon MCP server if needed, then start a fresh assistant session.
+```
+
+Do not search tracked repo files, old local context files, README files, or skill docs as a substitute for live One Horizon context.

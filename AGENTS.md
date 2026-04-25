@@ -15,10 +15,10 @@ Start with [README.md](README.md).
 - Use [page-types.md](.agents/page-brief-page-playbook/references/page-types.md) for website page-type briefing rules.
 - Use [seo-rules.md](.agents/page-brief-seo-playbook/references/seo-rules.md) for website page SEO briefing rules.
 - Use [copy-rules.md](.agents/page-brief-copy-playbook/references/copy-rules.md) for website page copy and CTA briefing rules.
-- Treat `.local/README.md` as the source of truth for local-context setup and runtime file conventions.
-- Treat `.local/context/` as the gitignored source of truth for live user identity, background, personal context, and blog-path state shared across agents.
-- Treat `.local/context/blog-publishing.local.md` as the gitignored source of truth for the active blog corpus source folder and published blog output folder.
-- Do not create or read live runtime context from tracked repo files outside `.local/`.
+- Treat One Horizon author-scoped context docs as the source of truth for live user identity, background, and personal context shared across agents. Resolve the author through One Horizon MCP first, then use doc names shaped as `Ink Context - {Author Name} - {Doc Type}`.
+- Treat `.local/context/blog-publishing.local.md` as the gitignored source of truth for the active blog corpus source folder and published blog output folder. This is the only local context file writer skills should read at runtime.
+- Use `one-horizon-context-setup` to create missing One Horizon author context docs. Do not overwrite or refresh existing author context docs.
+- Do not create or read live runtime context from tracked repo files.
 - If a repo skill is missing from the current Codex session, run `./scripts/sync_repo_skills.sh` from the repo root, then start a new Codex thread or restart Codex. Current sessions do not reliably reload the skill list after syncing.
 - Keep unpublished drafts in `content/linkedin/drafts/`.
 - Keep unpublished Reddit drafts in `content/reddit/drafts/`.

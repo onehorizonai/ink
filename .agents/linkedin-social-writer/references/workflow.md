@@ -24,22 +24,21 @@ High-value questions:
 - Who is it for?
 - Is there an asset, source, or specific claim that must be included?
 
-Do not ask for information that can be recovered from the corpus, the local context files, or the supplied brief.
+Do not ask for information that can be recovered from the corpus, One Horizon context docs, or the supplied brief.
 
 ## 3. Load the minimum user context
 
-Start with `../../../.local/README.md`.
+Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract:
 
-Load:
+- `Profile` for identity basics
+- `Current Work` for almost every business draft
+- `Work History` only when credibility, story, or background matters
+- `Personal Interests` only when it helps the angle feel lived-in
+- `Personal Life` only when the post is explicitly personal or reflective
 
-- `.local/context/profile.md` for identity basics
-- `.local/context/current-work.md` for almost every business draft
-- `.local/context/work-history.md` only when credibility, story, or background matters
-- `.local/context/personal-interests.md` only when it helps the angle feel lived-in
-- `.local/context/personal-life.md` only when the post is explicitly personal or reflective
-
-Do not load personal files just because they exist.
-Do not use tracked repo files outside `.local/` for live runtime context.
+Do not load personal docs just because they exist.
+Do not use tracked repo files for live runtime context.
+If a required One Horizon tool call is missing or fails, follow `../../one-horizon-context-setup/references/mcp-readiness.md`.
 
 ## 4. Retrieve examples
 

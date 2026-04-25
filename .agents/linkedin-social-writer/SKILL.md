@@ -1,6 +1,6 @@
 ---
 name: linkedin-social-writer
-description: Orchestrate LinkedIn social writing from brief to final draft using a published-post corpus, local user context files, staged review passes, and optional local MCP research tools. Use when Codex needs to draft or revise original LinkedIn posts, comment replies, DMs, DM replies, or reposts while matching the saved voice, loading only the relevant user context, asking only necessary questions, and iterating through humanizer, tone, style, and fact-check passes. Do not use this skill for storage-only requests such as logging, saving, importing, or batch-storing already-written posts in the corpus.
+description: Orchestrate LinkedIn social writing from brief to final draft using a published-post corpus, One Horizon context docs, staged review passes, and optional local MCP research tools. Use when Codex needs to draft or revise original LinkedIn posts, comment replies, DMs, DM replies, or reposts while matching the saved voice, loading only the relevant One Horizon context, asking only necessary questions, and iterating through humanizer, tone, style, and fact-check passes. Do not use this skill for storage-only requests such as logging, saving, importing, or batch-storing already-written posts in the corpus.
 ---
 
 # LinkedIn Social Writer
@@ -12,7 +12,7 @@ Ground every draft in the published corpus. Extract the voice from a small set o
 ## Quick Start
 
 1. Read `references/workflow.md`.
-2. Read `../../.local/README.md`, then load only the relevant files from `../../.local/context/`.
+2. Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract.
 3. Search `../../content/linkedin/` for 3-7 relevant examples. Prefer the same format first, then widen only if the archive is thin.
 4. Distill voice markers with `references/style-capture.md`.
 5. Draft against the matching playbook in `references/format-playbooks.md`.
@@ -24,12 +24,13 @@ Ground every draft in the published corpus. Extract the voice from a small set o
 ## Working Agreement
 
 - Use the corpus as the source of truth for tone, pacing, formatting, CTA style, and how directly to sell.
-- Use local context files to make the writing authentic, but load only what is relevant to the task.
-- Use `.local/context/*.md` for live runtime context. Do not use tracked repo files outside `.local/` for live context.
+- Use One Horizon context docs to make the writing authentic, but load only what is relevant to the task.
+- Use One Horizon context docs for live runtime context. Do not use tracked repo files for live context.
+- If a One Horizon tool call is missing or fails, follow `../one-horizon-context-setup/references/mcp-readiness.md`. Do not search tracked repo files as a substitute for live context.
 - Reuse patterns, not sentences. Do not remix published copy line by line.
 - Prefer a narrow, evidence-based voice profile over generic LinkedIn language.
 - Treat asset descriptions as part of the brief. If an image or carousel exists, make the text and visual work together.
-- Ask only the smallest set of high-leverage questions. If the brief, corpus, and local context are sufficient, do not ask.
+- Ask only the smallest set of high-leverage questions. If the brief, corpus, and One Horizon context are sufficient, do not ask.
 - Keep unpublished drafts separate from the published corpus at all times.
 - If the user asks to store, save, import, or log existing posts, route to `../linkedin-store-post/SKILL.md` instead of drafting.
 - If the user asks to finalize and then store an approved post, route to `../linkedin-finalize-post/SKILL.md`.
@@ -83,7 +84,7 @@ Keep the published corpus and shared repo references as the source of truth when
 Unless the user asks differently, return:
 
 - the final draft first
-- the key context files and corpus examples used
+- the key One Horizon context docs and corpus examples used
 - a short note listing the voice cues you matched
 - any assumptions or missing facts that could change the draft
 - the saved draft path if you persisted the draft to `content/linkedin/drafts/`
@@ -93,10 +94,11 @@ Unless the user asks differently, return:
 - Read `references/corpus-spec.md` for the archive schema.
 - Read `references/draft-spec.md` for unpublished draft storage.
 - Read `references/workflow.md` for the orchestration flow.
+- If a One Horizon tool call fails, read `../one-horizon-context-setup/references/mcp-readiness.md` for recovery.
 - Read `references/review-passes.md` for pass order and responsibilities.
 - Read `references/style-capture.md` when extracting voice markers.
 - Read `references/format-playbooks.md` for format-specific drafting rules.
-- Read `../../.local/README.md` before loading any user context.
+- Resolve the author with One Horizon MCP tools, then load relevant author-scoped context from One Horizon using the contract in `../one-horizon-context-setup/references/context-doc-templates.md`.
 - Read `../../content/linkedin/README.md` if the corpus location or naming is unclear.
 - Read `references/mcp-tools.md` before using local research tools.
 - Read `templates/README.md` when the request involves reusable format templates.

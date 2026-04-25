@@ -1,18 +1,16 @@
-# Local Context Templates
+# Local Blog Path Template
 
-Copy the templates in this directory into `.local/context/` and rename them without the `.template` suffix.
+Copy `blog-publishing.local.template.md` into `.local/context/` and rename it to `blog-publishing.local.md`.
 
-Replace every placeholder value with your own local context.
+Replace every placeholder value with machine-local blog path values.
 
 Use:
 
 ```bash
 mkdir -p .local/context
-
-for src in .local/templates/*.template.md; do
-  name="$(basename "$src" .template.md)"
-  cp "$src" ".local/context/$name.md"
-done
+cp .local/templates/blog-publishing.local.template.md .local/context/blog-publishing.local.md
 ```
 
-Do not edit the templates in place for live work. Copy them into `.local/context/` first.
+Do not edit the template in place for live work. Copy it into `.local/context/` first.
+
+Live author, company, and personal context belongs in author-scoped One Horizon context docs created by `one-horizon-context-setup`.
