@@ -1,0 +1,1 @@
+../../.agents/reddit-social-writer/SKILL.md

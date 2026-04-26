@@ -1,0 +1,1 @@
+../../.agents/blog-image-uploader/SKILL.md

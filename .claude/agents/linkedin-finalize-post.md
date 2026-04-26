@@ -1,0 +1,1 @@
+../../.agents/linkedin-finalize-post/SKILL.md

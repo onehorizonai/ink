@@ -1,0 +1,1 @@
+../../.agents/content-humanizer/SKILL.md

@@ -1,0 +1,1 @@
+../../.agents/competitor-page-research/SKILL.md

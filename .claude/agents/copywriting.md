@@ -1,0 +1,1 @@
+../../.agents/copywriting/SKILL.md

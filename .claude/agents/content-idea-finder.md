@@ -1,0 +1,1 @@
+../../.agents/content-idea-finder/SKILL.md

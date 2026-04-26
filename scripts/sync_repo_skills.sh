@@ -11,22 +11,27 @@ Sync repo-local skills from .agents/ into every configured app-specific skills d
 If one or more targets are provided, sync only those targets.
 
 Configured targets:
-  - codex
-  - claude
+  - repo    (project-local) .claude/agents/ — relative symlinks, committable
+  - codex   (global) ~/.codex/skills/
+  - claude  (global) ~/.claude/agents/
 
 Examples:
   ./scripts/sync_repo_skills.sh
-  ./scripts/sync_repo_skills.sh codex
+  ./scripts/sync_repo_skills.sh repo
 EOF
 }
 
 configured_targets() {
+  printf '%s\n' "repo"
   printf '%s\n' "codex"
   printf '%s\n' "claude"
 }
 
 resolve_target_dir() {
   case "$1" in
+    repo)
+      printf '%s\n' "${repo_root}/.claude/agents"
+      ;;
     codex)
       printf '%s\n' "${CODEX_HOME:-$HOME/.codex}/skills"
       ;;
@@ -50,7 +55,7 @@ warn_for_target() {
         printf 'warn: %s is missing agents/openai.yaml; syncing anyway\n' "${skill_name}" >&2
       fi
       ;;
-    claude)
+    repo|claude)
       ;;
   esac
 }
@@ -91,8 +96,12 @@ sync_target() {
 
     skill_name="$(basename "${skill_dir}")"
 
-    # claude expects a single <name>.md file; other targets get the full directory
-    if [ "${target_name}" = "claude" ]; then
+    if [ "${target_name}" = "repo" ]; then
+      # Relative symlink so it works after clones or moves
+      rel_source="$(python3 -c "import os; print(os.path.relpath('${skill_dir}/SKILL.md', '${target_dir}'))")"
+      link_source="${rel_source}"
+      target_path="${target_dir}/${skill_name}.md"
+    elif [ "${target_name}" = "claude" ]; then
       link_source="${skill_dir}/SKILL.md"
       target_path="${target_dir}/${skill_name}.md"
     else

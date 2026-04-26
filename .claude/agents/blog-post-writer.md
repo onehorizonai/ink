@@ -1,0 +1,1 @@
+../../.agents/blog-post-writer/SKILL.md
