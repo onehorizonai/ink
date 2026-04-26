@@ -11,5 +11,6 @@ Read in this order:
 
 Use the shared references instead of inventing duplicate local rules.
 Use `.local/README.md` as the local setup contract.
-Use `.local/context/` for live user and company context.
-Do not use tracked repo files outside `.local/` for live runtime context.
+Use author-scoped One Horizon context docs for live user and company context.
+Use `.local/context/blog-publishing.local.md` only for machine-local blog path state.
+Do not use tracked repo files for live runtime context.

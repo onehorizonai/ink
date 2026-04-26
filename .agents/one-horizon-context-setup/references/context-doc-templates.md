@@ -16,6 +16,14 @@ Rules:
 - Do not write these templates to `.local/context/`.
 - Use old `.local/context/*.md` files only as approved migration source material.
 
+## Missing Required Docs
+
+If a downstream Ink workflow requires an author-scoped context doc and that document is missing or unusable, run the `one-horizon-context-setup` skill to create the missing doc through its confirmation flow before continuing.
+
+Do not substitute tracked repo files, README content, public web search, or local corpus examples for a required One Horizon context doc.
+
+Optional docs are different: if a workflow says a doc is optional or only needed for a specific angle, skip that doc when it is missing unless the user asks to create it.
+
 Doc types:
 
 - `Profile`

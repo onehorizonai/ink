@@ -202,6 +202,20 @@ After approval:
 - leave only still-unknown fields as `[unset]`
 - keep the template headings, field groups, and labels intact
 
+For each approved missing author context doc, use the One Horizon document creation tool with this shape:
+
+```json
+create_document({
+  "title": "Ink Context - {Author Name} - Current Work",
+  "type": "Requirement",
+  "status": "Completed",
+  "content": "# Current Work\n\n- Company or project: ...",
+  "workspaceId": "<workspaceId>"
+})
+```
+
+Do not use document patch or update tools to create missing context docs. Existing author context docs are read-only in this skill.
+
 For initiatives: create missing ones only after the user explicitly approves.
 
 ## Output Shape

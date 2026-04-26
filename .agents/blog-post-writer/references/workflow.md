@@ -77,7 +77,7 @@ Do not ask for information that can be recovered from the corpus, One Horizon co
 
 ## 7. Load the minimum user context
 
-Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract:
+Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract:
 
 - `Profile` for identity basics
 - `Current Work` for almost every company or product article
@@ -87,6 +87,7 @@ Resolve the author and load only the relevant author-scoped One Horizon context 
 
 Use the confirmed article type to decide whether personal context is appropriate. `personal essay / rant`, `journal / dispatch`, and `reflective / inspirational` pieces may justify personal docs. `explainer`, `comparison`, `review`, and most `product / deep dive` drafts usually should not.
 Do not load personal docs just because they exist.
+If a required author-scoped context doc is missing or unusable, use `../../one-horizon-context-setup/SKILL.md` to create the missing doc through its confirmation flow before outlining.
 If a required One Horizon tool call is missing or fails, follow `../../one-horizon-context-setup/references/mcp-readiness.md`.
 
 ## 8. Draft the outline

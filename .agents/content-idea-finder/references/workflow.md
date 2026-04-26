@@ -15,7 +15,7 @@ Capture:
 
 If the goal, audience, or timing is unclear, ask at most 3 short questions total for this workflow.
 
-Resolve the author and workspace with One Horizon MCP, then load only the relevant author-scoped One Horizon context docs. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract:
+Resolve the author and workspace with One Horizon MCP, then load only the relevant author-scoped One Horizon context docs. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract:
 
 - `Profile` for voice and identity basics
 - `Current Work` for the active company, positioning, audience, and safe themes
@@ -34,6 +34,10 @@ Before journalist research, load the minimum One Horizon context:
 - `Ink Context - {Author Name} - Profile` exists when voice or identity matters.
 - `Ink Context - {Author Name} - Work History` exists when founder background or credibility is part of the angle.
 
+This is a hard gate. Do not start local corpus searches, trend searches, or journalist ideation until the required workspace, author, and `Current Work` context have been resolved and loaded.
+
+A context doc is loaded only when its document content has been read and the workflow has extracted the relevant fields for this run. For `Current Work`, extract the company or project, role, current positioning, main audience, key offers or products, themes worth posting about, and words or angles to avoid. Finding a document by title is not enough.
+
 If a required One Horizon tool call is missing or fails while loading required context, follow `../../one-horizon-context-setup/references/mcp-readiness.md`. Do not run web research from guessed company context.
 
 If any required author-scoped context doc is missing, use `../../one-horizon-context-setup/SKILL.md` before continuing. That setup skill owns creating missing author context docs and required Ink parent initiatives. Follow its confirmation flow, then return to this workflow after setup completes.
@@ -46,7 +50,9 @@ Keep using the local blog path setup rules in the editor stage when blog coverag
 
 Use the workspace-shared One Horizon document `Ink Context - Trend Sources` as the source of truth for websites used as trend and inspiration sources.
 
-If the One Horizon tool call for this document is missing or fails, continue without this document only when the required author/company context has already been loaded successfully. Say trend-source context was skipped. Do not create a local fallback file.
+Resolve this document before journalist research. If the document is missing, empty, unavailable, or has no usable URLs under `## Active URLs`, ask the user for the websites they want to use for trend and inspiration research. Wait for the user's answer unless they already explicitly said to skip trend-source research.
+
+If the One Horizon tool call for this document is missing or fails, ask whether the user wants to provide run-specific source URLs or skip trend-source research for this run. Continue without the document only after the required author/company context has loaded successfully and the user explicitly chooses to skip or provides no URLs after being asked. Say trend-source context was skipped. Do not create a local fallback file.
 
 ### Existing document
 
@@ -56,6 +62,7 @@ If `Ink Context - Trend Sources` exists:
 - Use `Active URLs` to identify sites worth searching directly or checking for recent posts, announcements, essays, changelogs, or market signals.
 - Use `Research Guidance` to include preferred themes and avoid excluded topics.
 - Do not treat a source URL as proof by itself. Fetch or search the actual relevant page before using it as evidence.
+- If `Active URLs` is empty, `[unset]`, or only contains unusable placeholders, treat the document as incomplete for this run and ask for websites. After confirmation, update the existing document instead of creating a duplicate.
 
 ### Missing document
 
@@ -64,7 +71,9 @@ If `Ink Context - Trend Sources` does not exist:
 - Ask the user for the websites they want to use for trend and inspiration research.
 - Accept URLs with optional notes, such as theme, audience, or why the source matters.
 - Show the proposed document body and ask for explicit confirmation before creating it.
-- If the user does not provide URLs, continue without the document and note that trend-source context was skipped.
+- Do not continue in the same assistant turn after asking for URLs. Wait for the user's answer.
+- If the user explicitly says they have no URLs or wants to skip this setup, continue without the document and note that trend-source context was skipped.
+- If the user provides URLs and confirms the proposed body, create `Ink Context - Trend Sources` in One Horizon before journalist research. Do not keep confirmed URLs only in the chat transcript.
 
 Create the document with this shape:
 
@@ -80,6 +89,29 @@ Create the document with this shape:
 - Preferred themes: [unset]
 - Excluded topics: [unset]
 - Notes: [unset]
+```
+
+If the document does not exist, create it with the One Horizon document creation tool using this shape:
+
+```json
+create_document({
+  "title": "Ink Context - Trend Sources",
+  "type": "Requirement",
+  "status": "Completed",
+  "content": "# Trend Sources\n\n## Active URLs\n\n- https://example.com - Optional note or theme.\n\n## Research Guidance\n\n- Preferred themes: [unset]\n- Excluded topics: [unset]\n- Notes: [unset]",
+  "workspaceId": "<workspaceId>"
+})
+```
+
+If the document exists but has no usable `Active URLs`, update the existing document with the confirmed body:
+
+```json
+update_document({
+  "documentId": "<documentId>",
+  "workspaceId": "<workspaceId>",
+  "status": "Completed",
+  "content": "# Trend Sources\n\n## Active URLs\n\n- https://example.com - Optional note or theme.\n\n## Research Guidance\n\n- Preferred themes: [unset]\n- Excluded topics: [unset]\n- Notes: [unset]"
+})
 ```
 
 ### Updating the document
@@ -109,17 +141,28 @@ Build the reporting set from:
 
 - the user's goal, theme, timing, and channel constraint
 - the author's `Current Work` doc
-- `Ink Context - Trend Sources`, when available
+- `Ink Context - Trend Sources` or user-provided run-specific source URLs
 - current events, product announcements, vendor releases, canonical essays, or credible reporting
+
+Do not build journalist suggestions from local LinkedIn or blog corpus search alone. The archive is checked in the editor stage after current external candidates exist.
 
 Research current signals:
 
 - Derive 5-10 seed phrases from the goal, current-work themes, trend-source doc, and any current event already in play.
 - Use `google_trends_keyword_insights` on the best 2-5 seeds.
 - Use `google_trends_trending_searches` only to discover timely hooks within the target geography.
-- Search or fetch relevant pages from `Ink Context - Trend Sources` when they match the goal, audience, product area, or seed list.
+- Search or fetch relevant pages from `Ink Context - Trend Sources` or run-specific URLs when they match the goal, audience, product area, or seed list.
 - Use `web_search` and `fetch_page` to verify what the signal actually refers to.
 - Prefer primary docs, vendor announcements, canonical essays, and credible reporting over generic summaries.
+
+When source URLs are available, use at least one targeted source search or page fetch before returning journalist suggestions. Valid tool shapes:
+
+```json
+web_search({"query":"agent workflow reliability site:example.com","max_results":5})
+fetch_page({"url":"https://example.com/post","max_chars":6000})
+```
+
+If no source URLs are available because the user explicitly skipped them, still run a lightweight web search and trend pass from the goal and `Current Work` themes before returning ideas. If the research tools are unavailable, say that timely external research could not run and only offer evergreen ideas when the user still wants to continue.
 
 For each journalist suggestion, include:
 

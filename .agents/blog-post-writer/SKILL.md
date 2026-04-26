@@ -22,7 +22,7 @@ Before presenting anything as final, complete and report a visible review ledger
 6. Search `source_articles_dir` from `../../.local/context/blog-publishing.local.md` for up to 3-7 relevant internal examples. Prefer the same theme, argument shape, or confirmed article type first. Use them for voice and structure only. Do not inherit their source lists or citations. If none are relevant, say so explicitly and continue.
 7. Read `../linkedin-social-writer/references/mcp-tools.md`.
 8. Do a lightweight external research pass on the topic. Build a fresh source set for the article with the local MCP research tools.
-9. Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract.
+9. Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract.
 10. Distill voice markers with `references/style-capture.md`.
 11. Draft an outline and image plan and validate both against `references/format-playbooks.md` and the brief constraints.
 12. Use `search_images` then `download_image` from `../blog-image-finder/SKILL.md` for final external blog assets.
@@ -36,6 +36,7 @@ Before presenting anything as final, complete and report a visible review ledger
 - Use the blog corpus as the source of truth for tone, pacing, argument style, section shape, CTA intensity, and how directly to sell.
 - Read `../../.local/context/blog-publishing.local.md` for the active path values.
 - Use One Horizon context docs for live runtime context. Do not use tracked repo files for live context. The exception is `.local/context/blog-publishing.local.md` for machine-local blog path state.
+- If a required author-scoped context doc is missing or unusable, use `../one-horizon-context-setup/SKILL.md` to create the missing doc through its confirmation flow before drafting.
 - If a One Horizon tool call is missing or fails, follow `../one-horizon-context-setup/references/mcp-readiness.md`. Do not search tracked repo files as a substitute for live context.
 - Always ask the user to confirm the general blog post type before outlining. If the type is implied, reflect the inferred type and ask for confirmation or correction instead of silently assuming.
 - Normalize broad labels such as `article`, `story`, or `essay` to the closest playbook in `references/format-playbooks.md`, then verify the mapped type with the user before continuing.
@@ -167,7 +168,7 @@ Unless the user asks differently, return:
 - Read `references/format-playbooks.md` for article-shape rules.
 - Read `../../.local/context/blog-publishing.local.md` for the active blog source and publish folders.
 - If a One Horizon tool call fails, read `../one-horizon-context-setup/references/mcp-readiness.md` for recovery.
-- Resolve the author with One Horizon MCP tools, then load relevant author-scoped context from One Horizon using the contract in `../one-horizon-context-setup/references/context-doc-templates.md`.
+- Resolve the author with One Horizon MCP tools, then load relevant author-scoped context from One Horizon using the naming and missing-doc contract in `../one-horizon-context-setup/references/context-doc-templates.md`.
 - Read `../../content/blog/README.md` only if `../../.local/context/blog-publishing.local.md` points into this repo and the local naming is unclear.
 - Read `../linkedin-social-writer/references/mcp-tools.md` before using local research tools.
 - Read `../blog-image-finder/references/setup.md` before sourcing external blog images.

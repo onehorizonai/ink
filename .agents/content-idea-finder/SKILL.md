@@ -14,11 +14,12 @@ Run a three-role workflow: the orchestrator loads context and manages handoff, t
 ## Quick Start
 
 1. Read `references/workflow.md`.
-2. Orchestrator: clarify the content job, resolve the author, run the setup path for missing required context, and load or set up `Ink Context - Trend Sources`.
-3. Journalist: use the trend-source doc, `../linkedin-social-writer/references/mcp-tools.md`, trend tools, `web_search`, and `fetch_page` to produce at most 3 timely story suggestions.
-4. Editor: compare those suggestions against One Horizon company context, `../../content/linkedin/posts/`, and the configured blog source folder, then choose one recommended topic.
-5. Editor: report the chosen idea in One Horizon with `report-feature-request`.
-6. Orchestrator: return the final recommendation, One Horizon idea record, rationale, source URLs, and a handoff brief for `../blog-post-writer/SKILL.md` or `../linkedin-social-writer/SKILL.md`.
+2. Orchestrator: clarify the content job, resolve the author and workspace, run the setup path for missing required context, and load the required One Horizon author context before any local corpus scan.
+3. Orchestrator: load or set up `Ink Context - Trend Sources`. If the document is missing or has no usable `Active URLs`, ask the user for trend or inspiration websites and wait for the answer unless the user explicitly says to skip trend-source research for this run. After the user confirms the proposed body, create or update the One Horizon document before journalist research.
+4. Journalist: use the trend-source doc or user-provided run sources, `../linkedin-social-writer/references/mcp-tools.md`, trend tools, `web_search`, and `fetch_page` to produce at most 3 timely story suggestions. Do not return journalist suggestions from local corpus search alone.
+5. Editor: compare those suggestions against One Horizon company context, `../../content/linkedin/posts/`, and the configured blog source folder, then choose one recommended topic.
+6. Editor: report the chosen idea in One Horizon with `report-feature-request`.
+7. Orchestrator: return the final recommendation, One Horizon idea record, rationale, source URLs, and a handoff brief for `../blog-post-writer/SKILL.md` or `../linkedin-social-writer/SKILL.md`.
 
 ## Working Agreement
 
@@ -27,11 +28,14 @@ Run a three-role workflow: the orchestrator loads context and manages handoff, t
 - When blog coverage matters, use `../../.local/context/blog-publishing.local.md` for the active blog archive location. Do not assume `content/blog/posts/`.
 - Treat the author's `Current Work` One Horizon doc as the boundary for what the team can credibly talk about.
 - Use One Horizon context docs for live runtime context. Do not use tracked repo files for live context. The exception is `.local/context/blog-publishing.local.md` for machine-local blog path state.
-- If required One Horizon context, workspace resolution, or local blog path state is missing, run the setup path in `references/workflow.md` before research. If a required One Horizon tool call is missing or fails, follow the recovery path there. Do not silently continue with guessed company context.
+- If required One Horizon context or workspace resolution is missing, run the setup path in `references/workflow.md` before research. If a required One Horizon tool call is missing or fails, follow the recovery path there. Do not silently continue with guessed company context or substitute local posts for One Horizon context.
 - Treat `Ink Context - Trend Sources` as the workspace-shared source of truth for trend and inspiration websites. Do not store this URL list in tracked repo files.
+- If `Ink Context - Trend Sources` is missing, empty, or unavailable, ask for the websites to use or get explicit permission to skip trend-source research. When the user provides URLs, create or update the document after explicit confirmation. Do not continue in the same turn as if no source list exists.
 - The journalist may bring back at most 3 suggestions. Do not pad the list when fewer stories are worth considering.
 - The editor checks the archive after the journalist proposes stories, so uniqueness and follow-up potential are evaluated against actual candidates.
+- The local LinkedIn and blog corpora are archive checks, not the primary discovery source. Use them after external story suggestions exist.
 - Use trend-source URLs and trend tools as signal, not as the thesis. Translate a signal into a point of view the team can credibly own.
+- When trend-source URLs exist, the journalist must search or fetch relevant pages from them before returning suggestions. Each suggestion needs at least one source URL from a fetched page, targeted search result, trend result, primary announcement, credible report, or canonical essay.
 - Prefer ideas with proof, examples, product context, or lived experience. Avoid generic "AI is changing everything" angles.
 - Do not recommend a format just because the signal is fresh. Timely sharp takes usually fit LinkedIn. Durable explainers, comparisons, and search-intent topics usually fit the blog.
 - Allow follow-up stories when a fresh development, stronger proof point, or sharper company angle makes the revisit useful.

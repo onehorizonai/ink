@@ -28,7 +28,7 @@ Do not ask for information that can be recovered from the corpus, One Horizon co
 
 ## 3. Load the minimum user context
 
-Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract:
+Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract:
 
 - `Profile` for identity basics
 - `Current Work` for almost every business draft
@@ -38,6 +38,7 @@ Resolve the author and load only the relevant author-scoped One Horizon context 
 
 Do not load personal docs just because they exist.
 Do not use tracked repo files for live runtime context.
+If a required author-scoped context doc is missing or unusable, use `../../one-horizon-context-setup/SKILL.md` to create the missing doc through its confirmation flow before drafting.
 If a required One Horizon tool call is missing or fails, follow `../../one-horizon-context-setup/references/mcp-readiness.md`.
 
 ## 4. Retrieve examples

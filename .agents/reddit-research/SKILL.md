@@ -18,7 +18,7 @@ Find the right subreddit before drafting. Shortlist communities, inspect their r
 ## Quick Start
 
 1. Read `references/workflow.md`.
-2. Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract.
+2. Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract.
 3. Read `references/tool-contracts.md` for the exact Reddit tool argument shapes.
 4. Read `../linkedin-social-writer/references/mcp-tools.md` before using Ink's local research tools.
 5. Use the Reddit tools to shortlist subreddits, inspect rules, and analyze top posts from the past week.
@@ -30,6 +30,7 @@ Find the right subreddit before drafting. Shortlist communities, inspect their r
 - Treat subreddit rules and posting guidance as hard constraints.
 - Use public no-auth Reddit access for v1. If a Reddit endpoint fails, fall back to the other local research tools instead of inventing results.
 - Use One Horizon context docs to understand the author and audience. Do not use tracked repo files for live context.
+- If a required author-scoped context doc is missing or unusable, use `../one-horizon-context-setup/SKILL.md` to create the missing doc through its confirmation flow before researching.
 - If a One Horizon tool call is missing or fails, follow `../one-horizon-context-setup/references/mcp-readiness.md`. Do not search tracked repo files as a substitute for live context.
 - Surface promotion risk explicitly. If a subreddit is likely to reject branded, link-heavy, or self-promotional posts, say so.
 - Separate general subreddit fit from topic-specific post fit. A large subreddit can still be the wrong place for a given angle.
@@ -53,6 +54,6 @@ Unless the user asks differently, return:
 - Read `references/workflow.md`.
 - Read `references/tool-contracts.md` before calling the Reddit tools.
 - If a One Horizon tool call fails, read `../one-horizon-context-setup/references/mcp-readiness.md` for recovery.
-- Resolve the author with One Horizon MCP tools, then load relevant author-scoped context from One Horizon: `Profile`, `Current Work`, and `Market Context`.
+- Resolve the author with One Horizon MCP tools, then load relevant author-scoped context from One Horizon using the naming and missing-doc contract in `../one-horizon-context-setup/references/context-doc-templates.md`: `Profile`, `Current Work`, and `Market Context`.
 - Read `../linkedin-social-writer/references/mcp-tools.md` before using Ink's local research tools.
 - Hand off drafting work to `../reddit-social-writer/SKILL.md`.

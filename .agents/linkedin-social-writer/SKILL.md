@@ -12,7 +12,7 @@ Ground every draft in the published corpus. Extract the voice from a small set o
 ## Quick Start
 
 1. Read `references/workflow.md`.
-2. Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract.
+2. Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract.
 3. Search `../../content/linkedin/` for 3-7 relevant examples. Prefer the same format first, then widen only if the archive is thin.
 4. Distill voice markers with `references/style-capture.md`.
 5. Draft against the matching playbook in `references/format-playbooks.md`.
@@ -26,6 +26,7 @@ Ground every draft in the published corpus. Extract the voice from a small set o
 - Use the corpus as the source of truth for tone, pacing, formatting, CTA style, and how directly to sell.
 - Use One Horizon context docs to make the writing authentic, but load only what is relevant to the task.
 - Use One Horizon context docs for live runtime context. Do not use tracked repo files for live context.
+- If a required author-scoped context doc is missing or unusable, use `../one-horizon-context-setup/SKILL.md` to create the missing doc through its confirmation flow before drafting.
 - If a One Horizon tool call is missing or fails, follow `../one-horizon-context-setup/references/mcp-readiness.md`. Do not search tracked repo files as a substitute for live context.
 - Reuse patterns, not sentences. Do not remix published copy line by line.
 - Prefer a narrow, evidence-based voice profile over generic LinkedIn language.
@@ -98,7 +99,7 @@ Unless the user asks differently, return:
 - Read `references/review-passes.md` for pass order and responsibilities.
 - Read `references/style-capture.md` when extracting voice markers.
 - Read `references/format-playbooks.md` for format-specific drafting rules.
-- Resolve the author with One Horizon MCP tools, then load relevant author-scoped context from One Horizon using the contract in `../one-horizon-context-setup/references/context-doc-templates.md`.
+- Resolve the author with One Horizon MCP tools, then load relevant author-scoped context from One Horizon using the naming and missing-doc contract in `../one-horizon-context-setup/references/context-doc-templates.md`.
 - Read `../../content/linkedin/README.md` if the corpus location or naming is unclear.
 - Read `references/mcp-tools.md` before using local research tools.
 - Read `templates/README.md` when the request involves reusable format templates.

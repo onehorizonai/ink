@@ -19,7 +19,7 @@ Ground every Reddit draft in the subreddit first, then in the author's context a
 ## Quick Start
 
 1. Read `references/workflow.md`.
-2. Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract.
+2. Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract.
 3. Read `../reddit-research/references/tool-contracts.md` if you need to call Reddit tools directly.
 4. Run `../reddit-research/SKILL.md` unless the user already supplied a stable subreddit brief with rules and angle constraints.
 5. Search `../../content/reddit/` for 3-5 relevant examples when the local Reddit corpus exists.
@@ -34,6 +34,7 @@ Ground every Reddit draft in the subreddit first, then in the author's context a
 - Use the Reddit corpus as the source of truth for what this author has already posted, but if the corpus is thin, let subreddit norms drive the draft.
 - Use One Horizon context docs to make the writing authentic, but load only what is relevant to the task.
 - Use One Horizon context docs for live runtime context. Do not use tracked repo files for live context.
+- If a required author-scoped context doc is missing or unusable, use `../one-horizon-context-setup/SKILL.md` to create the missing doc through its confirmation flow before drafting.
 - If a One Horizon tool call is missing or fails, follow `../one-horizon-context-setup/references/mcp-readiness.md`. Do not search tracked repo files as a substitute for live context.
 - Reuse patterns, not sentences. Do not lift title shapes or body phrasing from top Reddit posts.
 - Treat subreddit rules and anti-promo norms as hard constraints, not suggestions.
@@ -113,7 +114,7 @@ For `comment-reply`, return the reply only unless the user asks for alternatives
 - Read `references/review-passes.md` for pass order and responsibilities.
 - Read `references/format-playbooks.md` for format-specific drafting rules.
 - Read `../reddit-research/references/tool-contracts.md` if you need to call the Reddit tools directly.
-- Resolve the author with One Horizon MCP tools, then load relevant author-scoped context from One Horizon using the contract in `../one-horizon-context-setup/references/context-doc-templates.md`.
+- Resolve the author with One Horizon MCP tools, then load relevant author-scoped context from One Horizon using the naming and missing-doc contract in `../one-horizon-context-setup/references/context-doc-templates.md`.
 - Read `../../content/reddit/README.md` if the corpus location or naming is unclear.
 - Read `../linkedin-social-writer/references/mcp-tools.md` before using the local research tools.
 - Use `scripts/create_draft.py` when you need to persist an unpublished draft.
