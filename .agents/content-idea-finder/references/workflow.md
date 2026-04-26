@@ -223,10 +223,24 @@ After choosing the topic, create a new idea record in One Horizon with the MCP r
 
 Use `report-feature-request`. Do not use `create-todo` or `create-initiative` for the editor-selected content idea.
 
+This step is mandatory after the editor chooses a topic. It requires a real One Horizon MCP tool call before the final handoff. Do not treat writing the idea in the response as reporting it.
+
 Call `report-feature-request` with this shape:
 
 ```json
 report-feature-request({
+  "title": "[Blog] Why agent workflows break in production",
+  "description": "Angle: ...\nWhy now: ...\nRecommended channel: Blog\nSuggested blog post type: opinion / argument\nNet-new or follow-up: net-new\nEditor rationale: ...\nSource URLs:\n- https://example.com/story\nProof still needed:\n- ...",
+  "workspaceId": "<workspaceId>",
+  "teamIds": ["<teamId>"],
+  "assigneeIds": ["<userId>"]
+})
+```
+
+On Codex surfaces where MCP tool names are exposed as snake_case functions, the equivalent call is:
+
+```json
+report_feature_request({
   "title": "[Blog] Why agent workflows break in production",
   "description": "Angle: ...\nWhy now: ...\nRecommended channel: Blog\nSuggested blog post type: opinion / argument\nNet-new or follow-up: net-new\nEditor rationale: ...\nSource URLs:\n- https://example.com/story\nProof still needed:\n- ...",
   "workspaceId": "<workspaceId>",
@@ -253,7 +267,7 @@ Description rules:
 
 Use the workspace resolved during context loading as `workspaceId`; it is required for the report tool. If no workspace can be resolved, resolve it with One Horizon tools before reporting. If team or assignee IDs are not available from the active One Horizon context, omit only `teamIds` or `assigneeIds` rather than guessing.
 
-If the One Horizon report tool is missing or fails at reporting time, skip this step and say the idea record was not created. Do not retry or block the handoff on One Horizon availability.
+If the One Horizon report tool is missing or fails at reporting time, skip this step and say the idea record was not created. A failure means an actual tool call failed or the tool is not callable in the current session. Do not retry or block the handoff on One Horizon availability.
 
 ## 6. Orchestrator: Handoff
 

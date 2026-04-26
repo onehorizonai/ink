@@ -42,6 +42,7 @@ Run a three-role workflow: the orchestrator loads context and manages handoff, t
 - When recommending a blog idea, include the suggested blog post type so `blog-post-writer` can verify it with the user before drafting.
 - Treat the suggested blog post type as advisory only. The writing workflow must still ask the user to confirm or correct it before research or drafting starts.
 - When no useful trend signal exists, say so and propose evergreen ideas that still fit the goal.
+- Reporting the selected content idea to One Horizon is mandatory once the editor chooses a topic. Use `report-feature-request` before the final handoff. Do not end with only local recommendations unless the One Horizon report tool is missing or fails.
 
 ## Workflow
 
@@ -57,10 +58,11 @@ Rules:
 
 - Use the MCP report tool `report-feature-request`.
 - Do not use `create-todo` or `create-initiative` for the editor-selected content idea.
+- This is a real One Horizon MCP tool call, not a sentence in the final response. Do not claim the idea was reported unless the tool call succeeded.
 - Title: the working title of the selected idea, prefixed with the channel in brackets, e.g. `[Blog] Why agent workflows break in production`.
 - Description: include the one-sentence angle, why now, source URLs, editor rationale, net-new or follow-up status, proof points still needed, recommended channel, and suggested blog post type when the channel is the blog.
 
-If the One Horizon report tool is missing or fails at reporting time, skip this step and say the idea record was not created. Do not block the handoff brief or the writer routing on One Horizon availability.
+If the One Horizon report tool is missing or fails at reporting time, skip this step and say the idea record was not created. A failure means an actual tool call failed or the tool is not callable in the current session. Do not block the handoff brief or the writer routing on One Horizon availability.
 
 ## Output Shape
 
