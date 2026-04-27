@@ -12,6 +12,7 @@ Review whether the draft sounds like the author, not just like good generic copy
 - the active writer skill's workflow file
 - the active writer skill's review-passes file
 - the active writer skill's style-capture file if one exists
+- `../social-common/references/repetition-guard.md`
 
 Then resolve the author with One Horizon MCP and load only the relevant author-scoped One Horizon context docs plus 3-5 matching corpus examples. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract.
 
@@ -29,6 +30,7 @@ Do not infer live context from tracked repo files.
 - whether the draft sounds too polished, too safe, or too salesy
 - for blog articles, whether the draft feels sharp and reportorial enough
 - whether list-heavy formatting flattens the voice or makes the piece feel like a deck
+- whether the draft overfits one corpus example or repeats recent author phrasing too closely
 
 ## Guardrails
 
@@ -37,6 +39,7 @@ Do not infer live context from tracked repo files.
 - when the active writer is the blog workflow, bias toward a Verge-adjacent editorial edge without copying any outlet's phrasing
 - do not turn a sharp draft into neutral corporate copy
 - do not overcorrect into blandness
+- do not treat repeated phrasing as voice when the corpus shows it is just a recent habit
 
 ## Output
 
@@ -44,3 +47,4 @@ Return:
 
 - the revised draft or precise tone notes
 - the main tone mismatches you fixed
+- any corpus mimicry or repeated voice pattern you corrected

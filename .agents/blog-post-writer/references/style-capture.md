@@ -18,6 +18,7 @@ Do not overfit to one unusually successful article unless the user explicitly wa
 - title pattern
 - opening setup
 - sentence rhythm
+- recurring sentence shapes or phrases that should not be repeated blindly
 - paragraph length and spacing
 - heading style
 - level of specificity
@@ -30,13 +31,14 @@ Do not overfit to one unusually successful article unless the user explicitly wa
 
 ## Write a Short Voice Profile
 
-Before drafting, summarize the voice in 5 lines or fewer:
+Before drafting, summarize the voice in 6 lines or fewer:
 
 - Usually opens by:
 - Usually sounds:
 - Usually proves points with:
 - Usually avoids:
 - Usually closes by:
+- Repetition risks:
 
 ## Watch for Format Drift
 
@@ -50,6 +52,7 @@ Do not assume a personal founder story sounds the same as a product argument or 
 ## Avoid These Failure Modes
 
 - copying sentence fragments from a single exemplar
+- repeating the same opening move, section rhythm, metaphor, or close across articles
 - defaulting to generic SEO-blog cliches
 - adding intensity that the archive does not support
 - forcing visuals, footnotes, or components that the brief does not need

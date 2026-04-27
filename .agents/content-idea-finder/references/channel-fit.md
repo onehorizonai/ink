@@ -14,6 +14,20 @@ Good fits:
 - a conference or event reaction with a clear lesson
 - a short proof-led opinion on AI tooling adoption
 
+## Choose Reddit when
+
+- the idea is strongest as a discussion prompt, field report, or specific community question
+- the audience is easier to find by subreddit than by broad professional graph
+- subreddit norms, objections, or lived experience would improve the eventual angle
+- the goal is learning, objection discovery, credibility with practitioners, or community-native conversation
+
+Good fits:
+
+- a founder lesson framed as a practical question for other builders
+- a workflow reliability problem where practitioners can compare approaches
+- a non-promotional teardown, field note, or decision log
+- a topic that needs subreddit research before any copy is drafted
+
 ## Choose The Blog when
 
 - the reader needs explanation, comparison, or step-by-step reasoning
@@ -31,14 +45,17 @@ Good fits:
 ## Use Both when
 
 - there is a strong evergreen blog thesis and a timely lighter LinkedIn entry point
+- Reddit can validate the objection, language, or practitioner angle before long-form writing
 
 Then:
 
 - lead with LinkedIn when speed matters and the blog can follow
+- lead with Reddit when community response should shape the final angle
 - lead with the blog when the idea needs proof first and LinkedIn can excerpt it later
 
 ## Avoid
 
 - writing a blog post for a point that is only one paragraph deep
 - stretching a nuanced framework into a short LinkedIn post with no room for proof
+- forcing Reddit when the idea is branded, link-heavy, or likely to violate subreddit norms
 - repeating the same angle in both channels without changing the job

@@ -52,6 +52,7 @@ Look for:
 - too many ideas in one post
 - product positioning that arrives too early
 - forced question prompts
+- repeated title shapes, opening moves, transitions, sentence shapes, or claims from recent corpus examples; use `../../social-common/references/repetition-guard.md`
 - link bait, DM bait, or "anyone else?" bait
 - comment-reply drafts that ignore the thread's actual point
 

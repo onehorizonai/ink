@@ -129,6 +129,7 @@ Use the local shared review skills first because they are tuned for this repo's 
 - `../fact-check/SKILL.md`
 - `../source-url-check/SKILL.md`
 - `../blog-post-ramsay-review/SKILL.md` for blunt late-stage pressure testing
+- `../social-common/references/repetition-guard.md`
 - `../blog-image-finder/SKILL.md`
 - `../blog-image-uploader/SKILL.md` when publishing image assets
 
@@ -166,6 +167,7 @@ Unless the user asks differently, return:
 - Read `references/review-passes.md` for pass order and responsibilities.
 - Read `references/style-capture.md` when extracting voice markers.
 - Read `references/format-playbooks.md` for article-shape rules.
+- Read `../social-common/references/repetition-guard.md` when comparing a draft against recent corpus patterns.
 - Read `../../.local/context/blog-publishing.local.md` for the active blog source and publish folders.
 - If a One Horizon tool call fails, read `../one-horizon-context-setup/references/mcp-readiness.md` for recovery.
 - Resolve the author with One Horizon MCP tools, then load relevant author-scoped context from One Horizon using the naming and missing-doc contract in `../one-horizon-context-setup/references/context-doc-templates.md`.

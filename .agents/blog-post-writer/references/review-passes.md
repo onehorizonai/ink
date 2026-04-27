@@ -105,6 +105,7 @@ Look for:
 - paragraph bloat
 - weak proof
 - abrupt transitions
+- repeated opening moves, section rhythms, transitions, metaphors, sentence shapes, or claims from recent corpus examples; use `../../social-common/references/repetition-guard.md`
 - soft close or overly aggressive close
 - bullet points or numbered steps where prose should do the work
 - missing `---` section breaks in a draft that needs clearer pacing

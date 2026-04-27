@@ -79,6 +79,7 @@ Use the local thin skills first because they are tuned for this repo's workflow:
 - `../fact-check/SKILL.md`
 - `../reddit-store-post/SKILL.md`
 - `../reddit-finalize-post/SKILL.md`
+- `../social-common/references/repetition-guard.md`
 
 If the session also includes external writing skills, use them in support of this skill instead of replacing it.
 
@@ -113,6 +114,7 @@ For `comment-reply`, return the reply only unless the user asks for alternatives
 - If a One Horizon tool call fails, read `../one-horizon-context-setup/references/mcp-readiness.md` for recovery.
 - Read `references/review-passes.md` for pass order and responsibilities.
 - Read `references/format-playbooks.md` for format-specific drafting rules.
+- Read `../social-common/references/repetition-guard.md` when comparing a draft against recent corpus or subreddit patterns.
 - Read `../reddit-research/references/tool-contracts.md` if you need to call the Reddit tools directly.
 - Resolve the author with One Horizon MCP tools, then load relevant author-scoped context from One Horizon using the naming and missing-doc contract in `../one-horizon-context-setup/references/context-doc-templates.md`.
 - Read `../../content/reddit/README.md` if the corpus location or naming is unclear.

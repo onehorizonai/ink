@@ -54,6 +54,7 @@ Look for:
 - fuzzy proof
 - forced question prompts
 - engagement levers that feel bolted on instead of helping the reader
+- repeated hooks, closes, transitions, sentence shapes, or claims from recent corpus examples; use `../../social-common/references/repetition-guard.md`
 - links, videos, or carousels that do not add enough value to justify the click or swipe
 - soft close or overly aggressive close
 

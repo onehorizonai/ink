@@ -16,6 +16,7 @@ Do not overfit to one unusually high-performing post unless the user explicitly 
 - opening pattern
 - first visible line pattern on longer posts
 - sentence rhythm
+- recurring sentence shapes or phrases that should not be repeated blindly
 - paragraph length and spacing
 - level of specificity
 - point of view and confidence
@@ -27,12 +28,13 @@ Do not overfit to one unusually high-performing post unless the user explicitly 
 
 ## Write a Short Voice Profile
 
-Before drafting, summarize the voice in 4 lines or fewer:
+Before drafting, summarize the voice in 5 lines or fewer:
 
 - Usually opens by:
 - Usually sounds:
 - Usually avoids:
 - Usually closes by:
+- Repetition risks:
 
 ## Watch for Format Drift
 
@@ -46,6 +48,7 @@ Do not assume the post voice is identical to the DM voice.
 ## Avoid These Failure Modes
 
 - copying sentence fragments from a single exemplar
+- repeating the same hook, close, transition, or sentence shape across multiple posts
 - defaulting to generic platform cliches
 - adding intensity that the archive does not support
 - using emoji, hashtags, or line breaks more aggressively than the archive does unless the brief explicitly asks for them

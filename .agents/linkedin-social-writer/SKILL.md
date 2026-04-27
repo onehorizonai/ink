@@ -71,6 +71,7 @@ Use the local thin skills first because they are tuned for this repo's workflow:
 - `../fact-check/SKILL.md`
 - `../linkedin-store-post/SKILL.md`
 - `../linkedin-finalize-post/SKILL.md`
+- `../social-common/references/repetition-guard.md`
 
 If the session also includes external writing skills, use them in support of this skill instead of replacing it.
 
@@ -99,6 +100,7 @@ Unless the user asks differently, return:
 - Read `references/review-passes.md` for pass order and responsibilities.
 - Read `references/style-capture.md` when extracting voice markers.
 - Read `references/format-playbooks.md` for format-specific drafting rules.
+- Read `../social-common/references/repetition-guard.md` when comparing a draft against recent corpus patterns.
 - Resolve the author with One Horizon MCP tools, then load relevant author-scoped context from One Horizon using the naming and missing-doc contract in `../one-horizon-context-setup/references/context-doc-templates.md`.
 - Read `../../content/linkedin/README.md` if the corpus location or naming is unclear.
 - Read `references/mcp-tools.md` before using local research tools.
