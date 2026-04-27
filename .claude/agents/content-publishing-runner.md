@@ -1,0 +1,1 @@
+../../.agents/content-publishing-runner/SKILL.md

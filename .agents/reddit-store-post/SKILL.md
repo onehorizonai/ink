@@ -83,7 +83,7 @@ Fields:
 
 - **Title**: the post title or the first 60 characters of the opening line, with the subreddit in parentheses — e.g. `Why manual outreach beats automation early (r/startups)`
 - **Description**: subreddit, format, published date, and the local corpus path
-- **Status**: published (or the equivalent completed/done status available in the workspace)
+- **Status**: `Completed`
 
 Rules:
 

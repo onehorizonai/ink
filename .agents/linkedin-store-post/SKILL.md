@@ -85,7 +85,7 @@ Fields:
 
 - **Title**: the post title or the first 60 characters of the opening line
 - **Description**: format, published date, and the local corpus path
-- **Status**: published (or the equivalent completed/done status available in the workspace)
+- **Status**: `Completed`
 
 Rules:
 

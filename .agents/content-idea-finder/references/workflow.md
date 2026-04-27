@@ -46,7 +46,7 @@ If any required author-scoped context doc is missing, use `../../one-horizon-con
 
 If a required doc exists but key fields needed for idea selection are `[unset]` or too thin, ask the user for only the missing business facts needed for this run. Do not overwrite the existing doc from this workflow.
 
-Keep using the local blog path setup rules in the editor stage when blog coverage is possible. Reddit and LinkedIn archive checks use the repo-local corpus paths directly.
+Keep using the local blog path setup rules in the editor stage when blog coverage is possible. Reddit and LinkedIn published archive checks use the repo-local corpus paths directly. Do not use local draft folders for content-idea dedupe.
 
 ## 2. Orchestrator: Load or Maintain Trend Sources
 
@@ -133,7 +133,26 @@ If the user asks to remove, replace, or change URLs or guidance:
 - Ask for explicit confirmation before updating.
 - Preserve unaffected URLs, notes, headings, and guidance.
 
-## 3. Journalist: Find Story Suggestions
+## 3. Orchestrator: Build One Horizon Exclude List
+
+Before journalist research, search One Horizon for existing Ink content work. This is the primary dedupe list for planned, in-review, and already-filed ideas or drafts.
+
+Use `search_tasks` with this shape when categories are supported:
+
+```json
+search_tasks({
+  "query": "[Ink]",
+  "categories": ["initiative", "ongoing", "bug", "triage-bug", "triage-item", "triage-initiative", "review-bug", "review-item", "review-initiative", "day-task"],
+  "limit": 50,
+  "workspaceId": "<workspaceId>"
+})
+```
+
+Filter to titles starting `[Ink Idea]` or `[Ink Draft]`. Keep title, channel, status, type, and short excerpt. Use these as exclusion signals, not source material.
+
+Reject overlapping ideas unless the new signal, proof, audience, channel, or angle is materially different. If search fails, say so and continue with published archive checks; do not scan local drafts.
+
+## 4. Journalist: Find Story Suggestions
 
 The journalist finds up to 3 timely stories worth considering. Do not return more than 3 suggestions, and do not pad weak stories to reach 3.
 
@@ -144,6 +163,7 @@ Build the reporting set from:
 - the user's goal, theme, timing, and channel constraint
 - the author's `Current Work` doc
 - `Ink Context - Trend Sources` or user-provided run-specific source URLs
+- the One Horizon `[Ink]` exclude list
 - current events, product announcements, vendor releases, canonical essays, or credible reporting
 
 Do not build journalist suggestions from local LinkedIn, Reddit, or blog corpus search alone. The archive is checked in the editor stage after current external candidates exist.
@@ -178,7 +198,7 @@ For each journalist suggestion, include:
 
 Discard stories that depend on hype, weak evidence, or a point of view the repo does not own.
 
-## 4. Editor: Check Archive and Choose Topic
+## 5. Editor: Check Archive and Choose Topic
 
 The editor evaluates the journalist's suggestions against company fit, archive uniqueness, and follow-up potential.
 
@@ -189,11 +209,12 @@ If blog is a possible channel:
 - If `source_articles_dir` is `[unset]` or missing on disk, ask the user for the existing blog articles folder and update the local file before scanning blog coverage.
 - If the user does not know the blog folder yet, skip blog archive scanning, say blog path setup is incomplete, and prefer LinkedIn unless the prompt requires a blog recommendation.
 
-Check the archive after the journalist proposes stories:
+Check the published archive after the journalist proposes stories:
 
 - Search the LinkedIn corpus in `../../content/linkedin/posts/`.
 - Search the Reddit corpus in `../../content/reddit/posts/` and `../../content/reddit/comment-replies/`.
 - Search the configured blog source folder when blog is possible.
+- Do not search local draft folders for content-idea dedupe.
 - Compare each suggestion against same keywords, adjacent concepts, launches, and recent dates.
 - Pull 3-6 relevant examples total across LinkedIn, Reddit, and blog.
 - Note repeated angles, under-covered areas, and any very recent post that should not be cannibalized.
@@ -203,7 +224,7 @@ Choose one topic by scoring:
 
 - company and audience fit
 - freshness
-- uniqueness versus the archive
+- uniqueness versus the One Horizon exclude list and published archive
 - follow-up value when the topic is not net-new
 - proof availability
 - channel fit
@@ -214,7 +235,7 @@ For the editor decision, include:
 
 - chosen topic
 - rejected alternatives
-- archive and company-fit rationale
+- One Horizon exclude-list, published archive, and company-fit rationale
 - whether the chosen topic is net-new or a follow-up
 - recommended channel
 - suggested blog post type when the channel is the blog
@@ -222,7 +243,7 @@ For the editor decision, include:
 
 Use `channel-fit.md` when the best format is unclear. Timely sharp takes usually fit LinkedIn. Discussion-first, community-specific, or "learn in public" prompts may fit Reddit. Durable explainers, comparisons, and search-intent topics usually fit the blog.
 
-## 5. Editor: Report Selected Idea in One Horizon
+## 6. Editor: Report Selected Idea in One Horizon
 
 After choosing the topic, create a new idea record in One Horizon with the MCP report tool. This record starts the One Horizon approval workflow and stores the handoff brief for later writing work.
 
@@ -236,7 +257,7 @@ Call `report-feature-request` with this shape:
 
 ```json
 report-feature-request({
-  "title": "[Blog] Why agent workflows break in production",
+  "title": "[Ink Idea] [Blog] Why agent workflows break in production",
   "description": "<filled Content Idea Brief from references/idea-brief-template.md>",
   "workspaceId": "<workspaceId>",
   "teamIds": ["<teamId>"],
@@ -248,7 +269,7 @@ On Codex surfaces where MCP tool names are exposed as snake_case functions, the 
 
 ```json
 report_feature_request({
-  "title": "[Blog] Why agent workflows break in production",
+  "title": "[Ink Idea] [Blog] Why agent workflows break in production",
   "description": "<filled Content Idea Brief from references/idea-brief-template.md>",
   "workspaceId": "<workspaceId>",
   "teamIds": ["<teamId>"],
@@ -258,8 +279,9 @@ report_feature_request({
 
 Title rules:
 
-- Prefix the title with the recommended channel in brackets: `[Blog]`, `[LinkedIn]`, or `[Reddit]`.
+- Prefix the title with `[Ink Idea]` and the recommended channel in brackets: `[Ink Idea] [Blog]`, `[Ink Idea] [LinkedIn]`, or `[Ink Idea] [Reddit]`.
 - Use the editor's chosen working title after the prefix.
+- Do not create new content idea records with only `[Ink]`, `[Blog]`, `[LinkedIn]`, or `[Reddit]`.
 
 Description rules:
 
@@ -271,7 +293,7 @@ Use the workspace resolved during context loading as `workspaceId`; it is requir
 
 If the One Horizon report tool is missing or fails at reporting time, skip this step and say the idea record was not created. A failure means an actual tool call failed or the tool is not callable in the current session. Do not retry or block the recommendation on One Horizon availability.
 
-## 6. Orchestrator: Handoff
+## 7. Orchestrator: Handoff
 
 Return the recommended channel first.
 
@@ -283,8 +305,8 @@ Include:
 - whether the chosen topic is net-new or a follow-up
 - the One Horizon feature request URL or title when the editor-selected idea was successfully reported
 - a short summary of the filed Content Idea Brief
-- the context docs, trend-source doc status, corpus examples, and external sources used
+- the context docs, trend-source doc status, One Horizon exclude-list status, published corpus examples, and external sources used
 
-When the format is the blog, make it explicit that the suggested type is a recommendation for `blog-post-writer` to verify with the user, not a confirmed final type.
+When the format is the blog, make it explicit that the suggested type is part of the approval brief. If the idea is later moved to `Planned` unchanged, `content-creation-runner` treats that type as confirmed for automation.
 
-Name the later workflow after the One Horizon report attempt, but do not invoke it. Use `../../blog-post-writer/SKILL.md` for approved blog ideas, `../../linkedin-social-writer/SKILL.md` for approved LinkedIn ideas, and usually `../../reddit-research/SKILL.md` before `../../reddit-social-writer/SKILL.md` for approved Reddit ideas. If the report tool was missing or failed, include the skipped-report note and still provide the recommendation summary.
+Name the later workflow after the One Horizon report attempt, but do not invoke it. Use `../../content-creation-runner/SKILL.md` after the idea is approved and moved to `Planned`; that runner routes to `blog-post-writer`, `linkedin-social-writer`, or `reddit-research` plus `reddit-social-writer`. If the report tool was missing or failed, include the skipped-report note and still provide the recommendation summary.

@@ -10,11 +10,12 @@ Claude Code and Cursor are the smoothest path. Codex works too; it just needs on
 
 ## What Ink does
 
-- Surfaces content ideas from your archive, live signals, and One Horizon context — then logs each selected idea as a planned initiative
+- Surfaces content ideas from your archive, live signals, and One Horizon context — then logs each selected idea as a One Horizon approval record
 - Drafts LinkedIn posts, comment replies, DMs, DM replies, and reposts
 - Researches subreddits before drafting so the post fits the community
 - Drafts Reddit posts and follow-up replies that read native to the thread
 - Writes blog posts with internal research, staged review passes, and optional image sourcing
+- Turns approved One Horizon ideas into reviewable draft initiatives for Blog, LinkedIn, and Reddit
 - Creates concise locked briefs for new or updated website pages
 - Runs humanizer, tone, style, fact-check, and URL review on every draft
 - Logs approved posts to local corpora and records each published item as a One Horizon initiative
@@ -153,7 +154,7 @@ What happens:
 
 ## Find what to write next
 
-Start with `content-idea-finder` when you want to choose the topic before you commit to a post or article. When you pick an idea, it logs that idea as a planned initiative in One Horizon under the right channel parent so nothing slips through.
+Start with `content-idea-finder` when you want to choose the topic before you commit to a post or article. When it picks an idea, it logs that idea as a One Horizon approval record titled `[Ink Idea] [Channel] ...`.
 
 Example prompt:
 
@@ -402,6 +403,15 @@ Use these skills when the writing already exists and you want it saved in the co
 - `reddit-finalize-post`: final pass, then optional storage when approval is explicit
 - `reddit-store-post`: store Reddit content that was already shared or published
 
+## Run the One Horizon content pipeline
+
+Use these skills when a local automation or manual prompt should move content through One Horizon. This repo defines the workflows; automation scheduling is configured outside the repo.
+
+- `content-creation-runner`: finds planned `[Ink Idea]` records, drafts the right Blog, LinkedIn, or Reddit content, and creates `[Ink Draft]` child initiatives in `In Review`.
+- `content-publishing-runner`: finds `[Ink Draft]` initiatives in `Planned` or `In Progress`, applies new comments, returns revisions to `In Review`, or prepares publish-ready output.
+
+In this pipeline, One Horizon is the review source of truth. Social drafts are stored in draft initiative descriptions, not local draft files. Blog publishing writes to the configured `publish_output_dir` and opens a pull request.
+
 ## Skill guide
 
 ### Core workflows
@@ -410,6 +420,8 @@ Use these skills when the writing already exists and you want it saved in the co
 | --- | --- |
 | `one-horizon-context-setup` | Create missing One Horizon author context docs |
 | `content-idea-finder` | Decide what to write next |
+| `content-creation-runner` | Turn approved Ink ideas into review draft initiatives |
+| `content-publishing-runner` | Revise draft initiatives or prepare publish-ready output |
 | `linkedin-social-writer` | Draft LinkedIn posts, replies, DMs, and reposts |
 | `linkedin-finalize-post` | Final-pass a LinkedIn draft and store it when approved |
 | `linkedin-store-post` | Store LinkedIn posts that already exist |
@@ -463,9 +475,9 @@ Keep these local and uncommitted:
 - `.local/context/blog-publishing.local.md` for machine-local blog path state
 - `.secrets/` for API keys and local config
 - `content/linkedin/` for your real LinkedIn corpus
-- `content/linkedin/drafts/` for unpublished LinkedIn drafts
+- `content/linkedin/drafts/` for unpublished LinkedIn drafts created by direct writer workflows
 - `content/reddit/` for your real Reddit corpus
-- `content/reddit/drafts/` for unpublished Reddit drafts
+- `content/reddit/drafts/` for unpublished Reddit drafts created by direct writer workflows
 - `content/blog/drafts/` for unpublished blog drafts
 - any published blog source folder referenced by `.local/context/blog-publishing.local.md`
 

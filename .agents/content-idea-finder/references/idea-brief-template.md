@@ -32,7 +32,7 @@ Risks: <promotion risk, weak proof, sensitive claim, subreddit-fit risk, SEO mis
 Next workflow: <linkedin-social-writer | reddit-research then reddit-social-writer | blog-post-writer>
 
 ## Channel Notes
-Blog type: <only for Blog; advisory until blog-post-writer confirms it>
+Blog type: <only for Blog; treat as confirmed once the idea is approved and moved to Planned unless the reviewer changes it>
 Reddit research need: <only for Reddit; include likely subreddit/audience assumptions for reddit-research to verify>
 ```
 
