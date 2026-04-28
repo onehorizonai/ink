@@ -79,15 +79,19 @@ Do not handwrite YAML frontmatter for normal storage flows when the scripts can 
 
 After each local corpus write succeeds, use the One Horizon MCP to create a child initiative under `Ink - Reddit`.
 
+Before mutating One Horizon, read `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`.
+
 Fields:
 
 - **Title**: the post title or the first 60 characters of the opening line, with the subreddit in parentheses — e.g. `Why manual outreach beats automation early (r/startups)`
 - **Description**: subreddit, format, published date, and the local corpus path
 - **Status**: `Completed`
+- **Parent**: `Ink - Reddit` via `parentInitiativeId`
 
 Rules:
 
 - Create one One Horizon record per stored item, not one record for the whole batch.
+- If a matching Reddit initiative already exists and is missing the `Ink - Reddit` parent or is under a different parent, move it with `update_initiative` before updating or reporting it.
 - If the One Horizon MCP is unavailable, log the corpus path in the response and continue. Do not block storage on One Horizon availability.
 - If `Ink - Reddit` does not exist, note that and skip the One Horizon step for that item.
 

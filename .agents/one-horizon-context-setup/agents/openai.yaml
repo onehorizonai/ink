@@ -1,4 +1,4 @@
 interface:
   display_name: "One Horizon Context Setup"
   short_description: "Create missing author context docs"
-  default_prompt: "Use $one-horizon-context-setup to verify One Horizon MCP, resolve the author, create only missing author-scoped Ink context docs, and ensure the Ink parent initiatives exist without changing existing author context."
+  default_prompt: "Use $one-horizon-context-setup to verify One Horizon MCP, resolve the author, create only missing author-scoped Ink context docs, ensure the Ink parent initiatives exist, and repair `Ink - ...` parent initiative placement without changing existing author context."

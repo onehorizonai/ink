@@ -14,6 +14,7 @@ This skill owns context setup for Ink. Verify the One Horizon MCP connection, re
 - `../../.local/README.md` — for the blog-publishing path contract (the only local file this skill cares about)
 - `references/mcp-readiness.md` — for One Horizon tool-call recovery when a required MCP call is missing or fails
 - `references/context-doc-templates.md` — for author resolution, document naming, and the canonical body shape of each One Horizon context doc
+- `references/ink-initiative-hierarchy.md` — for the required Ink parent initiative tree and child-placement contract
 - Check whether the author's One Horizon context docs already exist before gathering new inputs
 
 Do not treat `.agents/context/`, `README.md`, `AGENTS.md`, `CLAUDE.md`, or other tracked repo files as live runtime context.
@@ -191,6 +192,8 @@ After context docs are confirmed, check whether the required parent initiatives 
 If any are missing, show a list and ask for confirmation before creating them.
 
 Create `Ink` first as the root, then create child initiatives under it.
+
+Use `references/ink-initiative-hierarchy.md` as the source of truth for the parent tree. If an existing `Ink - ...` parent initiative is not under the root `Ink` initiative, move it with `update_initiative` after the user approves initiative setup.
 
 ## Write Rules
 

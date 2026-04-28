@@ -191,15 +191,19 @@ If the user wants the draft stored locally:
 
 After saving a draft or writing a published article, use the One Horizon MCP to create a child initiative under `Ink - Blog`.
 
+Before mutating One Horizon, read `../../one-horizon-context-setup/references/ink-initiative-hierarchy.md`.
+
 Fields:
 
 - **Title**: the article title
 - **Description**: confirmed blog post type, review ledger summary (Ramsay verdict + score), and the local file path (draft path or `publish_output_dir` path)
 - **Status**: `in-progress` when saving a draft to `content/blog/drafts/`; `published` when writing to `publish_output_dir`
+- **Parent**: `Ink - Blog` via `parentInitiativeId`
 
 Rules:
 
 - Create the One Horizon record after the local file write succeeds.
+- If a matching article initiative already exists and is missing the `Ink - Blog` parent or is under a different parent, move it with `update_initiative` before updating or reporting it.
 - If the user only wants the draft in memory and does not save it locally, skip this step.
 - If the One Horizon MCP is unavailable, log the local path in the final response and continue.
 - If `Ink - Blog` does not exist, note that in the output and skip the One Horizon step.

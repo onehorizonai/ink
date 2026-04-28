@@ -7,12 +7,15 @@ description: Process reviewed One Horizon Ink draft initiatives into revised dra
 
 `In Review` means human review. `Planned` or `In Progress` means the runner may act. Social publishing stays manual. Blog publishing means opening a PR.
 
+Before mutating One Horizon records, read `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`.
+
 ## Workflow
 
 1. Find `Planned` or `In Progress` initiatives titled `[Ink Draft] [Blog] ...`, `[Ink Draft] [LinkedIn] ...`, or `[Ink Draft] [Reddit] ...`; use `search_tasks` or `list_initiatives`, then fetch details and comments.
-2. Treat comments containing `Ink automation checkpoint` as automation comments. Treat later non-automation comments as human feedback.
-3. If human feedback exists, revise the draft with the matching writer skill, update the `## Draft` section with `patch_document(taskId=...)`, comment with a short change summary, and set status to `In Review`.
-4. If no human feedback exists, treat the status move as publish intent:
+2. For each draft initiative, verify its parent matches the channel in the title. If it is missing or under the wrong parent, call `update_initiative` with the matching `Ink - Channel` `parentInitiativeId` before applying feedback or publishing.
+3. Treat comments containing `Ink automation checkpoint` as automation comments. Treat later non-automation comments as human feedback.
+4. If human feedback exists, revise the draft with the matching writer skill, update the `## Draft` section with `patch_document(taskId=...)`, comment with a short change summary, and set status to `In Review`.
+5. If no human feedback exists, treat the status move as publish intent:
    - LinkedIn: comment with final copy and say it is ready for manual LinkedIn publishing; set `In Review`.
    - Reddit: comment with final title/body and target subreddit; set `In Review`.
    - Blog: run the Blog PR path below; set `In Review` after the PR comment.

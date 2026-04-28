@@ -1,6 +1,6 @@
 # Ink
 
-![Ink banner](assets/readme/ink-banner-1280x640.png)
+![Ink banner](assets/readme/ink-banner.jpg)
 
 A writing system for LinkedIn posts, Reddit discussions, and blog articles. Your drafts and corpus files stay on your machine. Your context and content pipeline live in One Horizon.
 
@@ -411,6 +411,8 @@ Use these skills when a local automation or manual prompt should move content th
 - `content-publishing-runner`: finds `[Ink Draft]` initiatives in `Planned` or `In Progress`, applies new comments, returns revisions to `In Review`, or prepares publish-ready output.
 
 In this pipeline, One Horizon is the review source of truth. Social drafts are stored in draft initiative descriptions, not local draft files. Blog publishing writes to the configured `publish_output_dir` and opens a pull request.
+
+When a workflow finds an existing Ink initiative outside the matching channel parent, it should move it under `Ink - Blog`, `Ink - LinkedIn`, or `Ink - Reddit` before continuing.
 
 ## Skill guide
 

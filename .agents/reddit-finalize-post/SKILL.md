@@ -57,15 +57,19 @@ Carry forward:
 
 After local corpus storage succeeds, use the One Horizon MCP to create a child initiative under `Ink - Reddit`.
 
+Before mutating One Horizon, read `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`.
+
 Fields:
 
 - **Title**: the post title or the first 60 characters of the opening line, with the subreddit appended in parentheses — e.g. `Why manual outreach beats automation early (r/startups)`
 - **Description**: subreddit, format, published date, and the local corpus path
 - **Status**: `Completed`
+- **Parent**: `Ink - Reddit` via `parentInitiativeId`
 
 Rules:
 
 - Only create the One Horizon record when local storage actually happened — not just when the draft is finalized without storage.
+- If a matching Reddit initiative already exists and is missing the `Ink - Reddit` parent or is under a different parent, move it with `update_initiative` before updating or reporting it.
 - If the One Horizon MCP is unavailable, log the corpus path in the response and continue. Do not block storage on One Horizon availability.
 - If the `Ink - Reddit` parent initiative does not exist, note that in the output and skip the One Horizon step.
 

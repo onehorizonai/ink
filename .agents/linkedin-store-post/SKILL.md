@@ -81,15 +81,19 @@ Do not handcraft filenames or file bodies manually when the scripts can do it.
 
 After each local corpus write succeeds, use the One Horizon MCP to create a child initiative under `Ink - LinkedIn`.
 
+Before mutating One Horizon, read `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`.
+
 Fields:
 
 - **Title**: the post title or the first 60 characters of the opening line
 - **Description**: format, published date, and the local corpus path
 - **Status**: `Completed`
+- **Parent**: `Ink - LinkedIn` via `parentInitiativeId`
 
 Rules:
 
 - Create one One Horizon record per stored post, not one record for the whole batch.
+- If a matching LinkedIn initiative already exists and is missing the `Ink - LinkedIn` parent or is under a different parent, move it with `update_initiative` before updating or reporting it.
 - If the One Horizon MCP is unavailable, log the corpus path in the response and continue. Do not block storage on One Horizon availability.
 - If the `Ink - LinkedIn` parent initiative does not exist, note that in the output and skip the One Horizon step for that item.
 
