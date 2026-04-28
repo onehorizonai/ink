@@ -26,8 +26,9 @@ Continue into the calling workflow. Do not mention setup or recovery.
 
 Use the smallest recovery path that matches the failure:
 
-- If the One Horizon tool itself is not callable in the current session, stop the One Horizon-dependent part of the workflow and give the recovery message below.
-- If the tool is callable but a required author context doc is missing, run `../SKILL.md` to create missing docs through the confirmation flow.
+- If One Horizon auth is missing, expired, or the tool is not callable, stop and give the recovery message below.
+- If the tool is callable and exact-title lookup confirms a required author context doc is missing, run `../SKILL.md` to create only the missing docs through the confirmation flow.
+- If the required author context doc exists but cannot be read, do not create a duplicate. Stop the dependent workflow and ask the user to fix One Horizon document lookup or access for the exact title.
 - If the tool is callable but a workflow-owned workspace document is missing, follow that workflow's creation contract before continuing.
 - If the tool is callable but required IDs or fields are missing, resolve them with One Horizon tools or ask the smallest targeted question. Do not guess IDs.
 - If an optional One Horizon write fails after the core work is done, report the skipped write and continue any non-One-Horizon handoff that does not depend on that write.
@@ -35,7 +36,7 @@ Use the smallest recovery path that matches the failure:
 Recovery message:
 
 ```text
-One Horizon is configured or authenticated, but its MCP tools are not callable in this chat. Open the Ink repo root, authenticate the One Horizon MCP server if needed, then start a fresh assistant session.
+One Horizon auth is required. Authenticate the One Horizon MCP server, then start a fresh assistant session.
 ```
 
 Do not search tracked repo files, old local context files, README files, or skill docs as a substitute for live One Horizon context.

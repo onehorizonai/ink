@@ -7,7 +7,7 @@ description: Set up Ink's author-scoped context docs in One Horizon. Use when th
 
 Set up Ink's author-scoped context docs and parent initiatives in One Horizon without guessing.
 
-This skill owns context setup for Ink. Verify the One Horizon MCP connection, resolve the author, inspect existing author context docs and initiatives, offer to use old `.local/context/` files as migration source after confirmation, gather missing facts in one grouped pass, show a confirmation summary, and create missing docs only after explicit approval.
+This skill owns context setup for Ink. Use One Horizon tools to resolve the workspace and author, inspect existing author context docs and initiatives, offer to use old `.local/context/` files as migration source after confirmation, gather missing facts in one grouped pass, show a confirmation summary, and create missing docs only after explicit approval.
 
 ## Read First
 

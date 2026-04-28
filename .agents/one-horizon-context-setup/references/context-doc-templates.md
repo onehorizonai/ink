@@ -21,9 +21,10 @@ Rules:
 
 ## Missing Required Docs
 
-If a downstream Ink workflow requires an author-scoped context doc and that document is missing or unusable, run the `one-horizon-context-setup` skill to create the missing doc through its confirmation flow before continuing.
-
-Do not substitute tracked repo files, README content, public web search, or local corpus examples for a required One Horizon context doc.
+- If One Horizon auth or tools fail, stop.
+- If exact-title lookup confirms a required doc is missing, run `one-horizon-context-setup` for that doc only.
+- If the doc exists but cannot be read, stop and fix lookup/access. Do not create a duplicate.
+- Do not substitute tracked repo files, README content, public web search, or local corpus examples for a required One Horizon context doc.
 
 Optional docs are different: if a workflow says a doc is optional or only needed for a specific angle, skip that doc when it is missing unless the user asks to create it.
 
