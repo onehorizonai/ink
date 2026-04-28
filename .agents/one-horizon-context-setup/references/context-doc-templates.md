@@ -7,6 +7,9 @@ Rules:
 - Resolve the author first with One Horizon MCP tools. If the user names an author, resolve that person with member/team lookup tools such as `find-team-member` when available. Otherwise use the authenticated/current One Horizon user from tools such as `list-my-teams` when available.
 - If One Horizon cannot identify a single author, ask the user which author to use before loading or creating docs.
 - Use author-scoped document names: `Ink Context - {Author Name} - {Doc Type}`.
+- Use `find-documents` only to discover candidate document IDs, titles, statuses, types, and excerpts. Its `excerpt` is not the full document body.
+- When a workflow needs the full content of an existing context doc, call `get-document` with the selected `documentId` before extracting fields or treating the doc as loaded.
+- Keep task work separate: when a workflow needs full task context or content-document-backed task descriptions, use `get-task-details`.
 - Do not use global author docs such as `Ink Context - Profile`.
 - Create missing author docs from these templates only after explicit confirmation.
 - Do not overwrite, patch, refresh, or otherwise change an existing author context doc. Existing author docs are read-only source material for writing workflows.

@@ -38,6 +38,7 @@ Resolve the author and load only the relevant author-scoped One Horizon context 
 
 Do not load personal docs just because they exist.
 Do not use tracked repo files for live runtime context.
+Use `find-documents` only to locate candidate context docs by ID, title, status, type, or excerpt. Call `get-document` for the selected `documentId` before extracting fields or treating a context doc as loaded.
 If a required author-scoped context doc is missing or unusable, use `../../one-horizon-context-setup/SKILL.md` to create the missing doc through its confirmation flow before drafting.
 If a required One Horizon tool call is missing or fails, follow `../../one-horizon-context-setup/references/mcp-readiness.md`.
 

@@ -10,6 +10,7 @@ Examples:
 
 - Resolve the active workspace when a write requires `workspaceId`.
 - Resolve the author before loading or creating author-scoped context docs.
+- Use `find-documents` only to discover document IDs, titles, statuses, types, and excerpts; call `get-document` before reading or extracting a full document body.
 - Read or create the needed One Horizon document directly.
 - Report or update the selected work item directly.
 

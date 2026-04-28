@@ -39,6 +39,7 @@ Before journalist research, load the minimum One Horizon context:
 This is a hard gate. Do not start local corpus searches, trend searches, or journalist ideation until the required workspace, author, and `Current Work` context have been resolved and loaded.
 
 A context doc is loaded only when its document content has been read and the workflow has extracted the relevant fields for this run. For `Current Work`, extract the company or project, role, current positioning, main audience, key offers or products, themes worth posting about, and words or angles to avoid. Finding a document by title is not enough.
+Use `find-documents` only to locate candidate context docs by ID, title, status, type, or excerpt. Call `get-document` for the selected `documentId` before reading fields or treating the context doc as loaded.
 
 If a required One Horizon tool call is missing or fails while loading required context, follow `../../one-horizon-context-setup/references/mcp-readiness.md`. Do not run web research from guessed company context.
 
@@ -60,7 +61,7 @@ If the One Horizon tool call for this document is missing or fails, ask whether 
 
 If `Ink Context - Trend Sources` exists:
 
-- Read it before the journalist builds seed topics or web research queries.
+- Read it with `get-document` before the journalist builds seed topics or web research queries.
 - Use `Active URLs` to identify sites worth searching directly or checking for recent posts, announcements, essays, changelogs, or market signals.
 - Use `Research Guidance` to include preferred themes and avoid excluded topics.
 - Do not treat a source URL as proof by itself. Fetch or search the actual relevant page before using it as evidence.

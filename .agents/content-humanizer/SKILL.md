@@ -11,7 +11,7 @@ Use this as one of the first passes after a raw draft exists.
 
 - the active writer skill's workflow file
 - the active writer skill's review-passes file
-- the resolved author's `Profile` One Horizon context doc if you need a voice anchor
+- the resolved author's `Profile` One Horizon context doc if you need a voice anchor; use `find-documents` only to locate it and `get-document` to read the full body before extracting voice cues
 
 ## Scope
 

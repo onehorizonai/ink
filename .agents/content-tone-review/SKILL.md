@@ -15,6 +15,7 @@ Review whether the draft sounds like the author, not just like good generic copy
 - `../social-common/references/repetition-guard.md`
 
 Then resolve the author with One Horizon MCP and load only the relevant author-scoped One Horizon context docs plus 3-5 matching corpus examples. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract.
+Use `find-documents` only to locate candidate context docs by ID, title, status, type, or excerpt. Call `get-document` for the selected `documentId` before extracting fields or treating a context doc as loaded.
 
 Use One Horizon context docs for live runtime context.
 Do not infer live context from tracked repo files.
