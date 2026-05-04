@@ -1,0 +1,4 @@
+interface:
+  display_name: "Copywriting"
+  short_description: "Write final website page copy"
+  default_prompt: "Use $copywriting to write, rewrite, or improve final marketing copy for a website page, and ask targeted verification questions first if the promise, proof, or CTA details are still not locked."

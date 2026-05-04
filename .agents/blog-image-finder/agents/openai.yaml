@@ -1,0 +1,4 @@
+interface:
+  display_name: "Blog Image Finder"
+  short_description: "Find and download fresh blog images"
+  default_prompt: "Use $blog-image-finder to search Unsplash for a blog image, avoid reused images, and download the selected file to the configured local folder. Assume the MCP tool already works and do not preflight-verify it; only troubleshoot if a tool call fails. Form image searches as short broad visual concepts like `empty office` or `quiet workspace`, not long descriptive article summaries."

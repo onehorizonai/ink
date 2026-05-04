@@ -1,0 +1,1 @@
+../../.agents/page-brief-seo-playbook/SKILL.md

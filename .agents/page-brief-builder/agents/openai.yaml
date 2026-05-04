@@ -1,0 +1,4 @@
+interface:
+  display_name: "Page Brief Builder"
+  short_description: "Build a concise locked website page brief"
+  default_prompt: "Use $page-brief-builder to create or update a concise locked website page brief. Start by clarifying missing strategy inputs in short verification rounds before doing research or assembling the brief."

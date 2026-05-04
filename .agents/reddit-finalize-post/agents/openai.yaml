@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reddit Finalize Post"
+  short_description: "Finalize Reddit copy before optional storage"
+  default_prompt: "Use $reddit-finalize-post to run the final review loop on a Reddit draft and store it only when approval and subreddit are both clear."

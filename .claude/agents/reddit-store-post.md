@@ -1,0 +1,1 @@
+../../.agents/reddit-store-post/SKILL.md

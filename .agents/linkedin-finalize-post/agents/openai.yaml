@@ -1,0 +1,4 @@
+interface:
+  display_name: "LinkedIn Finalize Post"
+  short_description: "Finalize a LinkedIn post before approval"
+  default_prompt: "Use $linkedin-finalize-post only when the user wants final review plus optional storage after explicit approval. Do not use it for simple storage-only requests."

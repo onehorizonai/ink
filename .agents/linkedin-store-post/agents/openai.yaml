@@ -1,0 +1,4 @@
+interface:
+  display_name: "LinkedIn Store Post"
+  short_description: "Store one or more existing LinkedIn posts"
+  default_prompt: "Use $linkedin-store-post when the user wants to store, save, log, import, or add one or more already-written LinkedIn posts to the corpus, including prompts like 'Store the following posts' or 'Store the following posts (separated by |):'."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Content Humanizer"
+  short_description: "Remove AI tells from editorial drafts"
+  default_prompt: "Use $content-humanizer to remove AI tells from a draft while keeping the intended meaning and voice."

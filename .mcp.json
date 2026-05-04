@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "linkedin-social-research": {
+      "command": "uv",
+      "args": [
+        "run",
+        "./.agents/linkedin-social-writer/mcp/social-research/server.py"
+      ]
+    },
+    "blog-image-finder": {
+      "command": "uv",
+      "args": [
+        "run",
+        "./.agents/blog-image-finder/mcp/image-provider/server.py"
+      ]
+    },
+    "blog-image-uploader": {
+      "command": "uv",
+      "args": [
+        "run",
+        "./.agents/blog-image-uploader/mcp/blog-image-s3/server.py"
+      ]
+    }
+  }
+}

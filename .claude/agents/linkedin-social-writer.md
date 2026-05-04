@@ -1,0 +1,1 @@
+../../.agents/linkedin-social-writer/SKILL.md

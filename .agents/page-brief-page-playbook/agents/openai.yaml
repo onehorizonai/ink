@@ -1,0 +1,4 @@
+interface:
+  display_name: "Page Brief Page Playbook"
+  short_description: "Local page-type rules for page briefs"
+  default_prompt: "Use $page-brief-page-playbook to apply local page-type and site-role rules to a website page brief."

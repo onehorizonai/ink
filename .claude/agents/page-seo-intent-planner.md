@@ -1,0 +1,1 @@
+../../.agents/page-seo-intent-planner/SKILL.md

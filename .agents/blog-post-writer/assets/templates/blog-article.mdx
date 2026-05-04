@@ -1,0 +1,49 @@
+import { getImageUrl, getSignupUrl } from '@repo/utils'
+
+export const metadata = {
+    title: "Replace with article title",
+    date: "YYYY-MM-DD",
+    author: "Replace with author name",
+    excerpt: "Replace with a one- or two-sentence excerpt.",
+    coverImage: "posts/replace-with-cover-image.jpg",
+    tags: ["Replace", "These", "Tags"],
+    readingTime: 7
+}
+
+> TL;DR: Replace with a one-sentence summary.
+
+---
+
+## Replace with opening section
+
+Open with a concrete claim, situation, or contradiction.
+
+---
+
+## Replace with supporting section
+
+Add the proof, examples, or explanation that moves the argument forward.
+
+<Image
+  src={getImageUrl('posts/replace-with-inline-image.jpg')}
+  className="rounded-md border-1 border-divider"
+  alt="Replace with descriptive alt text that explains what the reader should notice"
+  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 65ch"
+  quality={75}
+/>
+
+---
+
+## Replace with product or implication section
+
+Explain what changes, how it works, or why the old model breaks.
+
+---
+
+## Replace with close
+
+End with a conclusion or CTA that matches the saved archive voice.
+
+<Button href={getSignupUrl()} color="primary">
+  Replace CTA
+</Button>

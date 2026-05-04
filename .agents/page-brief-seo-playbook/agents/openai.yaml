@@ -1,0 +1,4 @@
+interface:
+  display_name: "Page Brief SEO Playbook"
+  short_description: "Local SEO rules for page briefs"
+  default_prompt: "Use $page-brief-seo-playbook to apply local SEO and search-intent rules to a website page brief."

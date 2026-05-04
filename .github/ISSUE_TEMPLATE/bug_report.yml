@@ -1,0 +1,88 @@
+name: Bug report
+description: Report something broken in setup, writing workflows, MCP integration, or skill behavior.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting this. Include enough detail for someone else to reproduce it without guessing.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Where is the problem?
+      options:
+        - Setup / onboarding
+        - Local context setup
+        - LinkedIn writing
+        - Blog writing
+        - Content review
+        - MCP / integrations
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: assistant
+    attributes:
+      label: Assistant
+      description: Which assistant were you using?
+      options:
+        - Claude Code
+        - Cursor
+        - Codex
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the bug clearly and directly.
+      placeholder: After running Setup ink, the assistant...
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List the shortest path to reproduce the problem.
+      placeholder: |
+        1. Clone the repo
+        2. Open it in ...
+        3. Run ...
+        4. See error
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect instead?
+      placeholder: The setup flow should have...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant output
+      description: Paste error messages, screenshots, or command output if you have them.
+      render: shell
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Add anything relevant about your machine or setup.
+      placeholder: macOS 15, uv version, assistant version, MCP enabled, etc.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked the README and troubleshooting section
+          required: false
+        - label: I removed secrets and private local context from logs and screenshots
+          required: true
+        - label: I can still reproduce this issue on the latest main branch
+          required: false

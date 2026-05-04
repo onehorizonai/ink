@@ -1,0 +1,1 @@
+../../.agents/website-pattern-analyzer/SKILL.md

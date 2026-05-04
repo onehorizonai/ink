@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reddit Research"
+  short_description: "Find subreddits and winning post patterns"
+  default_prompt: "Use $reddit-research to shortlist subreddits, inspect weekly winners, and produce one subreddit-ready handoff brief for a target audience."

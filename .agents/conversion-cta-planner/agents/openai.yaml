@@ -1,0 +1,4 @@
+interface:
+  display_name: "Conversion CTA Planner"
+  short_description: "Plan conversion flow and CTAs"
+  default_prompt: "Use $conversion-cta-planner to plan the CTA strategy and conversion support for a page brief, and ask targeted verification questions when the CTA behavior is still not locked."

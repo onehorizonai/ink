@@ -1,0 +1,4 @@
+interface:
+  display_name: "Page Brief Assembler"
+  short_description: "Assemble an execution-ready page brief"
+  default_prompt: "Use $page-brief-assembler to turn collected planning inputs into a concise locked website page brief with exact H1, metadata, section headings, CTA labels, and required links, but stop and ask verification questions if any locked field is still unresolved."

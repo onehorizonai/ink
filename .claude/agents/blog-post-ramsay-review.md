@@ -1,0 +1,1 @@
+../../.agents/blog-post-ramsay-review/SKILL.md

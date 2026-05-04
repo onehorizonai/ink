@@ -1,0 +1,4 @@
+interface:
+  display_name: "Page Brief Copy Playbook"
+  short_description: "Local copy and CTA rules for page briefs"
+  default_prompt: "Use $page-brief-copy-playbook to apply local copy, hero, and CTA rules to a website page brief."

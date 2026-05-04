@@ -1,0 +1,4 @@
+interface:
+  display_name: "Content Publishing Runner"
+  short_description: "Revise Ink drafts or prepare publishing output"
+  default_prompt: "Use $content-publishing-runner to revise active `[Ink Draft]` initiatives or prepare publish-ready social/blog output, and repair initiative parentage under the matching `Ink - Blog`, `Ink - LinkedIn`, or `Ink - Reddit` parent before continuing."
