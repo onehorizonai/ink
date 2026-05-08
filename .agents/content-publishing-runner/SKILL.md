@@ -53,6 +53,8 @@ The blog writer pass must complete these checks before the PR path can start:
 4. Return the final MDX body, final metadata, required article filename or slug, selected/downloaded assets, optional uploaded asset paths, review ledger, and a short rebuild summary.
 5. Treat unresolved Ramsay `Must Fix` items, failed source validation, missing required images, missing local publishing context, or incomplete review ledger as blockers. Comment the blocker and set the initiative `Blocked` instead of opening a PR.
 
+If image sourcing fails with a provider/network-style error such as `provider_request_failed`, retry the image search/download path once in the same run before blocking the initiative. Use the blocker path only after a concrete second failure or a clearly non-transient config/auth error.
+
 ## Blog PR Path
 
 1. Read `../../.local/context/blog-publishing.local.md` and resolve `publish_output_dir`.

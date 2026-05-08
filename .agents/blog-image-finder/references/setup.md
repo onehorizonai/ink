@@ -126,6 +126,7 @@ Treat the repo-root `.mcp.json` as the canonical registration for this server. C
 
 - Keep the returned attribution metadata with the article asset notes or image manifest.
 - Use the MCP tool directly and assume the repo-local registration works. Do not run the verifier unless a real tool call fails.
+- If a real tool call fails with a provider/network-style error such as `provider_request_failed`, retry the same call once before escalating to MCP verification or broader workflow blocking.
 - Troubleshooting: run `uv run .agents/mcp/verify_servers.py blog-image-finder` only after a concrete failure to check repo-local registration, stdio startup, and local config status. If `uv` cannot initialize its cache, retry with `UV_CACHE_DIR=/tmp/uv-cache uv run .agents/mcp/verify_servers.py blog-image-finder`.
 - Review the provider terms before publication. The server returns a usage summary, not legal clearance.
 - Pair this skill with `../blog-image-uploader/SKILL.md` when the selected asset should be published to the blog image bucket.
