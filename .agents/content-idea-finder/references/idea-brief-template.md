@@ -1,6 +1,7 @@
 # Content Idea Brief Template
 
-Use this as the `description` for the One Horizon `report-feature-request` call.
+Use this as the `description` for the One Horizon idea record. Blog ideas follow the Blog Lifecycle Contract.
+Other channels currently use `report-feature-request`.
 
 This brief is the handoff artifact. It should be complete enough for a later agent to pick up after One Horizon approval without rereading the whole ideation thread.
 
