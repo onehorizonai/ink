@@ -7,8 +7,10 @@ cwd = "."
 command = "uv"
 args = ["run", "./.agents/blog-image-finder/mcp/image-provider/server.py"]
 cwd = "."
+env = { UV_CACHE_DIR = "/tmp/uv-cache" }
 
 [mcp_servers.blog-image-uploader]
 command = "uv"
 args = ["run", "./.agents/blog-image-uploader/mcp/blog-image-s3/server.py"]
 cwd = "."
+env = { UV_CACHE_DIR = "/tmp/uv-cache" }
