@@ -102,6 +102,29 @@ It will:
 - confirm any new author context docs before creating them
 - create missing author-scoped context docs in One Horizon
 
+### Optional: configure multiple Ink profiles
+
+Ink can keep multiple brands or One Horizon workspaces separate. Create the local profile registry:
+
+```bash
+mkdir -p .local/context
+cp .local/templates/ink-profiles.local.template.json .local/context/ink-profiles.local.json
+```
+
+Each profile maps a label, `workspaceId`, author, website, source repo, local LinkedIn/Reddit/blog draft roots, blog publishing config, and optional image provider/upload configs. The file is gitignored and machine-local.
+
+When more than one profile is configured, Ink asks which profile to use unless your prompt names one or `INK_PROFILE` is set:
+
+```text
+Use Ink profile Product A to find three content ideas.
+```
+
+```bash
+INK_PROFILE=product-a python3 .agents/linkedin-social-writer/scripts/validate_corpus.py
+```
+
+The tracked starter template uses placeholder profile IDs and placeholder workspace IDs. Copy it to `.local/context/ink-profiles.local.json`, then fill real workspace IDs, author details, websites, and local paths only in that ignored local file.
+
 ### 6. Start writing
 
 Good first prompts:
@@ -118,6 +141,8 @@ Good first prompts:
 ## Set up Ink once
 
 Run `one-horizon-context-setup` once after cloning, then again any time your context changes.
+
+If `.local/context/ink-profiles.local.json` contains more than one profile, name the profile in your prompt or answer the profile question before setup creates docs. The setup skill creates context docs and Ink parent initiatives inside the selected profile workspace only.
 
 Guided example:
 
@@ -167,7 +192,7 @@ Content idea workflow:
 
 ```mermaid
 flowchart TD
-    A["Set the goal, audience, timing, and channel"] --> B["Load the minimum One Horizon context"]
+    A["Set the goal, audience, timing, and channel"] --> B["Resolve Ink profile and load minimum One Horizon context"]
     B --> C["Pull trend sources and current signals"]
     C --> D["Check One Horizon and the published archive for overlap"]
     D --> E["Pick the strongest idea"]
@@ -196,7 +221,7 @@ LinkedIn workflow:
 ```mermaid
 flowchart TD
     A["Build the brief"] --> B["Ask only the missing questions"]
-    B --> C["Load the minimum One Horizon context"]
+    B --> C["Resolve Ink profile and load minimum One Horizon context"]
     C --> D["Pull 3 to 5 relevant LinkedIn examples"]
     D --> E["Draft the post"]
     E --> F["Run humanizer pass"]
@@ -207,7 +232,7 @@ flowchart TD
     I -- "No" --> K["Finalize draft"]
     J --> K
     K --> L{"Save unpublished draft?"}
-    L -- "Yes" --> M["Write to content/linkedin/drafts/"]
+    L -- "Yes" --> M["Write to selected profile draft root"]
     L -- "No" --> N["Ready for manual publishing"]
     M --> N
     N --> O["Publish manually on LinkedIn"]
@@ -287,23 +312,24 @@ Blog workflow:
 flowchart TD
     A["Move the [Ink Idea] [Blog] initiative to Planned"] --> B["Run content-creation-runner"]
     B --> C["Rename the same initiative to [Ink Draft] [Blog]"]
-    C --> D["Use the stored Blog type"]
-    D --> E["Research archive, context, and fresh sources"]
-    E --> F["Validate outline and image plan"]
-    F --> G["Write pass one"]
-    G --> H["Write pass two"]
-    H --> I["Run the six review passes"]
-    I --> J["Update Source Idea, Draft, Review Notes, and Automation"]
-    J --> K["Leave the initiative in In Review"]
-    K --> L{"Human decision?"}
-    L -- "Needs edits" --> M["Add feedback and move it to Planned or In Progress"]
-    M --> N["Run content-publishing-runner"]
-    N --> O["Revise the draft in place"]
-    O --> K
-    L -- "Ready to publish" --> P["Move it to Planned or In Progress"]
-    P --> Q["Run content-publishing-runner"]
-    Q --> R["Rebuild publish-ready MDX and open a PR"]
-    R --> S["Comment with PR result and leave it in In Review"]
+    C --> D["Use or normalize the stored Blog type"]
+    D --> E["Resolve Ink profile and load minimum One Horizon context"]
+    E --> F["Research archive, context, and fresh sources"]
+    F --> G["Validate outline and image plan"]
+    G --> H["Write pass one"]
+    H --> I["Write pass two"]
+    I --> J["Run the six review passes"]
+    J --> K["Update Source Idea, Draft, Review Notes, and Automation"]
+    K --> L["Leave the initiative in In Review"]
+    L --> M{"Human decision?"}
+    M -- "Needs edits" --> N["Add feedback and move it to Planned or In Progress"]
+    N --> O["Run content-publishing-runner"]
+    O --> P["Revise the draft in place"]
+    P --> L
+    M -- "Ready to publish" --> Q["Move it to Planned or In Progress"]
+    Q --> R["Run content-publishing-runner"]
+    R --> S["Rebuild publish-ready MDX and open a PR"]
+    S --> T["Comment with PR result and leave it in In Review"]
 ```
 
 How blog writing works:
@@ -409,7 +435,7 @@ If the draft already exists and you only want one kind of pass, call the review 
 
 ## Store published content in the corpus
 
-Use these skills when the writing already exists and you want it saved in the corpus. Each skill also creates a One Horizon child initiative under the matching channel parent (`Ink - LinkedIn` or `Ink - Reddit`) so your published work is tracked in one place.
+Use these skills when the writing already exists and you want it saved in the selected profile's corpus. Each skill also creates a One Horizon child initiative under the matching channel parent (`Ink - LinkedIn` or `Ink - Reddit`) in the selected profile workspace so your published work is tracked in one place.
 
 - `linkedin-finalize-post`: final pass, then optional storage when approval is explicit
 - `linkedin-store-post`: store content that was already shared or published
@@ -423,7 +449,7 @@ Use these skills when a local automation or manual prompt should move content th
 - `content-creation-runner`: finds planned `[Ink Idea]` records, drafts the right Blog, LinkedIn, or Reddit content, and updates Blog initiatives in place.
 - `content-publishing-runner`: finds `[Ink Draft]` initiatives in `Planned` or `In Progress`, applies new comments, returns revisions to `In Review`, or prepares publish-ready output.
 
-In this pipeline, One Horizon is the source of truth. Ideas, draft bodies, review notes, and publish handoffs all live there. Social publishing still happens by hand. Blog publishing rebuilds the reviewed draft and opens a pull request on the same Blog initiative.
+In this pipeline, the selected Ink profile's One Horizon workspace is the source of truth. Ideas, draft bodies, review notes, and publish handoffs all live there. Social publishing still happens by hand. Blog publishing rebuilds the reviewed draft and opens a pull request on the same Blog initiative.
 
 When a workflow finds an existing Ink initiative outside the matching channel parent, it should move it under `Ink - Blog`, `Ink - LinkedIn`, or `Ink - Reddit` before continuing.
 
@@ -496,8 +522,8 @@ flowchart TD
 
 | Skill | Use it for |
 | --- | --- |
-| `blog-image-finder` | Search Unsplash and download candidate blog images |
-| `blog-image-uploader` | Upload approved blog images to your configured S3 bucket |
+| `blog-image-finder` | Search Unsplash and download candidate blog images into the selected profile's staging folder |
+| `blog-image-uploader` | Upload approved blog images to the selected profile's configured S3 bucket |
 
 ## What stays local
 
@@ -505,14 +531,14 @@ The repo keeps the workflow. Your real context, drafts, and secrets stay on your
 
 Keep these local and uncommitted:
 
-- `.local/context/blog-publishing.local.md` for machine-local blog path state
-- `.secrets/` for API keys and local config
-- `content/linkedin/` for your real LinkedIn corpus
-- `content/linkedin/drafts/` for unpublished LinkedIn drafts created by direct writer workflows
-- `content/reddit/` for your real Reddit corpus
-- `content/reddit/drafts/` for unpublished Reddit drafts created by direct writer workflows
-- `content/blog/drafts/` for unpublished blog drafts
-- any published blog source folder referenced by `.local/context/blog-publishing.local.md`
+- `.local/context/ink-profiles.local.json` for profile routing and local content roots
+- `.local/context/blog-publishing.local.md` for legacy/default machine-local blog path state
+- any profile-specific blog path file referenced by `blogPublishingConfig`
+- `.secrets/` for API keys, image provider configs, image upload configs, and local image histories
+- each profile's LinkedIn corpus root
+- each profile's Reddit corpus root
+- each profile's blog draft root
+- any published blog source folder referenced by the selected profile's blog publishing config
 
 ## Advanced setup
 
@@ -541,7 +567,7 @@ If you want to verify the local MCP setup:
 uv run .agents/mcp/verify_servers.py
 ```
 
-This script verifies the repo-local stdio servers only. It does not verify One Horizon, because One Horizon is configured in your assistant or user-level tooling.
+This script verifies the repo-local stdio servers only. Pass `--profile <profile-id>` when you want image config checks to use a specific Ink profile. It does not verify One Horizon, because One Horizon is configured in your assistant or user-level tooling.
 
 ### Unsplash setup for `blog-image-finder`
 
@@ -550,18 +576,18 @@ You need an Unsplash developer app before image search will work.
 1. Create or sign in to your Unsplash account.
 2. Open [your Unsplash apps](https://unsplash.com/oauth/applications) and create a new application.
 3. Copy the app's `Access Key`.
-4. Save that key in `.secrets/image-provider.json` as `access_key`.
+4. Save that key in the selected profile's `imageProviderConfig` path, such as `.secrets/<profile-id>/image-provider.json`.
 
 New Unsplash apps start in demo mode, which is enough for setup and testing. If you end up using this in a real workflow, apply for production access from the Unsplash dashboard after the integration works.
 
-Create `.secrets/image-provider.json`:
+Create the selected profile's image provider config:
 
 ```json
 {
   "provider": "unsplash",
   "access_key": "YOUR_UNSPLASH_ACCESS_KEY",
-  "download_dir": "./.secrets/downloads/blog-images",
-  "history_path": "./.secrets/image-download-history.json",
+  "download_dir": "./.secrets/<profile-id>/downloads/blog-images",
+  "history_path": "./.secrets/<profile-id>/image-download-history.json",
   "timeout_seconds": 30
 }
 ```
@@ -570,7 +596,7 @@ Keep the key local. Do not commit it. If you plan to ship an Unsplash-backed wor
 
 ### S3 setup for `blog-image-uploader`
 
-Create `.secrets/blog-image-s3.json`:
+Create the selected profile's image upload config at its `imageUploadConfig` path:
 
 ```json
 {
@@ -582,24 +608,24 @@ Create `.secrets/blog-image-s3.json`:
   "endpoint_url": "https://your-s3-endpoint.example.com",
   "public_base_url": "https://cdn.example.com/your-blog-images",
   "key_prefix": "images/posts",
-  "history_path": "./.secrets/blog-image-upload-history.json",
+  "history_path": "./.secrets/<profile-id>/blog-image-upload-history.json",
   "addressing_style": "path",
   "timeout_seconds": 30
 }
 ```
 
-Use `addressing_style: "path"` for path-style S3 endpoints. Use `virtual` for bucket-subdomain hosts with matching TLS support.
+Use `addressing_style: "path"` for path-style S3 endpoints. Use `virtual` for bucket-subdomain hosts with matching TLS support. Do not point a profile at another profile's bucket/CDN unless that sharing is intentional.
 
 ### Manual blog path setup
 
 Only use this if you want to set the blog path without running `Setup ink`.
 
-Create `.local/context/blog-publishing.local.md` with the required fields:
+Create the selected profile's blog publishing config with the required fields. For the legacy/default One Horizon profile this is `.local/context/blog-publishing.local.md`:
 
 ```md
 # Blog Publishing Local Config
 
-This file stores machine-local blog path values for this workspace.
+This file stores machine-local blog path values for one Ink profile.
 
 ## Active Paths
 
@@ -621,14 +647,14 @@ This file stores machine-local blog path values for this workspace.
 - Writing feels generic:
   Run `Setup ink` again or ask Ink to refresh your context from your website and LinkedIn.
 - Unsplash image search does not work:
-  Confirm you created an Unsplash app and saved the `Access Key` in `.secrets/image-provider.json`.
+  Confirm you created an Unsplash app and saved the `Access Key` in the selected profile's `imageProviderConfig`.
 
 ## Repo layout
 
 - [.agents](.agents): the repo skills, references, templates, and MCP helpers
-- [.local](.local/README.md): local setup contract, starter templates, and ignored runtime context
-- [content/linkedin](content/linkedin/README.md): local LinkedIn corpus workspace
-- [content/reddit](content/reddit/README.md): local Reddit corpus workspace
+- [.local](.local/README.md): local profile setup contract, starter templates, and ignored runtime context
+- [content/linkedin](content/linkedin/README.md): legacy/default LinkedIn corpus workspace
+- [content/reddit](content/reddit/README.md): legacy/default Reddit corpus workspace
 - [content/blog](content/blog/README.md): local blog workspace
 - [scripts](scripts): repo helper scripts
 

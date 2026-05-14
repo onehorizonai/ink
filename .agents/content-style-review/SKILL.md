@@ -12,6 +12,7 @@ Focus on structure and readability, not on identity or factual verification. Fol
 - the active writer skill's workflow file
 - the active writer skill's review-passes file
 - the active writer skill's format-playbooks file if one exists
+- the active Ink profile contract when profile routing is needed
 - `../social-common/references/repetition-guard.md`
 
 ## Use
@@ -37,7 +38,7 @@ Focus on structure and readability, not on identity or factual verification. Fol
 - do not make every close promotional
 - do not turn prose into bullets just because it looks tidier
 - for blog articles, do not polish away the sharper editorial edge into generic SaaS content
-- do not override the corpus voice for the sake of polish
+- do not override the selected profile corpus voice for the sake of polish
 - do not fix repetition by sanding the draft into generic copy
 
 ## Output

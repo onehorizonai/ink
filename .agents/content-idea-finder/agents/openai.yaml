@@ -1,4 +1,4 @@
 interface:
   display_name: "Content Idea Finder"
   short_description: "Find trend-backed LinkedIn, Reddit, and blog ideas"
-  default_prompt: "Use $content-idea-finder to recommend a LinkedIn, Reddit, or blog idea based on my goal, current context, and recent trends, then file the selected idea as a `[Ink Idea]` One Horizon approval record without drafting content. For Blog, create one initiative under `Ink - Blog` so the same record can become the draft later."
+  default_prompt: "Use $content-idea-finder to resolve the active Ink profile, recommend a LinkedIn, Reddit, or blog idea based on my goal, current context, and recent trends, then file the selected idea as a `[Ink Idea]` One Horizon approval record in that profile workspace without drafting content. For Blog, create one initiative under `Ink - Blog` so the same record can become the draft later."

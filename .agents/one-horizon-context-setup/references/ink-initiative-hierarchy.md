@@ -2,18 +2,20 @@
 
 Use this contract whenever an Ink skill creates, updates, or processes One Horizon initiatives for content work.
 
+Resolve the active Ink profile first with `ink-profile-contract.md`. All initiative lookup, creation, updates, and hierarchy repair happen inside the selected profile's `workspaceId`. Do not use the One Horizon MCP default workspace silently.
+
 ## Parents
 
-- `Ink` is the root initiative.
-- `Ink - Blog` is the parent for Blog post initiatives throughout idea, draft, review, and publishing work.
+- `Ink` is the root initiative inside the selected profile workspace.
+- `Ink - Blog` is the parent for Blog post initiatives throughout idea, draft, review, publishing, and published article tracking.
 - `Ink - LinkedIn` is the parent for LinkedIn ideas, drafts, and published posts.
 - `Ink - Reddit` is the parent for Reddit ideas, drafts, and published posts.
 - `Ink - Website Briefs` is the parent for website brief work.
 
 ## Required Behavior
 
-- Resolve the workspace and required `Ink - ...` parent initiative before mutating channel work.
-- When creating an initiative, pass the matching channel parent as `parentInitiativeId`.
+- Resolve the selected profile workspace and required `Ink - ...` parent initiative before mutating channel work.
+- When creating an initiative, pass the matching channel parent as `parentInitiativeId` and the selected profile's `workspaceId`.
 - When processing an existing initiative, inspect its current parent. If it is missing or does not match the channel implied by the title or brief, move it before continuing.
 - Use `update_initiative` for initiative hierarchy repair. Do not use comments, status updates, or description edits as a substitute for setting the parent.
 - Follow the Blog Lifecycle Contract below for Blog work.

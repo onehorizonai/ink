@@ -8,6 +8,7 @@ from pathlib import Path
 
 from storage_common import (
     FORMAT_BY_FOLDER,
+    add_profile_arguments,
     build_draft_filename,
     default_format_template,
     display_path,
@@ -16,6 +17,8 @@ from storage_common import (
     plain,
     read_body,
     render_template,
+    resolve_social_corpus_root,
+    resolve_social_drafts_root,
     resolve_storage_roots,
     yaml_list,
     yaml_string,
@@ -36,12 +39,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--example-path", action="append")
     parser.add_argument("--body")
     parser.add_argument("--body-file", type=Path)
+    add_profile_arguments(parser)
     return parser.parse_args()
 
 
-def build_content(root: Path, args: argparse.Namespace, created_at: str, body: str) -> str:
+def build_content(root: Path, args: argparse.Namespace, created_at: str, body: str, default_example_path: str) -> str:
     template_text = load_text(root / "templates" / "storage" / "draft.md")
-    default_example_path = f"content/reddit/{FORMAT_BY_FOLDER[args.format]}/replace-with-example.md"
     values = {
         "format_yaml": yaml_string(args.format),
         "created_at_yaml": yaml_string(created_at),
@@ -63,8 +66,10 @@ def build_content(root: Path, args: argparse.Namespace, created_at: str, body: s
 def main() -> int:
     args = parse_args()
     root, repo_root = resolve_storage_roots(Path(__file__))
-    drafts_root = repo_root / "content" / "reddit" / "drafts" / FORMAT_BY_FOLDER[args.format]
+    corpus_root = resolve_social_corpus_root(repo_root, "reddit", args.profile, args.profile_config)
+    drafts_root = resolve_social_drafts_root(repo_root, "reddit", args.profile, args.profile_config) / FORMAT_BY_FOLDER[args.format]
     drafts_root.mkdir(parents=True, exist_ok=True)
+    default_example_path = display_path(corpus_root / FORMAT_BY_FOLDER[args.format] / "replace-with-example.md", repo_root)
 
     created_at = datetime.now().astimezone().isoformat(timespec="minutes")
     date_prefix = normalize_date(created_at)
@@ -72,7 +77,7 @@ def main() -> int:
     target = drafts_root / filename
 
     body = read_body(args.body, args.body_file, "[Draft body goes here]")
-    target.write_text(build_content(root, args, created_at, body), encoding="utf-8")
+    target.write_text(build_content(root, args, created_at, body, default_example_path), encoding="utf-8")
     print(display_path(target, repo_root))
     return 0
 

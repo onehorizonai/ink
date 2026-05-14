@@ -1,11 +1,13 @@
 ---
 name: reddit-finalize-post
-description: Finalize a Reddit post or comment reply with the repo review workflow and store it in the local Reddit corpus only when approval is explicit. Use when the draft is close and needs the last review loop before optional storage.
+description: Finalize a Reddit post or comment reply with the repo review workflow and store it in the selected Ink profile's local Reddit corpus only when approval is explicit. Use when the draft is close and needs the last review loop before optional storage.
 ---
 
 # Reddit Finalize Post
 
 Use this when the draft is close and needs a final pass before approval or storage.
+
+Resolve the active Ink profile before review context, storage, or One Horizon record creation. If multiple profiles exist and none is named, ask which profile to use.
 
 ## Intent Split
 
@@ -55,7 +57,7 @@ Carry forward:
 
 ## One Horizon: Record Published Post
 
-After local corpus storage succeeds, use the One Horizon MCP to create a child initiative under `Ink - Reddit`.
+After selected-profile local corpus storage succeeds, use the One Horizon MCP to create a child initiative under `Ink - Reddit` in the selected profile workspace.
 
 Before mutating One Horizon, read `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`.
 

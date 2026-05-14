@@ -2,11 +2,11 @@
 
 ## Path Resolution
 
-Read `../../../.local/context/blog-publishing.local.md` for the active path values.
+Resolve the active Ink profile, then read the selected profile's `blogPublishingConfig` for the active path values.
 
 - Use `source_articles_dir` to load existing published articles for internal examples.
 - Use `publish_output_dir` when writing a published blog post.
-- Use the field names in `.local/context/blog-publishing.local.md` exactly as written.
+- Use the field names in the selected profile's blog publishing config exactly as written.
 - If the local file is missing, ask the user for the correct folders and create it before continuing.
 - If either path is `[unset]` or missing on disk, ask the user for the correct folder and update the local file before continuing.
 - Do not assume `content/blog/posts/`.
@@ -17,7 +17,7 @@ The read folder and write folder may be the same or different.
 
 Store one published article per file under the configured `publish_output_dir`.
 
-Do not store unpublished drafts here. Store those in `content/blog/drafts/`.
+Do not store unpublished drafts here. Store those in the selected profile's `contentRoots.blogDrafts`.
 
 ## File Naming
 
@@ -35,7 +35,9 @@ Example:
 
 Do not add `NN--blog--` to published blog filenames.
 
-If the same date and slug need more than one file, append `-2`, `-3`, etc.
+Published blog dates must be unique inside the selected Ink profile's `publish_output_dir`. Before writing a published file, scan existing `.mdx` files for filename dates and `metadata.date` values, choose an unused date, and make the filename date match `metadata.date`.
+
+Do not append `-2`, `-3`, etc. to work around published blog date collisions. Pick a different unused date instead, unless the user explicitly asks to move an existing post date.
 
 ## File Shape
 

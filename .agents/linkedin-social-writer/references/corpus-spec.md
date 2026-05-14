@@ -2,9 +2,9 @@
 
 ## Layout
 
-Store one Markdown file per published item under `content/linkedin/` at the repo root.
+Store one Markdown file per published item under the selected Ink profile's `contentRoots.linkedin`.
 
-Do not store unpublished drafts here. Store those in `content/linkedin/drafts/`.
+Do not store unpublished drafts here. Store those under `<contentRoots.linkedin>/drafts/`.
 
 Use these folders:
 

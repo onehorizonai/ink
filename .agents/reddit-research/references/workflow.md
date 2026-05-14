@@ -22,7 +22,7 @@ High-value questions:
 
 ## 3. Load the minimum user context
 
-Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract:
+Resolve the active Ink profile with `../../one-horizon-context-setup/references/ink-profile-contract.md`, then resolve the author and load only the relevant author-scoped One Horizon context docs from the selected workspace. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract:
 
 - `Profile` for identity basics
 - `Current Work` for almost every business topic

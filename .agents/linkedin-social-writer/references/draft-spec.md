@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Use `content/linkedin/drafts/` for unpublished drafts only.
+Use the selected Ink profile's LinkedIn draft root (`<contentRoots.linkedin>/drafts/`) for unpublished drafts only.
 
 Do not place unpublished drafts in the published corpus.
 
@@ -10,11 +10,11 @@ Do not place unpublished drafts in the published corpus.
 
 Store drafts under:
 
-- `content/linkedin/drafts/posts/`
-- `content/linkedin/drafts/comment-replies/`
-- `content/linkedin/drafts/dms/`
-- `content/linkedin/drafts/dm-replies/`
-- `content/linkedin/drafts/reposts/`
+- `<contentRoots.linkedin>/drafts/posts/`
+- `<contentRoots.linkedin>/drafts/comment-replies/`
+- `<contentRoots.linkedin>/drafts/dms/`
+- `<contentRoots.linkedin>/drafts/dm-replies/`
+- `<contentRoots.linkedin>/drafts/reposts/`
 
 ## File Naming
 

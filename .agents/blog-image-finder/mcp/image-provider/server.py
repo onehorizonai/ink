@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import json
 import mimetypes
+import os
 import re
 import sys
 import traceback
@@ -24,6 +25,9 @@ PROTOCOL_VERSION = "2024-11-05"
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 CONFIG_PATH = REPO_ROOT / ".secrets" / "image-provider.json"
+PROFILE_CONFIG_ENV = "INK_PROFILE_CONFIG"
+PROFILE_ENV = "INK_PROFILE"
+DEFAULT_PROFILE_CONFIG = REPO_ROOT / ".local" / "context" / "ink-profiles.local.json"
 
 TOOLS = [
     {
@@ -38,6 +42,8 @@ TOOLS = [
                     "enum": ["landscape", "portrait", "squarish"],
                 },
                 "limit": {"type": "integer", "minimum": 1, "maximum": 20, "default": 6},
+                "profile": {"type": "string"},
+                "profile_config": {"type": "string"},
             },
             "required": ["query"],
             "additionalProperties": False,
@@ -50,6 +56,8 @@ TOOLS = [
             "type": "object",
             "properties": {
                 "image_id": {"type": "string"},
+                "profile": {"type": "string"},
+                "profile_config": {"type": "string"},
             },
             "required": ["image_id"],
             "additionalProperties": False,
@@ -81,6 +89,8 @@ class FinderConfig:
     download_dir: Path
     history_path: Path
     timeout_seconds: int
+    profile_id: str | None
+    config_path: Path
 
 
 class DownloadHistory:
@@ -308,25 +318,128 @@ def send_response(message_id: Any, result: dict[str, Any]) -> None:
     send_message({"jsonrpc": "2.0", "id": message_id, "result": result})
 
 
-def load_config() -> FinderConfig:
-    if not CONFIG_PATH.exists():
+def _optional_string(arguments: dict[str, Any], key: str) -> str | None:
+    value = arguments.get(key)
+    if value is None:
+        return None
+    if not isinstance(value, str):
+        raise ToolError("invalid_input", f"{key} must be a string when provided.")
+    value = value.strip()
+    return value or None
+
+
+def _resolve_profile_config_path(arguments: dict[str, Any]) -> Path:
+    configured = _optional_string(arguments, "profile_config")
+    if configured is None:
+        configured = os.environ.get(PROFILE_CONFIG_ENV, "").strip() or None
+    if configured is None:
+        return DEFAULT_PROFILE_CONFIG
+    return resolve_repo_path(configured)
+
+
+def resolve_ink_profile(arguments: dict[str, Any]) -> tuple[str, dict[str, Any]] | None:
+    requested = _optional_string(arguments, "profile") or os.environ.get(PROFILE_ENV, "").strip()
+    profile_config_path = _resolve_profile_config_path(arguments)
+
+    if not profile_config_path.exists():
+        if requested:
+            raise ToolError(
+                "missing_config",
+                f"Ink profile '{requested}' was requested, but no profile config exists.",
+                details={"path": str(profile_config_path)},
+            )
+        return None
+
+    try:
+        config = json.loads(profile_config_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ToolError(
+            "invalid_config",
+            "The Ink profile config file is not valid JSON.",
+            details={"path": str(profile_config_path), "reason": str(exc)},
+        ) from exc
+
+    if not isinstance(config, dict) or not isinstance(config.get("profiles"), dict) or not config["profiles"]:
+        raise ToolError(
+            "invalid_config",
+            "The Ink profile config must contain a non-empty profiles object.",
+            details={"path": str(profile_config_path)},
+        )
+
+    profiles = config["profiles"]
+    if requested:
+        if requested not in profiles:
+            raise ToolError(
+                "invalid_input",
+                f"Unknown Ink profile '{requested}'.",
+                details={"available_profiles": sorted(profiles)},
+            )
+        profile = profiles[requested]
+        if not isinstance(profile, dict):
+            raise ToolError("invalid_config", f"Ink profile '{requested}' must be an object.")
+        return requested, profile
+
+    if len(profiles) == 1:
+        profile_id = next(iter(profiles))
+        profile = profiles[profile_id]
+        if not isinstance(profile, dict):
+            raise ToolError("invalid_config", f"Ink profile '{profile_id}' must be an object.")
+        return profile_id, profile
+
+    raise ToolError(
+        "invalid_input",
+        "Multiple Ink profiles are configured. Pass profile or set INK_PROFILE before image search/download.",
+        details={"available_profiles": sorted(profiles)},
+    )
+
+
+def resolve_profile_file(
+    arguments: dict[str, Any],
+    field_name: str,
+    legacy_path: Path,
+    config_label: str,
+) -> tuple[Path, str | None]:
+    selected = resolve_ink_profile(arguments)
+    if selected is None:
+        return legacy_path, None
+
+    profile_id, profile = selected
+    raw_path = profile.get(field_name)
+    if not isinstance(raw_path, str) or not raw_path.strip():
+        raise ToolError(
+            "invalid_config",
+            f"Selected Ink profile '{profile_id}' is missing '{field_name}'.",
+            details={"profile": profile_id, "field": field_name, "config": config_label},
+        )
+    return resolve_repo_path(raw_path), profile_id
+
+
+def load_config(arguments: dict[str, Any]) -> FinderConfig:
+    config_path, profile_id = resolve_profile_file(
+        arguments,
+        "imageProviderConfig",
+        CONFIG_PATH,
+        "image provider",
+    )
+
+    if not config_path.exists():
         raise ToolError(
             "missing_config",
-            "Missing image provider config. Create .secrets/image-provider.json before using this server.",
-            details={"path": str(CONFIG_PATH)},
+            "Missing image provider config for the selected Ink profile.",
+            details={"path": str(config_path), "profile": profile_id},
         )
 
     try:
-        raw = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+        raw = json.loads(config_path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
         raise ToolError(
             "invalid_config",
             "The image provider config file is not valid JSON.",
-            details={"path": str(CONFIG_PATH), "reason": str(exc)},
+            details={"path": str(config_path), "reason": str(exc)},
         ) from exc
 
     if not isinstance(raw, dict):
-        raise ToolError("invalid_config", "The image provider config must be a JSON object.", details={"path": str(CONFIG_PATH)})
+        raise ToolError("invalid_config", "The image provider config must be a JSON object.", details={"path": str(config_path)})
 
     provider = str(raw.get("provider", "")).strip() or "unsplash"
     if provider != "unsplash":
@@ -345,7 +458,7 @@ def load_config() -> FinderConfig:
         raise ToolError(
             "invalid_config",
             "The image provider config must include a non-empty access_key. api_key and client_id are accepted as backward-compatible aliases.",
-            details={"path": str(CONFIG_PATH)},
+            details={"path": str(config_path)},
         )
 
     download_dir_raw = raw.get("download_dir")
@@ -353,7 +466,7 @@ def load_config() -> FinderConfig:
         raise ToolError(
             "invalid_config",
             "The image provider config must include a non-empty download_dir string.",
-            details={"path": str(CONFIG_PATH)},
+            details={"path": str(config_path)},
         )
 
     timeout_raw = raw.get("timeout_seconds", 30)
@@ -361,7 +474,7 @@ def load_config() -> FinderConfig:
         raise ToolError(
             "invalid_config",
             "timeout_seconds must be a positive integer when provided.",
-            details={"path": str(CONFIG_PATH)},
+            details={"path": str(config_path)},
         )
 
     download_dir = resolve_repo_path(download_dir_raw)
@@ -376,7 +489,7 @@ def load_config() -> FinderConfig:
         raise ToolError(
             "invalid_config",
             "history_path must be a non-empty string when provided.",
-            details={"path": str(CONFIG_PATH)},
+            details={"path": str(config_path)},
         )
 
     return FinderConfig(
@@ -385,6 +498,8 @@ def load_config() -> FinderConfig:
         download_dir=download_dir,
         history_path=history_path,
         timeout_seconds=timeout_raw,
+        profile_id=profile_id,
+        config_path=config_path,
     )
 
 
@@ -423,7 +538,7 @@ def filename_for_image(image: dict[str, Any], content_type: str) -> str:
 
 
 def call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
-    config = load_config()
+    config = load_config(arguments)
     history = DownloadHistory(config.history_path)
     provider = UnsplashProvider(config)
 
@@ -443,7 +558,9 @@ def call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         if limit_raw < 1 or limit_raw > 20:
             raise ToolError("invalid_input", "limit must be between 1 and 20.")
         limit = limit_raw
-        return provider.search_images(query, orientation, limit, history.downloaded_ids())
+        result = provider.search_images(query, orientation, limit, history.downloaded_ids())
+        result["profile"] = config.profile_id
+        return result
 
     if name == "download_image":
         image_id = str(arguments.get("image_id", "")).strip()
@@ -464,6 +581,7 @@ def call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         photographer_name = provider.extract_photographer_name(image)
         source_page_url = str(image.get("links", {}).get("html") or "")
         record = {
+            "profile": config.profile_id,
             "provider": "unsplash",
             "filename": filename,
             "local_path": str(local_path),
@@ -484,6 +602,7 @@ def call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
             "attribution_text": format_attribution_text(photographer_name),
             "license_summary": LICENSE_SUMMARY,
             "provider": "unsplash",
+            "profile": config.profile_id,
         }
 
     raise ToolError("provider_request_failed", f"Unknown tool: {name}")

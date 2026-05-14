@@ -2,9 +2,9 @@
 
 ## Layout
 
-Store one Markdown file per published item under `content/reddit/` at the repo root.
+Store one Markdown file per published item under the selected Ink profile's `contentRoots.reddit`.
 
-Do not store unpublished drafts here. Store those in `content/reddit/drafts/`.
+Do not store unpublished drafts here. Store those under `<contentRoots.reddit>/drafts/`.
 
 Use these folders:
 

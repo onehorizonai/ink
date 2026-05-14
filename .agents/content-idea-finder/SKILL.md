@@ -14,7 +14,7 @@ Run a three-role workflow: orchestrator loads context, journalist finds up to 3 
 ## Quick Start
 
 1. Read `references/workflow.md`.
-2. Orchestrator: clarify the content job, resolve the author and workspace, run the setup path for missing required context, and load the required One Horizon author context before any local corpus scan.
+2. Orchestrator: clarify the content job, resolve the Ink profile, author, and workspace, run the setup path for missing required context, and load the required One Horizon author context before any local corpus scan.
 3. Orchestrator: load or set up `Ink Context - Trend Sources`. If the document is missing or has no usable `Active URLs`, ask the user for trend or inspiration websites and wait for the answer unless the user explicitly says to skip trend-source research for this run. After the user confirms the proposed body, create or update the One Horizon document before journalist research.
 4. Orchestrator: search One Horizon for existing work with titles starting `[Ink]` and treat those records as the primary exclude list before ideation.
 5. Journalist: use the trend-source doc or user-provided run sources, `../linkedin-social-writer/references/mcp-tools.md`, trend tools, `web_search`, and `fetch_page` to produce at most 3 timely story suggestions. Do not return journalist suggestions from local corpus search alone.
@@ -25,7 +25,8 @@ Run a three-role workflow: orchestrator loads context, journalist finds up to 3 
 ## Working Agreement
 
 - Start from outcome and audience, then choose LinkedIn, Reddit, or blog with `references/channel-fit.md`.
-- Load live context from One Horizon. Do not infer company positioning from local corpus files.
+- Resolve the active Ink profile before One Horizon lookups or local corpus scans. If multiple profiles exist and none is named, ask which profile to use.
+- Load live context from the selected profile's One Horizon workspace. Do not infer company positioning from local corpus files.
 - Use One Horizon `[Ink Idea]` and `[Ink Draft]` records as the primary planned-content exclude list.
 - Use trend sources and web/trend tools for discovery; use published local corpora only to check overlap and gaps.
 - Do not use local draft folders for content-idea dedupe.
@@ -71,10 +72,10 @@ Unless the user asks differently, return:
 - Read `references/channel-fit.md` when selecting LinkedIn, Reddit, or blog.
 - Use `references/idea-brief-template.md` as the single source of truth for the One Horizon description.
 - If a One Horizon context or write tool call fails, read `../one-horizon-context-setup/references/mcp-readiness.md` for recovery.
-- Orchestrator resolves the author with One Horizon MCP, runs setup for missing required context, then loads relevant author-scoped context from One Horizon: `Profile`, `Current Work`, and `Work History`.
-- Orchestrator loads or sets up the workspace-shared One Horizon doc `Ink Context - Trend Sources` before the journalist researches trend and inspiration signals.
-- Editor reads `../../.local/context/blog-publishing.local.md` for the active blog source folder when blog is a possible channel.
+- Orchestrator resolves the selected Ink profile with `../one-horizon-context-setup/references/ink-profile-contract.md`, resolves the author with One Horizon MCP inside that workspace, runs setup for missing required context, then loads relevant author-scoped context from One Horizon: `Profile`, `Current Work`, and `Work History`.
+- Orchestrator loads or sets up the selected workspace's One Horizon doc `Ink Context - Trend Sources` before the journalist researches trend and inspiration signals.
+- Editor reads the selected profile's `blogPublishingConfig` for the active blog source folder when blog is a possible channel.
 - Read `../linkedin-social-writer/references/mcp-tools.md` before using the local research tools.
 - Orchestrator searches One Horizon for `[Ink]` records before journalist ideation, then filters for `[Ink Idea]` and `[Ink Draft]` title prefixes.
-- Editor searches published corpus paths only: `../../content/linkedin/posts/`, `../../content/reddit/posts/`, `../../content/reddit/comment-replies/`, and the configured blog source folder before choosing the topic.
-- After approval, use `../content-creation-runner/SKILL.md` to turn planned `[Ink Idea]` records into reviewable `[Ink Draft]` work.
+- Editor searches published corpus paths from the selected profile only: LinkedIn `contentRoots.linkedin`, Reddit `contentRoots.reddit`, and the configured blog source folder before choosing the topic.
+- After approval, use `../content-creation-runner/SKILL.md` to turn planned `[Ink Idea]` records into reviewable `[Ink Draft]` work, updating Blog in place and creating social draft initiatives as that runner specifies.

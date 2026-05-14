@@ -7,7 +7,7 @@ description: Orchestrate blog writing from brief to final draft using the repo b
 
 ## Overview
 
-Ground every article in the published blog corpus resolved from `../../.local/context/blog-publishing.local.md`. First confirm what general type of blog post the user wants, then find related internal articles for angle, structure, and voice, not for reusable sourcing. Build a fresh external source set, validate an outline, and write long-form copy in two passes that fits the thesis, the confirmed article type, the audience, and the desired next step.
+Ground every article in the selected Ink profile's published blog corpus resolved from that profile's `blogPublishingConfig`. First confirm what general type of blog post the user wants, then find related internal articles for angle, structure, and voice, not for reusable sourcing. Build a fresh external source set, validate an outline, and write long-form copy in two passes that fits the thesis, the confirmed article type, the audience, and the desired next step.
 
 Use the workflow in `references/workflow.md` as the authoritative sequence for this skill. Every workflow step is mandatory. Do not skip, collapse, reorder, or silently defer any step. If a step has no substantive output, record that outcome explicitly instead of omitting the step.
 Before presenting anything as final, complete and report a visible review ledger. Silent completion does not count. If the Ramsay line is missing, or its `Must Fix` items are still open, the article is still a working draft.
@@ -16,27 +16,28 @@ Before presenting anything as final, complete and report a visible review ledger
 
 1. Read `references/workflow.md`.
 2. Load the minimum author-scoped One Horizon context docs (resolved in step 9 below; read here only if the blog post type requires personal context before the archive search).
-3. Read `../../.local/context/blog-publishing.local.md`.
+3. Resolve the active Ink profile, then read the selected profile's `blogPublishingConfig`.
 4. Ask the user to confirm the general blog post type before drafting. If the brief already implies one, state the inferred type and ask the user to confirm or correct it. If the user says something broad like `article`, map it to the nearest playbook in `references/format-playbooks.md` and verify the mapped type back to the user. Do not start internal research, external research, or outline work until the type is confirmed.
    Exception: when this skill is invoked by `../content-creation-runner/SKILL.md` or `../content-publishing-runner/SKILL.md` and the One Horizon brief, stored draft, comments, or handoff already provide a confirmed or normalized type, treat that as the confirmed type and continue without asking the user again.
-5. If the local file is missing, or if either stored folder is `[unset]` or missing on disk, ask the user for the existing blog articles folder and the published blog output folder, then update `../../.local/context/blog-publishing.local.md` before continuing.
-6. Search `source_articles_dir` from `../../.local/context/blog-publishing.local.md` for up to 3-7 relevant internal examples. Prefer the same theme, argument shape, or confirmed article type first. Use them for voice and structure only. Do not inherit their source lists or citations. If none are relevant, say so explicitly and continue.
+5. If the profile blog publishing file is missing, or if either stored folder is `[unset]` or missing on disk, ask the user for the existing blog articles folder and the published blog output folder, then update the selected profile's `blogPublishingConfig` before continuing.
+6. Search `source_articles_dir` from the selected profile's blog publishing config for up to 3-7 relevant internal examples. Prefer the same theme, argument shape, or confirmed article type first. Use them for voice and structure only. Do not inherit their source lists or citations. If none are relevant, say so explicitly and continue.
 7. Read `../linkedin-social-writer/references/mcp-tools.md`.
 8. Do a lightweight external research pass on the topic. Build a fresh source set for the article with the local MCP research tools.
-9. Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract.
+9. Resolve the author in the selected profile workspace and load only the relevant author-scoped One Horizon context docs. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract.
 10. Distill voice markers with `references/style-capture.md`.
 11. Draft an outline and image plan and validate both against `references/format-playbooks.md` and the brief constraints.
 12. Use `search_images` then `download_image` from `../blog-image-finder/SKILL.md` for final external blog assets.
 13. Write pass one by locking the opening, section spine, `---` section breaks, cover image, and inline image placements.
 14. Write pass two by adding proof, examples, transitions, detail, and the final inline images while keeping the article prose-led rather than list-led.
 15. Run every mandatory review pass described in `references/review-passes.md`, including `../blog-post-ramsay-review/SKILL.md` after tone review, then report the review ledger with Ramsay verdict, score, and `Must Fix` disposition.
-16. Save unpublished drafts in `content/blog/drafts/` if the user wants them persisted.
+16. Save unpublished drafts in the selected profile's `contentRoots.blogDrafts` if the user wants them persisted.
 
 ## Working Agreement
 
-- Use the blog corpus as the source of truth for tone, pacing, argument style, section shape, CTA intensity, and how directly to sell.
-- Read `../../.local/context/blog-publishing.local.md` for the active path values.
-- Use One Horizon context docs for live runtime context. Do not use tracked repo files for live context. The exception is `.local/context/blog-publishing.local.md` for machine-local blog path state.
+- Resolve the active Ink profile before One Horizon lookups, corpus search, blog path reads, or draft storage. If multiple profiles exist and none is named, ask which profile to use.
+- Use the selected profile's blog corpus as the source of truth for tone, pacing, argument style, section shape, CTA intensity, and how directly to sell.
+- Read the selected profile's `blogPublishingConfig` for the active path values.
+- Use One Horizon context docs from the selected profile workspace for live runtime context. Do not use tracked repo files for live context. The exception is the selected profile's `blogPublishingConfig` for machine-local blog path state.
 - If a required author-scoped context doc is missing or unusable, use `../one-horizon-context-setup/SKILL.md` to create the missing doc through its confirmation flow before drafting.
 - If a One Horizon tool call is missing or fails, follow `../one-horizon-context-setup/references/mcp-readiness.md`. Do not search tracked repo files as a substitute for live context.
 - Always ask the user to confirm the general blog post type before outlining. If the type is implied, reflect the inferred type and ask for confirmation or correction instead of silently assuming.
@@ -44,12 +45,12 @@ Before presenting anything as final, complete and report a visible review ledger
 - Normalize broad labels such as `article`, `story`, or `essay` to the closest playbook in `references/format-playbooks.md`, then verify the mapped type with the user before continuing.
 - Use the exact confirmation and verification wording from `references/format-playbooks.md` when the type is missing or only implied.
 - If the local file is missing, create it after asking the user for the required folders.
-- If a stored folder no longer exists, ask the user for the new folder and update `../../.local/context/blog-publishing.local.md` before continuing.
+- If a stored folder no longer exists, ask the user for the new folder and update the selected profile's `blogPublishingConfig` before continuing.
 - Do not assume `content/blog/posts/`.
 - Research internally first so the archive shapes the angle before outside sources do, but do not treat earlier articles as a reusable source bank.
 - Do not reuse or carry forward source lists, citations, or outbound links from other articles. If an older piece points to something useful, treat it as a lead and re-open the original source directly before deciding whether it belongs in the new draft.
 - Follow with a brief web research pass to sharpen the angle, gather current terminology, and surface claims that need verification later.
-- Use One Horizon context docs to make the writing authentic, but load only what is relevant to the article.
+- Use One Horizon context docs from the selected profile workspace to make the writing authentic, but load only what is relevant to the article.
 - Reuse patterns, not sentences. Do not remix published copy line by line.
 - Prefer a narrow, evidence-based voice profile over generic SEO-blog language.
 - For blog articles, aim for a sharper, more reportorial tech-magazine voice, closer to Verge-style analysis than to a generic SaaS post. Borrow the energy, clarity, and sense of stakes, not any outlet's phrasing.
@@ -61,7 +62,7 @@ Before presenting anything as final, complete and report a visible review ledger
 - Always produce one cover image for `metadata.coverImage`.
 - Always plan at least one inline image beyond the cover image.
 - Follow the section-coverage rule in `references/workflow.md` for inline image count and placement.
-- Use `search_images` then `download_image` from `blog-image-finder` for final external blog assets. Do not use `search_unsplash`, generic web search, or raw image URLs as the final asset path.
+- Use `search_images` then `download_image` from `blog-image-finder` for final external blog assets, passing the selected Ink profile when it is known. Do not use `search_unsplash`, generic web search, or raw image URLs as the final asset path.
 - Keep `metadata.coverImage` as a plain `posts/...` asset path such as `posts/my-image-name.jpg`.
 - For inline blog images, use `getImageUrl('posts/my-image-name.jpg')` as the final URL in the article.
 - Keep article image paths separate from storage upload targets. The article contract stays `posts/...`, while uploaded objects should land under `images/posts/...`.
@@ -70,7 +71,7 @@ Before presenting anything as final, complete and report a visible review ledger
 - Assume the image MCP tools work. Do not run verifier or setup checks before using them. Only troubleshoot MCP after a concrete tool failure.
 - Never include placeholder asset manifests, JSX comments, HTML comments, TODO notes, or editorial notes inside the article file. Do not add blocks like `{/* Placeholder assets expected ... */}`.
 - If asset work is still pending, keep that note in the response or handoff summary, not in the `.mdx` body.
-- Use `upload_image` from `blog-image-uploader` only when the user wants the selected assets uploaded to the blog image bucket or the publish workflow requires it. When uploading, target `images/posts/...`, not `posts/...`.
+- Use `upload_image` from `blog-image-uploader` only when the user wants the selected assets uploaded to the selected profile's blog image bucket or the publish workflow requires it. Pass the selected Ink profile. When uploading, target `images/posts/...`, not `posts/...`.
 - Treat pass one as structure work and pass two as expansion work. Do not try to fully solve the whole article in one run.
 - Use the exact workflow order. Do not skip or merge mandatory steps, and do not start full prose before the outline is validated.
 - Do not skip internal research when relevant published blog examples exist.
@@ -79,7 +80,8 @@ Before presenting anything as final, complete and report a visible review ledger
 - Use `Final draft`, `ready to publish`, or equivalent only when the review ledger is complete and the Ramsay `Must Fix` status is `none`, `addressed`, or `waived by user`. Otherwise label the result as a working draft.
 - Treat visuals, code samples, screenshots, charts, and citations as part of the brief. Make the text and the asset work together.
 - Ask only the smallest set of high-leverage questions. The blog-type confirmation is mandatory; beyond that, if the brief, corpus, and One Horizon context are sufficient, do not ask.
-- Keep unpublished drafts separate from the published corpus at all times.
+- Keep unpublished drafts separate from the selected profile's published corpus at all times.
+- Published blog posts must have a unique `metadata.date` within the selected profile's `publish_output_dir`. Before saving or returning publish-ready MDX, scan existing published posts, pick an unused date, and keep the filename date and `metadata.date` identical. Do not solve published-date collisions with `-2`, `-3`, or same-day duplicate dates.
 
 ## Workflow
 
@@ -158,7 +160,7 @@ Unless the user asks differently, return:
 - on the `Ramsay review` line, include the verdict, the `X/15` score, and whether `Must Fix` is `none`, `addressed`, or `waived by user`
 - a short workflow-completion note confirming that internal research, external research, outline validation, both writing passes, and the full review ledger all ran
 - any assumptions or missing facts that could change the draft
-- the saved draft path if you persisted the draft to `content/blog/drafts/`
+- the saved draft path if you persisted the draft to the selected profile's blog draft root
 - the One Horizon initiative title when a One Horizon record was created under `Ink - Blog`
 
 When invoked by a runner for an existing Blog initiative, return draft and review content compatible with the Blog Lifecycle Contract in `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`:
@@ -176,10 +178,10 @@ When invoked by a runner for an existing Blog initiative, return draft and revie
 - Read `references/style-capture.md` when extracting voice markers.
 - Read `references/format-playbooks.md` for article-shape rules.
 - Read `../social-common/references/repetition-guard.md` when comparing a draft against recent corpus patterns.
-- Read `../../.local/context/blog-publishing.local.md` for the active blog source and publish folders.
+- Read the selected profile's `blogPublishingConfig` for the active blog source and publish folders.
 - If a One Horizon tool call fails, read `../one-horizon-context-setup/references/mcp-readiness.md` for recovery.
-- Resolve the author with One Horizon MCP tools, then load relevant author-scoped context from One Horizon using the naming and missing-doc contract in `../one-horizon-context-setup/references/context-doc-templates.md`.
-- Read `../../content/blog/README.md` only if `../../.local/context/blog-publishing.local.md` points into this repo and the local naming is unclear.
+- Resolve the active Ink profile with `../one-horizon-context-setup/references/ink-profile-contract.md`, then resolve the author with One Horizon MCP tools and load relevant author-scoped context from the selected workspace using the naming and missing-doc contract in `../one-horizon-context-setup/references/context-doc-templates.md`.
+- Read `../../content/blog/README.md` only if the selected profile's `blogPublishingConfig` points into this repo and the local naming is unclear.
 - Read `../linkedin-social-writer/references/mcp-tools.md` before using local research tools.
 - Read `../blog-image-finder/references/setup.md` before sourcing external blog images.
 - Read `../blog-image-uploader/references/setup.md` only when blog images should be uploaded to the blog image bucket.

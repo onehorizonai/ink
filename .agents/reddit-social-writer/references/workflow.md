@@ -29,7 +29,7 @@ Do not ask for information that can be recovered from the research skill, One Ho
 
 ## 3. Load the minimum user context
 
-Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract:
+Resolve the active Ink profile with `../../one-horizon-context-setup/references/ink-profile-contract.md`, then resolve the author and load only the relevant author-scoped One Horizon context docs from the selected workspace. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract:
 
 - `Profile` for identity basics
 - `Current Work` for almost every business draft
@@ -62,7 +62,7 @@ If the request is a comment reply and includes a Reddit URL, use `reddit_post_th
 
 ## 5. Retrieve examples
 
-- Search the same format folder in `../../content/reddit/` first.
+- Search the selected profile's Reddit corpus root and the same format folder first.
 - Use 3-5 good examples before widening.
 - If the local Reddit archive is thin, say so explicitly and continue.
 - Favor examples from the same subreddit when available.
@@ -98,9 +98,9 @@ Add:
 
 If the user wants the draft stored locally:
 
-- use `scripts/create_draft.py`
-- write to `content/reddit/drafts/`
-- never place unpublished drafts inside `content/reddit/`
+- use `scripts/create_draft.py --profile <profileId>` when a profile is selected
+- write to the selected profile's Reddit draft root
+- never place unpublished drafts inside the selected profile's published Reddit corpus folders
 
 ## 9. Store shared or approved posts
 

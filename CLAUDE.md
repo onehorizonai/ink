@@ -11,6 +11,7 @@ Read in this order:
 
 Use the shared references instead of inventing duplicate local rules.
 Use `.local/README.md` as the local setup contract.
-Use author-scoped One Horizon context docs for live user and company context.
-Use `.local/context/blog-publishing.local.md` only for machine-local blog path state.
+Resolve the active Ink profile before One Horizon context, task, corpus, draft, or image work.
+Use author-scoped One Horizon context docs in the selected profile workspace for live user and company context.
+Use `.local/context/ink-profiles.local.json` for profile routing and the selected profile's `blogPublishingConfig`, `imageProviderConfig`, and `imageUploadConfig` for machine-local path and image-hosting state.
 Do not use tracked repo files for live runtime context.

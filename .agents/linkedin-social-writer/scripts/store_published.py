@@ -7,6 +7,7 @@ from pathlib import Path
 
 from storage_common import (
     FORMAT_BY_FOLDER,
+    add_profile_arguments,
     build_published_filename,
     default_format_template,
     display_path,
@@ -16,6 +17,7 @@ from storage_common import (
     plain,
     read_body,
     resolve_storage_roots,
+    resolve_social_corpus_root,
     render_template,
     yaml_list,
     yaml_string,
@@ -40,6 +42,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--outcome-notes")
     parser.add_argument("--body")
     parser.add_argument("--body-file", type=Path)
+    add_profile_arguments(parser)
     return parser.parse_args()
 
 
@@ -85,7 +88,12 @@ def main() -> int:
     title = (args.title or derive_title(body, "Shared LinkedIn item")).strip()
     published_at = normalize_date(args.published_at)
 
-    target_dir = repo_root / "content" / "linkedin" / FORMAT_BY_FOLDER[args.format]
+    target_dir = resolve_social_corpus_root(
+        repo_root,
+        "linkedin",
+        args.profile,
+        args.profile_config,
+    ) / FORMAT_BY_FOLDER[args.format]
     target_dir.mkdir(parents=True, exist_ok=True)
     target = target_dir / build_published_filename(target_dir, published_at, args.format, title)
 

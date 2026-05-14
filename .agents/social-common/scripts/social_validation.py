@@ -215,4 +215,5 @@ def iter_corpus_files(root: Path) -> list[Path]:
         path
         for path in root.rglob("*.md")
         if path.name.lower() != "readme.md" and path.is_file()
+        and "drafts" not in path.relative_to(root).parts
     )

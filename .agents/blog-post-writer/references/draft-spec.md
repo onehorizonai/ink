@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Use `content/blog/drafts/` for unpublished article drafts only.
+Use the selected Ink profile's `contentRoots.blogDrafts` for unpublished article drafts only.
 
 Do not place unpublished drafts in the published corpus.
 
@@ -10,7 +10,7 @@ Do not place unpublished drafts in the published corpus.
 
 Store drafts under:
 
-- `content/blog/drafts/`
+- `<contentRoots.blogDrafts>/`
 
 ## File Naming
 

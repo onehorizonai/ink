@@ -2,11 +2,13 @@
 
 ## Config
 
-The local MCP server reads this file on startup:
+The local MCP server resolves the active Ink profile first. In multi-profile installs, it reads the selected profile's `imageProviderConfig` from `.local/context/ink-profiles.local.json`.
+
+Legacy installs with no profile config read:
 
 - `.secrets/image-provider.json`
 
-If the file is missing or invalid, the server returns a structured config error and does not use fallback secrets.
+If the selected config file is missing or invalid, the server returns a structured config error and does not use fallback secrets.
 
 Example:
 
@@ -14,8 +16,8 @@ Example:
 {
   "provider": "unsplash",
   "access_key": "YOUR_UNSPLASH_ACCESS_KEY",
-  "download_dir": "./.secrets/downloads/blog-images",
-  "history_path": "./.secrets/image-download-history.json",
+  "download_dir": "./.secrets/<profile-id>/downloads/blog-images",
+  "history_path": "./.secrets/<profile-id>/image-download-history.json",
   "timeout_seconds": 30
 }
 ```
@@ -31,6 +33,7 @@ Notes:
 - `download_dir` may be absolute or relative to the repo root.
 - `history_path` is optional. If omitted, the server stores history in `download_dir/.image-download-history.json`.
 - `timeout_seconds` is optional.
+- In multi-profile installs, use separate `download_dir` and `history_path` values per profile so image staging and dedupe history do not mix.
 
 ## Tools
 
@@ -41,6 +44,8 @@ Inputs:
 - `query` required text
 - `orientation` optional enum: `landscape`, `portrait`, `squarish`
 - `limit` optional integer, default `6`, max `20`
+- `profile` optional Ink profile id. Defaults to `INK_PROFILE`; required in practice when multiple profiles are configured and no environment profile is set.
+- `profile_config` optional path to the local Ink profile config. Defaults to `INK_PROFILE_CONFIG` or `.local/context/ink-profiles.local.json`.
 
 Returns:
 
@@ -64,7 +69,7 @@ Behavior:
 - Keep `query` broad and visual. Prefer short searchable concepts such as `empty office`, `quiet workspace`, or `single desk`.
 - Do not use sentence-length descriptions or article summaries as the search query.
 - For abstract article ideas, search for an adjacent visual metaphor or simple scene instead of the full thesis.
-- The server filters out image IDs already present in the local history file.
+- The server filters out image IDs already present in the selected profile's local history file.
 - If enough fresh results are not available on the first page, it fetches more pages until it reaches the requested limit or exhausts the provider results.
 
 ### `download_image`
@@ -72,6 +77,8 @@ Behavior:
 Inputs:
 
 - `image_id` required text
+- `profile` optional Ink profile id. Use the same profile as `search_images`.
+- `profile_config` optional path to the local Ink profile config.
 
 Returns:
 
@@ -88,7 +95,7 @@ Behavior:
 
 - The server resolves the provider download location first, then downloads the binary asset.
 - The downloaded file is written only into the configured `download_dir`.
-- The server records the download in the local history file so later searches can skip it.
+- The server records the download in the selected profile's local history file so later searches can skip it.
 
 ## Error Types
 
@@ -127,6 +134,6 @@ Treat the repo-root `.mcp.json` as the canonical registration for this server. C
 - Keep the returned attribution metadata with the article asset notes or image manifest.
 - Use the MCP tool directly and assume the repo-local registration works. Do not run the verifier unless a real tool call fails.
 - If a real tool call fails with a provider/network-style error such as `provider_request_failed`, retry the same call once before escalating to MCP verification or broader workflow blocking.
-- Troubleshooting: run `uv run .agents/mcp/verify_servers.py blog-image-finder` only after a concrete failure to check repo-local registration, stdio startup, and local config status. If `uv` cannot initialize its cache, retry with `UV_CACHE_DIR=/tmp/uv-cache uv run .agents/mcp/verify_servers.py blog-image-finder`.
+- Troubleshooting: run `uv run .agents/mcp/verify_servers.py --profile <profile-id> blog-image-finder` only after a concrete failure to check repo-local registration, stdio startup, and selected-profile local config status. If `uv` cannot initialize its cache, retry with `UV_CACHE_DIR=/tmp/uv-cache uv run .agents/mcp/verify_servers.py --profile <profile-id> blog-image-finder`.
 - Review the provider terms before publication. The server returns a usage summary, not legal clearance.
 - Pair this skill with `../blog-image-uploader/SKILL.md` when the selected asset should be published to the blog image bucket.

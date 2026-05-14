@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Use `content/reddit/drafts/` for unpublished drafts only.
+Use the selected Ink profile's Reddit draft root (`<contentRoots.reddit>/drafts/`) for unpublished drafts only.
 
 Do not place unpublished drafts in the published corpus.
 
@@ -10,8 +10,8 @@ Do not place unpublished drafts in the published corpus.
 
 Store drafts under:
 
-- `content/reddit/drafts/posts/`
-- `content/reddit/drafts/comment-replies/`
+- `<contentRoots.reddit>/drafts/posts/`
+- `<contentRoots.reddit>/drafts/comment-replies/`
 
 ## File Naming
 

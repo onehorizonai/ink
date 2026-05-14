@@ -17,7 +17,7 @@ Capture:
 
 If the goal, audience, or timing is unclear, ask at most 3 short questions total for this workflow.
 
-Resolve the author and workspace with One Horizon MCP, then load only the relevant author-scoped One Horizon context docs. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract:
+Resolve the active Ink profile with `../../one-horizon-context-setup/references/ink-profile-contract.md`, then resolve the author and workspace with One Horizon MCP inside the selected profile workspace. Load only the relevant author-scoped One Horizon context docs. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract:
 
 - `Profile` for voice and identity basics
 - `Current Work` for the active company, positioning, audience, and safe themes
@@ -30,13 +30,13 @@ Do not use tracked repo files for live runtime context.
 
 Before journalist research, load the minimum One Horizon context:
 
-- A single workspace is resolved.
+- A single Ink profile and workspace are resolved.
 - A single author is resolved.
 - `Ink Context - {Author Name} - Current Work` exists and is usable.
 - `Ink Context - {Author Name} - Profile` exists when voice or identity matters.
 - `Ink Context - {Author Name} - Work History` exists when founder background or credibility is part of the angle.
 
-This is a hard gate. Do not start local corpus searches, trend searches, or journalist ideation until the required workspace, author, and `Current Work` context have been resolved and loaded.
+This is a hard gate. Do not start local corpus searches, trend searches, or journalist ideation until the required profile, workspace, author, and `Current Work` context have been resolved and loaded.
 
 A context doc is loaded only when its document content has been read and the workflow has extracted the relevant fields for this run. For `Current Work`, extract the company or project, role, current positioning, main audience, key offers or products, themes worth posting about, and words or angles to avoid. Finding a document by title is not enough.
 Use `find-documents` only to locate candidate context docs by ID, title, status, type, or excerpt. Call `get-document` for the selected `documentId` before reading fields or treating the context doc as loaded.
@@ -51,7 +51,7 @@ Keep using the local blog path setup rules in the editor stage when blog coverag
 
 ## 2. Orchestrator: Load or Maintain Trend Sources
 
-Use the workspace-shared One Horizon document `Ink Context - Trend Sources` as the source of truth for websites used as trend and inspiration sources.
+Use the selected workspace's One Horizon document `Ink Context - Trend Sources` as the source of truth for websites used as trend and inspiration sources.
 
 Resolve this document before journalist research. If the document is missing, empty, unavailable, or has no usable URLs under `## Active URLs`, ask the user for the websites they want to use for trend and inspiration research. Wait for the user's answer unless they already explicitly said to skip trend-source research.
 
@@ -102,7 +102,7 @@ create_document({
   "type": "Requirement",
   "status": "Completed",
   "content": "# Trend Sources\n\n## Active URLs\n\n- https://example.com - Optional note or theme.\n\n## Research Guidance\n\n- Preferred themes: [unset]\n- Excluded topics: [unset]\n- Notes: [unset]",
-  "workspaceId": "<workspaceId>"
+  "workspaceId": "<selected profile workspaceId>"
 })
 ```
 
@@ -111,7 +111,7 @@ If the document exists but has no usable `Active URLs`, update the existing docu
 ```json
 update_document({
   "documentId": "<documentId>",
-  "workspaceId": "<workspaceId>",
+  "workspaceId": "<selected profile workspaceId>",
   "status": "Completed",
   "content": "# Trend Sources\n\n## Active URLs\n\n- https://example.com - Optional note or theme.\n\n## Research Guidance\n\n- Preferred themes: [unset]\n- Excluded topics: [unset]\n- Notes: [unset]"
 })
@@ -145,7 +145,7 @@ search_tasks({
   "query": "[Ink]",
   "categories": ["initiative", "ongoing", "bug", "triage-bug", "triage-item", "triage-initiative", "review-bug", "review-item", "review-initiative", "day-task"],
   "limit": 50,
-  "workspaceId": "<workspaceId>"
+  "workspaceId": "<selected profile workspaceId>"
 })
 ```
 
@@ -163,7 +163,7 @@ Build the reporting set from:
 
 - the user's goal, theme, timing, and channel constraint
 - the author's `Current Work` doc
-- `Ink Context - Trend Sources` or user-provided run-specific source URLs
+- the selected profile's `Ink Context - Trend Sources` or user-provided run-specific source URLs
 - the One Horizon `[Ink]` exclude list
 - current events, product announcements, vendor releases, canonical essays, or credible reporting
 
@@ -205,15 +205,15 @@ The editor evaluates the journalist's suggestions against company fit, archive u
 
 If blog is a possible channel:
 
-- Read `../../../.local/context/blog-publishing.local.md`.
+- Read the selected profile's `blogPublishingConfig`.
 - If the local file is missing, ask the user for the existing blog articles folder and create the local file before scanning blog coverage.
-- If `source_articles_dir` is `[unset]` or missing on disk, ask the user for the existing blog articles folder and update the local file before scanning blog coverage.
+- If `source_articles_dir` is `[unset]` or missing on disk, ask the user for the existing blog articles folder and update the selected profile's blog publishing config before scanning blog coverage.
 - If the user does not know the blog folder yet, skip blog archive scanning, say blog path setup is incomplete, and prefer LinkedIn unless the prompt requires a blog recommendation.
 
 Check the published archive after the journalist proposes stories:
 
-- Search the LinkedIn corpus in `../../content/linkedin/posts/`.
-- Search the Reddit corpus in `../../content/reddit/posts/` and `../../content/reddit/comment-replies/`.
+- Search the LinkedIn corpus under the selected profile's `contentRoots.linkedin`.
+- Search the Reddit corpus under the selected profile's `contentRoots.reddit`.
 - Search the configured blog source folder when blog is possible.
 - Do not search local draft folders for content-idea dedupe.
 - Compare each suggestion against same keywords, adjacent concepts, launches, and recent dates.
@@ -264,7 +264,8 @@ create_initiative({
   "description": "<filled Content Idea Brief from references/idea-brief-template.md>",
   "status": "In Review",
   "parentInitiativeId": "<Ink - Blog initiative taskId>",
-  "workspaceId": "<workspaceId>",
+  "workspaceId": "<selected profile workspaceId>",
+  "teamIds": ["<teamId>"],
   "assigneeIds": ["<userId>"]
 })
 ```
@@ -275,7 +276,7 @@ For LinkedIn and Reddit, call the report tool with this shape:
 report_feature_request({
   "title": "[Ink Idea] [LinkedIn] Why agent workflows break in production",
   "description": "<filled Content Idea Brief from references/idea-brief-template.md>",
-  "workspaceId": "<workspaceId>",
+  "workspaceId": "<selected profile workspaceId>",
   "teamIds": ["<teamId>"],
   "assigneeIds": ["<userId>"]
 })
@@ -293,7 +294,7 @@ Description rules:
 - Do not include drafted content.
 - Include a clear next workflow, but do not start that workflow in this skill.
 
-Use the workspace resolved during context loading as `workspaceId`; it is required for the One Horizon write tool. If no workspace can be resolved, resolve it with One Horizon tools before reporting. If team or assignee IDs are not available from the active One Horizon context, omit only `teamIds` or `assigneeIds` rather than guessing.
+Use the selected profile workspace resolved during context loading as `workspaceId`; it is required for the One Horizon write tool. If no workspace can be resolved, resolve the Ink profile and One Horizon workspace before reporting. If team or assignee IDs are not available from the active One Horizon context, omit only `teamIds` or `assigneeIds` rather than guessing.
 
 If the One Horizon create/report tool is missing or fails at reporting time, skip this step and say the idea record was not created. A failure means an actual tool call failed or the tool is not callable in the current session. Do not retry or block the recommendation on One Horizon availability.
 

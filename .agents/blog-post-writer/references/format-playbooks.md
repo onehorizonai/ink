@@ -10,9 +10,9 @@ Apply these rules to every blog article:
 - do not place inline images in every substantive section
 - make every image earn its place by clarifying a workflow, supporting a claim, or giving the reader a visual reset
 - keep the image choice aligned with the thesis, not just the nearest keyword
-- use `search_images` then `download_image` from `blog-image-finder` for final external blog assets
+- use `search_images` then `download_image` from `blog-image-finder` for final external blog assets, passing the selected Ink profile when known
 - keep `metadata.coverImage` as a `posts/...` path and use `getImageUrl('posts/...')` for inline blog image URLs
-- keep upload targets separate from article paths: upload stored assets under `images/posts/...`, while the article still references `posts/...`
+- keep upload targets separate from article paths: upload stored assets under `images/posts/...` in the selected profile's image host, while the article still references `posts/...`
 - use `search_unsplash` only as fallback inspiration, not as the final blog-asset path
 - do not insert placeholder asset manifests, JSX comments, or editorial notes into the article body
 
