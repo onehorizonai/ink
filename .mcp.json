@@ -12,14 +12,20 @@
       "args": [
         "run",
         "./.agents/blog-image-finder/mcp/image-provider/server.py"
-      ]
+      ],
+      "env": {
+        "UV_CACHE_DIR": "/tmp/uv-cache"
+      }
     },
     "blog-image-uploader": {
       "command": "uv",
       "args": [
         "run",
         "./.agents/blog-image-uploader/mcp/blog-image-s3/server.py"
-      ]
+      ],
+      "env": {
+        "UV_CACHE_DIR": "/tmp/uv-cache"
+      }
     }
   }
 }

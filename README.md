@@ -15,7 +15,7 @@ Claude Code and Cursor are the smoothest path. Codex works too; it just needs on
 - Researches subreddits before drafting so the post fits the community
 - Drafts Reddit posts and follow-up replies that read native to the thread
 - Writes blog posts with internal research, staged review passes, and optional image sourcing
-- Turns approved One Horizon ideas into reviewable draft initiatives for Blog, LinkedIn, and Reddit
+- Turns approved One Horizon ideas into reviewable drafts, with Blog staying on one initiative from idea to PR review
 - Creates concise locked briefs for new or updated website pages
 - Runs humanizer, tone, style, fact-check, and URL review on every draft
 - Logs approved posts to local corpora and records each published item as a One Horizon initiative
@@ -179,7 +179,7 @@ What happens:
 
 ## Find what to write next
 
-Start with `content-idea-finder` when you want to choose the topic before you commit to a post or article. When it picks an idea, it logs that idea as a One Horizon approval record titled `[Ink Idea] [Channel] ...`.
+Start with `content-idea-finder` when you want to choose the topic before you commit to a post or article. It files the chosen idea in One Horizon as `[Ink Idea] [Channel] ...`. Blog ideas start as one initiative under `Ink - Blog`; that same initiative later becomes the draft.
 
 Example prompt:
 
@@ -197,12 +197,13 @@ flowchart TD
     C --> D["Check One Horizon and the published archive for overlap"]
     D --> E["Pick the strongest idea"]
     E --> F{"Best-fit channel?"}
-    F -- "LinkedIn" --> G["Create [Ink Idea] [LinkedIn] in One Horizon"]
-    F -- "Reddit" --> H["Create [Ink Idea] [Reddit] in One Horizon"]
-    F -- "Blog" --> I["Create [Ink Idea] [Blog] in One Horizon"]
-    G --> J["Approve it in One Horizon, then move it to Planned"]
+    F -- "LinkedIn" --> G["File [Ink Idea] [LinkedIn]"]
+    F -- "Reddit" --> H["File [Ink Idea] [Reddit]"]
+    F -- "Blog" --> I["Create one [Ink Idea] [Blog] initiative under Ink - Blog"]
+    G --> J["Review in One Horizon"]
     H --> J
     I --> J
+    J --> K["Move approved ideas to Planned"]
 ```
 
 ## Write a LinkedIn post
@@ -309,38 +310,38 @@ Blog workflow:
 
 ```mermaid
 flowchart TD
-    A["Approve a [Ink Idea] [Blog] record or move it to Planned"] --> B["Run content-creation-runner"]
-    B --> C["Create [Ink Draft] [Blog] under Ink - Blog"]
-    C --> D["Confirm or normalize the blog post type"]
+    A["Move the [Ink Idea] [Blog] initiative to Planned"] --> B["Run content-creation-runner"]
+    B --> C["Rename the same initiative to [Ink Draft] [Blog]"]
+    C --> D["Use or normalize the stored Blog type"]
     D --> E["Resolve Ink profile and load minimum One Horizon context"]
-    E --> F["Research the archive and fresh sources"]
-    F --> G["Draft and validate the outline"]
+    E --> F["Research archive, context, and fresh sources"]
+    F --> G["Validate outline and image plan"]
     G --> H["Write pass one"]
     H --> I["Write pass two"]
-    I --> J["Run humanizer pass"]
-    J --> K["Run style review"]
-    K --> L["Run fact check"]
-    L --> M["Run source URL check"]
-    M --> N["Run tone review"]
-    N --> O["Run Ramsay review"]
-    O --> P["Save the draft and review notes back to One Horizon"]
-    P --> Q{"Review done?"}
-    Q -- "No" --> R["Keep it in In Review"]
-    Q -- "Yes" --> S["Run content-publishing-runner"]
-    S --> T["Rebuild publish-ready output and open a PR"]
-    T --> U["Post the result on the initiative and move it back to In Review"]
+    I --> J["Run the six review passes"]
+    J --> K["Update Source Idea, Draft, Review Notes, and Automation"]
+    K --> L["Leave the initiative in In Review"]
+    L --> M{"Human decision?"}
+    M -- "Needs edits" --> N["Add feedback and move it to Planned or In Progress"]
+    N --> O["Run content-publishing-runner"]
+    O --> P["Revise the draft in place"]
+    P --> L
+    M -- "Ready to publish" --> Q["Move it to Planned or In Progress"]
+    Q --> R["Run content-publishing-runner"]
+    R --> S["Rebuild publish-ready MDX and open a PR"]
+    S --> T["Comment with PR result and leave it in In Review"]
 ```
 
 How blog writing works:
 
-- Approved blog work starts as `[Ink Idea] [Blog]` in One Horizon, then becomes `[Ink Draft] [Blog]` under `Ink - Blog`.
-- `content-creation-runner` creates the draft initiative and leaves it in `In Review` for a human pass.
-- Ink still asks what kind of post this should be before it researches, outlines, or drafts.
-- If you already imply a type, Ink tells you what it thinks you mean and asks you to confirm or correct it.
+- Approved blog work starts as one `[Ink Idea] [Blog]` initiative under `Ink - Blog`. Drafting renames that same record to `[Ink Draft] [Blog]`.
+- The initiative document keeps the whole handoff in one place: `## Source Idea`, `## Draft`, `## Review Notes`, and `## Automation`.
+- Direct blog-writing prompts still ask what kind of post this should be before research, outline, or draft work.
+- Approved Blog idea initiatives use the stored `Blog type` without asking again unless it is missing or inconsistent.
+- If you already imply a type in a direct prompt, Ink tells you what it thinks you mean and asks you to confirm or correct it.
 - If you say something broad like `article`, `story`, or `essay`, Ink maps that to a concrete post type and checks the mapping with you first.
 - The confirmed type changes which archive examples it pulls, which playbook it checks, and how much personal context it loads.
-- Review comments stay on the draft initiative in One Horizon. `content-publishing-runner` picks up that thread for the publish pass.
-- For blog publishing, Ink rebuilds the reviewed draft, prepares publish-ready output, opens a pull request, and posts the result back on the initiative.
+- Review comments stay on that same initiative. `content-publishing-runner` picks up the thread, rebuilds the reviewed draft, opens a pull request, and posts the result back there.
 - If you use blog images, `blog-image-finder` handles search and download, and `blog-image-uploader` handles S3 upload.
 
 ## Create a website page brief
@@ -445,10 +446,10 @@ Use these skills when the writing already exists and you want it saved in the se
 
 Use these skills when a local automation or manual prompt should move content through One Horizon. This repo defines the workflows; automation scheduling is configured outside the repo.
 
-- `content-creation-runner`: finds planned `[Ink Idea]` records, drafts the right Blog, LinkedIn, or Reddit content, and creates `[Ink Draft]` child initiatives in `In Review`.
+- `content-creation-runner`: finds planned `[Ink Idea]` records, drafts the right Blog, LinkedIn, or Reddit content, and updates Blog initiatives in place.
 - `content-publishing-runner`: finds `[Ink Draft]` initiatives in `Planned` or `In Progress`, applies new comments, returns revisions to `In Review`, or prepares publish-ready output.
 
-In this pipeline, the selected Ink profile's One Horizon workspace is the source of truth. Ideas, draft bodies, review notes, and publish handoffs all live there. Social publishing still happens by hand. Blog publishing rebuilds the reviewed draft and opens a pull request.
+In this pipeline, the selected Ink profile's One Horizon workspace is the source of truth. Ideas, draft bodies, review notes, and publish handoffs all live there. Social publishing still happens by hand. Blog publishing rebuilds the reviewed draft and opens a pull request on the same Blog initiative.
 
 When a workflow finds an existing Ink initiative outside the matching channel parent, it should move it under `Ink - Blog`, `Ink - LinkedIn`, or `Ink - Reddit` before continuing.
 
@@ -456,17 +457,17 @@ Publishing workflow:
 
 ```mermaid
 flowchart TD
-    A["Find a [Ink Draft] item in Planned or In Progress"] --> B["Load the initiative, comments, and channel"]
+    A["Find a [Ink Draft] item in Planned or In Progress"] --> B["Load the record, comments, and channel"]
     B --> C{"Human feedback exists?"}
-    C -- "Yes" --> D["Revise the draft and save it back to One Horizon"]
+    C -- "Yes" --> D["Revise the draft in place"]
     D --> E["Set the initiative to In Review"]
     C -- "No" --> F{"Which channel?"}
     F -- "LinkedIn" --> G["Comment with final copy for manual LinkedIn publishing"]
     F -- "Reddit" --> H["Comment with final post and target subreddit"]
-    F -- "Blog" --> I["Rebuild publish-ready output and open a PR"]
+    F -- "Blog" --> I["Rebuild from ## Draft and open a PR"]
     G --> E
     H --> E
-    I --> J["Post the PR URL and rebuild summary"]
+    I --> J["Comment with PR URL on the same Blog initiative"]
     J --> E
 ```
 
@@ -478,7 +479,7 @@ flowchart TD
 | --- | --- |
 | `one-horizon-context-setup` | Create missing One Horizon author context docs |
 | `content-idea-finder` | Decide what to write next |
-| `content-creation-runner` | Turn approved Ink ideas into review draft initiatives |
+| `content-creation-runner` | Turn approved Ink ideas into review drafts |
 | `content-publishing-runner` | Revise draft initiatives or prepare publish-ready output |
 | `linkedin-social-writer` | Draft LinkedIn posts, replies, DMs, and reposts |
 | `linkedin-finalize-post` | Final-pass a LinkedIn draft and store it when approved |

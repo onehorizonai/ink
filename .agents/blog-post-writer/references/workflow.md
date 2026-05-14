@@ -26,6 +26,7 @@ Capture:
   - `Before I draft this, what general blog post type should it be? Pick one primary type: opinion / argument, explainer, comparison, product / deep dive, personal essay / rant, journal / dispatch, reflective / inspirational, or review.`
   - `I read this as a comparison post. Confirm or correct that before I research or outline.`
 - Do not treat `article`, `blog post`, `story`, or `essay` as a confirmed final type by themselves.
+- Exception: approved One Horizon Blog ideas already contain a confirmed or normalized `Blog type` once moved to `Planned`. Use that stored type without asking again unless it is missing or internally inconsistent.
 - Record the confirmed type in the brief and keep it visible in the working notes or final response. Do not proceed to the outline until the type is verified.
 - Do not start internal research, external research, or outline work before the type is verified.
 
@@ -201,20 +202,21 @@ If the user wants the draft stored locally:
 
 ## 14a. One Horizon: Record the Article
 
-After saving a draft or writing a published article, use the One Horizon MCP to create a child initiative under `Ink - Blog`.
+After saving a draft or writing a published article, use the One Horizon MCP to create or update the Blog initiative under `Ink - Blog`.
 
 Before mutating One Horizon, read `../../one-horizon-context-setup/references/ink-initiative-hierarchy.md`.
 
-Fields:
+Fields to keep aligned when creating or updating the Blog initiative:
 
 - **Title**: the article title
 - **Description**: confirmed blog post type, review ledger summary (Ramsay verdict + score), and the local file path (draft path or `publish_output_dir` path)
-- **Status**: `in-progress` when saving a draft to the selected profile's blog draft root; `published` when writing to `publish_output_dir`
+- **Status**: follow the Blog Lifecycle Contract; use `In Review` for saved drafts or PR review, `Blocked` for blockers, and `Completed` only after the user explicitly confirms the article is published
 - **Parent**: `Ink - Blog` via `parentInitiativeId`
 
 Rules:
 
-- Create the One Horizon record after the local file write succeeds.
+- If the workflow already has a Blog initiative task ID, follow the Blog Lifecycle Contract and update that same initiative.
+- Create a new One Horizon record only when this is a direct blog-writing run without an existing Blog initiative.
 - If a matching article initiative already exists and is missing the `Ink - Blog` parent or is under a different parent, move it with `update_initiative` before updating or reporting it.
 - If the user only wants the draft in memory and does not save it locally, skip this step.
 - If the One Horizon MCP is unavailable, log the local path in the final response and continue.

@@ -1,11 +1,11 @@
 ---
 name: content-publishing-runner
-description: Process reviewed One Horizon Ink draft initiatives into revised drafts or publish-ready output. Use when Codex is asked to handle `[Ink Draft]` initiatives under `Ink - Blog`, `Ink - LinkedIn`, or `Ink - Reddit` that are `Planned` or `In Progress`, apply human comments, prepare social posts for manual publishing, or rebuild blog drafts through the blog writer before creating publishing branches and pull requests. Do not use this skill for ideation, first-draft creation from ideas, corpus storage, or automation setup.
+description: Process reviewed One Horizon Ink draft records into revised drafts or publish-ready output. Use when Codex is asked to handle `[Ink Draft]` initiatives under `Ink - Blog`, `Ink - LinkedIn`, or `Ink - Reddit` that are `Planned` or `In Progress`, apply human comments, prepare social posts for manual publishing, or rebuild blog drafts through the blog writer before creating publishing branches and pull requests. Blog draft work stays on the same initiative that began as `[Ink Idea] [Blog]`. Do not use this skill for ideation, first-draft creation from ideas, corpus storage, or automation setup.
 ---
 
 # Content Publishing Runner
 
-`In Review` means human review. `Planned` or `In Progress` means the runner may act. Social publishing stays manual. Blog publishing means opening a PR.
+`In Review` means human review. `Planned` or `In Progress` means the runner may act. Social publishing stays manual. Blog publishing means opening a PR. For Blog, follow the Blog Lifecycle Contract in `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`.
 
 Resolve the active Ink profile before listing or mutating One Horizon drafts. If more than one profile is configured and none is named in the prompt or `INK_PROFILE`, ask which profile to use. Do not silently use the One Horizon default workspace.
 Before mutating One Horizon records, read `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`.
@@ -15,7 +15,7 @@ Before mutating One Horizon records, read `../one-horizon-context-setup/referenc
 1. Resolve the selected Ink profile with `../one-horizon-context-setup/references/ink-profile-contract.md`. Find `Planned` or `In Progress` initiatives titled `[Ink Draft] [Blog] ...`, `[Ink Draft] [LinkedIn] ...`, or `[Ink Draft] [Reddit] ...` inside that profile workspace; use `search_tasks` or `list_initiatives`, then fetch details and comments.
 2. For each draft initiative, verify its parent matches the channel in the title. If it is missing or under the wrong parent, call `update_initiative` with the matching `Ink - Channel` `parentInitiativeId` before applying feedback or publishing.
 3. Treat comments containing `Ink automation checkpoint` as automation comments. Treat later non-automation comments as human feedback.
-4. If human feedback exists, revise the draft with the matching writer skill, update the `## Draft` section with `patch_document(taskId=...)`, comment with a short change summary, and set status to `In Review`.
+4. If human feedback exists, revise the draft with the matching writer skill, update the existing draft document in place, comment with a short change summary, and set status to `In Review`.
 5. If no human feedback exists, treat the status move as publish intent:
    - LinkedIn: comment with final copy and say it is ready for manual LinkedIn publishing; set `In Review`.
    - Reddit: comment with final title/body and target subreddit; set `In Review`.
@@ -67,6 +67,7 @@ If image sourcing fails with a provider/network-style error such as `provider_re
 7. If `post_publish_build_command` is set, run it from the publishing repo root before commit. Treat failures as blockers.
 8. Commit only the article, required assets, and generated/public discovery files created by the selected profile's post-publish commands, push, and open a PR with `gh pr create --title "Ink blog: <draft title>"`.
 9. Comment with the PR URL, the rebuild summary, and `Ink automation checkpoint: content-publishing-runner <ISO timestamp>`.
+10. Keep the same Blog initiative in `In Review` for PR review, following the Blog Lifecycle Contract.
 
 If branch, commit, push, GitHub auth, or PR creation fails, comment the blocker and set `Blocked`.
 

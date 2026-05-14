@@ -18,7 +18,7 @@ Before presenting anything as final, complete and report a visible review ledger
 2. Load the minimum author-scoped One Horizon context docs (resolved in step 9 below; read here only if the blog post type requires personal context before the archive search).
 3. Resolve the active Ink profile, then read the selected profile's `blogPublishingConfig`.
 4. Ask the user to confirm the general blog post type before drafting. If the brief already implies one, state the inferred type and ask the user to confirm or correct it. If the user says something broad like `article`, map it to the nearest playbook in `references/format-playbooks.md` and verify the mapped type back to the user. Do not start internal research, external research, or outline work until the type is confirmed.
-   Exception: when this skill is invoked by `../content-publishing-runner/SKILL.md` for a reviewed One Horizon draft and the stored draft, comments, or handoff already provide a confirmed or normalized type, treat that as the confirmed type and continue without asking the user again.
+   Exception: when this skill is invoked by `../content-creation-runner/SKILL.md` or `../content-publishing-runner/SKILL.md` and the One Horizon brief, stored draft, comments, or handoff already provide a confirmed or normalized type, treat that as the confirmed type and continue without asking the user again.
 5. If the profile blog publishing file is missing, or if either stored folder is `[unset]` or missing on disk, ask the user for the existing blog articles folder and the published blog output folder, then update the selected profile's `blogPublishingConfig` before continuing.
 6. Search `source_articles_dir` from the selected profile's blog publishing config for up to 3-7 relevant internal examples. Prefer the same theme, argument shape, or confirmed article type first. Use them for voice and structure only. Do not inherit their source lists or citations. If none are relevant, say so explicitly and continue.
 7. Read `../linkedin-social-writer/references/mcp-tools.md`.
@@ -41,7 +41,7 @@ Before presenting anything as final, complete and report a visible review ledger
 - If a required author-scoped context doc is missing or unusable, use `../one-horizon-context-setup/SKILL.md` to create the missing doc through its confirmation flow before drafting.
 - If a One Horizon tool call is missing or fails, follow `../one-horizon-context-setup/references/mcp-readiness.md`. Do not search tracked repo files as a substitute for live context.
 - Always ask the user to confirm the general blog post type before outlining. If the type is implied, reflect the inferred type and ask for confirmation or correction instead of silently assuming.
-- When the input comes from `content-publishing-runner` and the reviewed draft already includes a confirmed or normalized type, treat that handoff type as sufficient confirmation. Do not ask the user to reconfirm it during the publish pass unless the stored type is missing or internally inconsistent.
+- When the input comes from `content-creation-runner` or `content-publishing-runner` and the One Horizon handoff already includes a confirmed or normalized type, treat that handoff type as sufficient confirmation. Do not ask the user to reconfirm it unless the stored type is missing or internally inconsistent.
 - Normalize broad labels such as `article`, `story`, or `essay` to the closest playbook in `references/format-playbooks.md`, then verify the mapped type with the user before continuing.
 - Use the exact confirmation and verification wording from `references/format-playbooks.md` when the type is missing or only implied.
 - If the local file is missing, create it after asking the user for the required folders.
@@ -91,7 +91,7 @@ For articles:
 
 - Confirm the blog post type with the user before internal research and outline work.
 - Use the matching article-type playbook in `references/format-playbooks.md`, normalizing broad labels to the nearest playbook and verifying the mapping when needed.
-- Do not treat a handoff suggestion or an inferred label as confirmed until the user explicitly confirms or corrects it.
+- Do not treat a casual handoff suggestion or inferred label as confirmed. Approved One Horizon Blog ideas are the exception: their stored `Blog type` is confirmed once the idea is moved to `Planned`, unless the reviewer changed it.
 - Research the published archive before the web.
 - Build a fresh source set for each article instead of carrying over citations from older posts.
 - Draft and validate an outline plus image plan before writing full prose.
@@ -162,6 +162,12 @@ Unless the user asks differently, return:
 - any assumptions or missing facts that could change the draft
 - the saved draft path if you persisted the draft to the selected profile's blog draft root
 - the One Horizon initiative title when a One Horizon record was created under `Ink - Blog`
+
+When invoked by a runner for an existing Blog initiative, return draft and review content compatible with the Blog Lifecycle Contract in `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`:
+
+- `## Draft` for the current article body
+- `## Review Notes` for confirmed type, research summary, image notes, source notes, review ledger, and workflow summary
+- `## Automation` for the runner checkpoint when the caller needs it
 
 ## Files
 

@@ -533,7 +533,8 @@ def filename_for_image(image: dict[str, Any], content_type: str) -> str:
     title = str(image.get("description") or image.get("alt_description") or f"unsplash-{image_id}")
     extension = extension_from_content_type(content_type)
     prefix = datetime.now(timezone.utc).strftime("%Y%m%d")
-    return f"{prefix}-{slugify(title)}-{image_id}{extension}"
+    title_slug = slugify(title)[:80].rstrip("-")
+    return f"{prefix}-{title_slug}-{image_id}{extension}"
 
 
 def call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:

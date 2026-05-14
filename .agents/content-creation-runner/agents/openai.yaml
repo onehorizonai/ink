@@ -1,4 +1,4 @@
 interface:
   display_name: "Content Creation Runner"
   short_description: "Turn approved Ink ideas into review drafts"
-  default_prompt: "Use $content-creation-runner to resolve the active Ink profile, then turn planned `[Ink Idea]` records in that workspace into `[Ink Draft]` initiatives in `In Review`. If One Horizon auth/tools fail, stop. Repair channel parentage first. If a human decision is needed, comment with the planned-blocker format and set the idea to `In Review`."
+  default_prompt: "Use $content-creation-runner to resolve the active Ink profile, then turn planned `[Ink Idea]` records in that workspace into `[Ink Draft]` work in `In Review`. For Blog, update the same initiative title and document instead of creating a second initiative. If One Horizon auth/tools fail, stop. Repair channel parentage first. If a human decision is needed, comment with the planned-blocker format and set the idea to `In Review`."

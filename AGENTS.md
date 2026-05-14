@@ -8,7 +8,7 @@ Start with [README.md](README.md).
 - Treat [reddit-social-writer](.agents/reddit-social-writer/SKILL.md) as the Reddit drafting orchestrator.
 - Use [reddit-research](.agents/reddit-research/SKILL.md) as the entry point for Reddit subreddit discovery, weekly top-post analysis, and writing handoff briefs.
 - Treat [blog-post-writer](.agents/blog-post-writer/SKILL.md) as the blog orchestrator.
-- Use [content-creation-runner](.agents/content-creation-runner/SKILL.md) to turn approved `Planned` `[Ink Idea]` records into reviewable `[Ink Draft]` initiatives in One Horizon.
+- Use [content-creation-runner](.agents/content-creation-runner/SKILL.md) to turn approved `Planned` `[Ink Idea]` records into reviewable `[Ink Draft]` work in One Horizon. For Blog, update the same initiative instead of creating a second draft initiative.
 - Use [content-publishing-runner](.agents/content-publishing-runner/SKILL.md) to revise reviewed `[Ink Draft]` initiatives or prepare publish-ready output.
 - Use [page-brief-builder](.agents/page-brief-builder/SKILL.md) as the entry point for website page briefs.
 - Treat the shared references under `.agents/linkedin-social-writer/references/` as the source of truth for LinkedIn writing rules.

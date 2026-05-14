@@ -2,7 +2,7 @@
 
 Run this as a three-role workflow: orchestrator, journalist, then editor. These are procedural roles inside this skill, not separate skills.
 
-The endpoint is a One Horizon feature request that can be approved, rejected, or prioritized later inside One Horizon. Do not ask the user to approve the idea in chat, and do not draft the LinkedIn post, Reddit post, or blog article in this workflow.
+The endpoint is a One Horizon approval record that can be approved, rejected, or prioritized later inside One Horizon. Blog ideas follow the Blog Lifecycle Contract in `../../one-horizon-context-setup/references/ink-initiative-hierarchy.md`. Do not ask the user to approve the idea in chat, and do not draft the LinkedIn post, Reddit post, or blog article in this workflow.
 
 ## 1. Orchestrator: Clarify and Load Context
 
@@ -149,7 +149,7 @@ search_tasks({
 })
 ```
 
-Filter to titles starting `[Ink Idea]` or `[Ink Draft]`. Keep title, channel, status, type, and short excerpt. Use these as exclusion signals, not source material.
+Filter to titles starting `[Ink Idea]` or `[Ink Draft]`. Keep title, channel, status, type, parent, and short excerpt. Use these as exclusion signals, not source material.
 
 Reject overlapping ideas unless the new signal, proof, audience, channel, or angle is materially different. If search fails, say so and continue with published archive checks; do not scan local drafts.
 
@@ -246,31 +246,35 @@ Use `channel-fit.md` when the best format is unclear. Timely sharp takes usually
 
 ## 6. Editor: Report Selected Idea in One Horizon
 
-After choosing the topic, create a new idea record in One Horizon with the MCP report tool. This record starts the One Horizon approval workflow and stores the handoff brief for later writing work.
+After choosing the topic, create a new idea record in One Horizon. This record starts the One Horizon approval workflow and stores the handoff brief for later writing work.
 
-Use `report-feature-request`. Do not use `create-todo` or `create-initiative` for the editor-selected content idea.
+For Blog, use `create_initiative` and the Blog Lifecycle Contract.
+For LinkedIn and Reddit, use `report-feature-request` unless that channel workflow changes.
+Do not use `create-todo`.
 
 This step is mandatory after the editor chooses a topic. It requires a real One Horizon MCP tool call before the final handoff. Do not treat writing the idea in the response as reporting it.
 
 Use `idea-brief-template.md` as the description format. The brief is the handoff artifact, so fill it with the decision context a later workflow needs after approval.
 
-Call `report-feature-request` with this shape:
+For Blog, resolve the `Ink - Blog` parent initiative, then call `create_initiative` with this shape:
 
 ```json
-report-feature-request({
+create_initiative({
   "title": "[Ink Idea] [Blog] Why agent workflows break in production",
   "description": "<filled Content Idea Brief from references/idea-brief-template.md>",
+  "status": "In Review",
+  "parentInitiativeId": "<Ink - Blog initiative taskId>",
   "workspaceId": "<selected profile workspaceId>",
   "teamIds": ["<teamId>"],
   "assigneeIds": ["<userId>"]
 })
 ```
 
-On Codex surfaces where MCP tool names are exposed as snake_case functions, the equivalent call is:
+For LinkedIn and Reddit, call the report tool with this shape:
 
 ```json
 report_feature_request({
-  "title": "[Ink Idea] [Blog] Why agent workflows break in production",
+  "title": "[Ink Idea] [LinkedIn] Why agent workflows break in production",
   "description": "<filled Content Idea Brief from references/idea-brief-template.md>",
   "workspaceId": "<selected profile workspaceId>",
   "teamIds": ["<teamId>"],
@@ -290,9 +294,9 @@ Description rules:
 - Do not include drafted content.
 - Include a clear next workflow, but do not start that workflow in this skill.
 
-Use the selected profile workspace resolved during context loading as `workspaceId`; it is required for the report tool. If no workspace can be resolved, resolve the Ink profile and One Horizon workspace before reporting. If team or assignee IDs are not available from the active One Horizon context, omit only `teamIds` or `assigneeIds` rather than guessing.
+Use the selected profile workspace resolved during context loading as `workspaceId`; it is required for the One Horizon write tool. If no workspace can be resolved, resolve the Ink profile and One Horizon workspace before reporting. If team or assignee IDs are not available from the active One Horizon context, omit only `teamIds` or `assigneeIds` rather than guessing.
 
-If the One Horizon report tool is missing or fails at reporting time, skip this step and say the idea record was not created. A failure means an actual tool call failed or the tool is not callable in the current session. Do not retry or block the recommendation on One Horizon availability.
+If the One Horizon create/report tool is missing or fails at reporting time, skip this step and say the idea record was not created. A failure means an actual tool call failed or the tool is not callable in the current session. Do not retry or block the recommendation on One Horizon availability.
 
 ## 7. Orchestrator: Handoff
 
@@ -304,10 +308,10 @@ Include:
 - the editor's chosen topic and rationale
 - rejected alternatives
 - whether the chosen topic is net-new or a follow-up
-- the One Horizon feature request URL or title when the editor-selected idea was successfully reported
+- the One Horizon record URL or title when the editor-selected idea was successfully reported
 - a short summary of the filed Content Idea Brief
 - the context docs, trend-source doc status, One Horizon exclude-list status, published corpus examples, and external sources used
 
 When the format is the blog, make it explicit that the suggested type is part of the approval brief. If the idea is later moved to `Planned` unchanged, `content-creation-runner` treats that type as confirmed for automation.
 
-Name the later workflow after the One Horizon report attempt, but do not invoke it. Use `../../content-creation-runner/SKILL.md` after the idea is approved and moved to `Planned`; that runner routes to `blog-post-writer`, `linkedin-social-writer`, or `reddit-research` plus `reddit-social-writer`. If the report tool was missing or failed, include the skipped-report note and still provide the recommendation summary.
+Name the later workflow after the One Horizon report attempt, but do not invoke it. Use `../../content-creation-runner/SKILL.md` after the idea is approved and moved to `Planned`; that runner routes to `blog-post-writer`, `linkedin-social-writer`, or `reddit-research` plus `reddit-social-writer`. If the create/report tool was missing or failed, include the skipped-report note and still provide the recommendation summary.
