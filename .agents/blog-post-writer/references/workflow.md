@@ -31,18 +31,18 @@ Capture:
 
 ## 3. Resolve blog paths
 
-- Read `../../../.local/context/blog-publishing.local.md` for the active path values.
+- Resolve the active Ink profile with `../../one-horizon-context-setup/references/ink-profile-contract.md`, then read the selected profile's `blogPublishingConfig` for the active path values.
 - If the local file is missing, ask the user where to load existing blog articles from and where to publish finished blog posts, then create the local file.
 - If `source_articles_dir` is `[unset]`, ask the user where to load existing blog articles from.
 - If `publish_output_dir` is `[unset]`, ask the user where to publish finished blog posts.
 - If either stored folder no longer exists on disk, ask the user for the new folder and update the local file before continuing.
 - Keep the total question budget for this workflow to 4 short questions. The mandatory type-confirmation step above uses one slot. When paths are unresolved, use the remaining question budget on the path questions first.
 - Do not assume `../../content/blog/posts/`.
-- Use One Horizon context docs for live runtime context. Do not use tracked repo files for live context. The exception is `.local/context/blog-publishing.local.md` for machine-local blog path state.
+- Use One Horizon context docs from the selected profile workspace for live runtime context. Do not use tracked repo files for live context. The exception is the selected profile's `blogPublishingConfig` for machine-local blog path state.
 
 ## 4. Research internally first
 
-- Search `source_articles_dir` from `../../../.local/context/blog-publishing.local.md` for related published articles before looking outward.
+- Search `source_articles_dir` from the selected profile's blog publishing config for related published articles before looking outward.
 - Pull up to 3-5 solid internal examples that match the topic, confirmed article type, argument shape, product angle, or proof density.
 - Prefer recent examples when the voice may have shifted.
 - Note recurring section patterns, CTA pressure, and how directly the archive makes similar claims.
@@ -77,7 +77,7 @@ Do not ask for information that can be recovered from the corpus, One Horizon co
 
 ## 7. Load the minimum user context
 
-Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract:
+Resolve the author inside the selected Ink profile workspace and load only the relevant author-scoped One Horizon context docs. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract:
 
 - `Profile` for identity basics
 - `Current Work` for almost every company or product article
@@ -112,8 +112,8 @@ If a required One Horizon tool call is missing or fails, follow `../../one-horiz
   - 7-9 substantive sections: 3 inline images
 - Treat substantive sections as the body sections that carry the argument. Do not count the TL;DR block, footnotes, or the final CTA block.
 - Use the dedicated image MCP flow for final image sourcing:
-  - `search_images` with arguments shaped like `{"query":"...", "orientation":"landscape", "limit":6}`
-  - `download_image` with arguments shaped like `{"image_id":"..."}`
+  - `search_images` with arguments shaped like `{"profile":"<selected profile id>", "query":"...", "orientation":"landscape", "limit":6}`
+  - `download_image` with arguments shaped like `{"profile":"<selected profile id>", "image_id":"..."}`
 - Keep `metadata.coverImage` as a plain `posts/...` path.
 - For inline blog images, use `getImageUrl('posts/...')` directly in the MDX.
 - Keep article paths separate from storage upload targets. The article contract stays `posts/...`, while uploaded image objects should land under `images/posts/...`.
@@ -126,7 +126,7 @@ If a required One Horizon tool call is missing or fails, follow `../../one-horiz
 - Use `../../blog-image-finder/references/setup.md` for the tool contract.
 - Do not use `search_unsplash`, generic web search, or raw image URLs as the final blog-asset path when `blog-image-finder` is available.
 - Use `search_unsplash` from `../../linkedin-social-writer/references/mcp-tools.md` only as fallback inspiration or when the dedicated image finder tools are unavailable.
-- Use `upload_image` from `../../blog-image-uploader/references/setup.md` only when the user wants the assets uploaded to the blog image bucket, with arguments shaped like `{"local_path":"...", "object_key":"images/posts/..."}`
+- Use `upload_image` from `../../blog-image-uploader/references/setup.md` only when the user wants the assets uploaded to the selected profile's blog image bucket, with arguments shaped like `{"profile":"<selected profile id>", "local_path":"...", "object_key":"images/posts/..."}`
 - Keep `local_path`, `source_page_url`, `photographer_name`, and `attribution_text` with the asset notes.
 - Keep asset planning notes out of the article file itself. Never insert JSX comments, HTML comments, placeholder asset lists, or TODO blocks into the MDX.
 
@@ -158,6 +158,17 @@ If a required One Horizon tool call is missing or fails, follow `../../one-horiz
 - Keep the tone closer to sharp tech-magazine analysis than to generic SaaS content. Vary the rhythm and keep some edge without copying any one publication.
 - Finish the full article here.
 
+## 12a. Reserve the published date
+
+When the article will be written to `publish_output_dir`, scan the selected profile's `publish_output_dir` for existing published blog files and metadata dates before choosing the final date.
+
+- Published blog dates must be unique per selected Ink profile.
+- Use the requested or current date only when no existing published post already uses it.
+- If the proposed date is already used, choose the nearest unused date that fits the intended publishing order, then update both `metadata.date` and the filename date.
+- The final published filename must be `YYYY-MM-DD-short-slug.mdx`, and `YYYY-MM-DD` must exactly match `metadata.date`.
+- Do not append `-2`, `-3`, or similar suffixes to published blog filenames to work around a date collision.
+- If the user explicitly requires an already-used date, ask whether to move the existing post, choose another date, or stop; do not silently create duplicate published dates.
+
 ## 13. Run staged review passes
 
 Read `references/review-passes.md`.
@@ -183,9 +194,9 @@ Add:
 
 If the user wants the draft stored locally:
 
-- write to `content/blog/drafts/`
+- write to the selected profile's `contentRoots.blogDrafts`
 - use `../assets/templates/blog-article.mdx` as the starting point
-- never place unpublished drafts inside `publish_output_dir` from `../../../.local/context/blog-publishing.local.md`
+- never place unpublished drafts inside `publish_output_dir` from the selected profile's blog publishing config
 - save only the actual article content and working MDX structure; do not save editorial comments or placeholder asset manifests inside the file
 
 ## 14a. One Horizon: Record the Article
@@ -198,7 +209,7 @@ Fields:
 
 - **Title**: the article title
 - **Description**: confirmed blog post type, review ledger summary (Ramsay verdict + score), and the local file path (draft path or `publish_output_dir` path)
-- **Status**: `in-progress` when saving a draft to `content/blog/drafts/`; `published` when writing to `publish_output_dir`
+- **Status**: `in-progress` when saving a draft to the selected profile's blog draft root; `published` when writing to `publish_output_dir`
 - **Parent**: `Ink - Blog` via `parentInitiativeId`
 
 Rules:
@@ -208,6 +219,19 @@ Rules:
 - If the user only wants the draft in memory and does not save it locally, skip this step.
 - If the One Horizon MCP is unavailable, log the local path in the final response and continue.
 - If `Ink - Blog` does not exist, note that in the output and skip the One Horizon step.
+
+## 14b. Published Blog Post-Publish Commands
+
+When writing a finished article directly to `publish_output_dir`, read the selected profile's `blogPublishingConfig` for optional post-publish commands:
+
+- `post_publish_generate_command`
+- `post_publish_build_command`
+
+If either value is set and not `[unset]`, run it from the publishing repo root after the article write. Use the generate command first, then the build/check command. These commands are profile-specific hooks for static registries, generated content indexes, public LLM index files, route manifests, or package checks that must stay in sync with published MDX.
+
+Before writing the file, verify again that the selected `metadata.date` is unused in `publish_output_dir` and that no existing filename starts with the same date. If a collision appeared since step 12a, resolve it before writing.
+
+If a post-publish command fails, report the article as not fully published and include the failing command and output summary. Do not call the publish complete until the selected profile's configured post-publish commands pass.
 
 ## 15. Final response
 

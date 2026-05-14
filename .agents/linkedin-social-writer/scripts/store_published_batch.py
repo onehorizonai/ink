@@ -27,6 +27,7 @@ from pathlib import Path
 
 from storage_common import (
     FORMAT_BY_FOLDER,
+    add_profile_arguments,
     build_published_filename,
     default_format_template,
     display_path,
@@ -35,6 +36,7 @@ from storage_common import (
     normalize_date,
     plain,
     resolve_storage_roots,
+    resolve_social_corpus_root,
     render_template,
     yaml_list,
     yaml_string,
@@ -62,6 +64,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--source-url")
     parser.add_argument("--thread-summary")
     parser.add_argument("--outcome-notes")
+    add_profile_arguments(parser)
     return parser.parse_args()
 
 
@@ -119,7 +122,12 @@ def main() -> int:
         raise SystemExit("No posts found after splitting.")
 
     published_at = normalize_date(args.published_at)
-    target_dir = repo_root / "content" / "linkedin" / FORMAT_BY_FOLDER[args.format]
+    target_dir = resolve_social_corpus_root(
+        repo_root,
+        "linkedin",
+        args.profile,
+        args.profile_config,
+    ) / FORMAT_BY_FOLDER[args.format]
     target_dir.mkdir(parents=True, exist_ok=True)
 
     errors = 0

@@ -38,7 +38,7 @@ These replace the earlier dependency on globally installed page, SEO, and copy s
 
 ## Local Context Rules
 
-- Use author-scoped One Horizon context docs for live runtime context. Do not use tracked repo files for live context.
+- Resolve the active Ink profile first, then use author-scoped One Horizon context docs from the selected workspace for live runtime context. Do not use tracked repo files for live context.
 - If author context docs are missing and the user wants them created, hand off to `../../one-horizon-context-setup/SKILL.md`.
 
 ## Tool Guidance

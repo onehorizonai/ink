@@ -1,11 +1,13 @@
 ---
 name: linkedin-store-post
-description: Store one or more already written, shared, or published LinkedIn items in the corpus with deterministic filenames and the repo storage templates. Use when the user says things like "I shared this", "store this post", "store these posts", "store the following posts", "save this to the corpus", "add these to the corpus", "log this LinkedIn post", "import these posts", or provides multiple posts separated by `|`, especially when the content already exists and should be written into `content/linkedin/` with the correct format, date, follow-up number, and optional format-template metadata. Do not use this skill for drafting new copy or for final review before approval.
+description: Store one or more already written, shared, or published LinkedIn items in the selected Ink profile corpus with deterministic filenames and the repo storage templates. Use when the user says things like "I shared this", "store this post", "store these posts", "store the following posts", "save this to the corpus", "add these to the corpus", "log this LinkedIn post", "import these posts", or provides multiple posts separated by `|`, especially when the content already exists and should be written into the selected profile's LinkedIn root with the correct format, date, follow-up number, and optional format-template metadata. Do not use this skill for drafting new copy or for final review before approval.
 ---
 
 # LinkedIn Store Post
 
 Use this to log content that was already shared.
+
+Resolve the active Ink profile before writing local files or creating One Horizon records. If multiple profiles exist and none is named, ask which profile to use.
 
 ## Defaults
 
@@ -58,7 +60,7 @@ If the user only says "I shared this:" and gives text, store it as a post for to
 **Single post:**
 
 ```bash
-python3 .agents/linkedin-social-writer/scripts/store_published.py --body "..."
+python3 .agents/linkedin-social-writer/scripts/store_published.py --profile <profileId> --body "..."
 ```
 
 **Multiple posts (batch):**
@@ -67,6 +69,7 @@ Write all posts to a temporary file separated by `|` (or `---` for multi-line po
 
 ```bash
 python3 .agents/linkedin-social-writer/scripts/store_published_batch.py \
+  --profile <profileId> \
   --posts-file /tmp/posts.txt \
   [--separator "|"] \
   [--format post] \
@@ -79,7 +82,7 @@ Do not handcraft filenames or file bodies manually when the scripts can do it.
 
 ## One Horizon: Record Published Post
 
-After each local corpus write succeeds, use the One Horizon MCP to create a child initiative under `Ink - LinkedIn`.
+After each selected-profile local corpus write succeeds, use the One Horizon MCP to create a child initiative under `Ink - LinkedIn` in the selected profile workspace.
 
 Before mutating One Horizon, read `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`.
 

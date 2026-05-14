@@ -1,4 +1,4 @@
 interface:
   display_name: "LinkedIn Social Writer"
   short_description: "Draft LinkedIn posts and replies from your corpus"
-  default_prompt: "Use $linkedin-social-writer to draft or revise a LinkedIn post, reply, DM, or repost grounded in the published-post corpus. Do not use it for storage-only requests."
+  default_prompt: "Use $linkedin-social-writer to resolve the active Ink profile and draft or revise a LinkedIn post, reply, DM, or repost grounded in that profile's published-post corpus. Do not use it for storage-only requests."

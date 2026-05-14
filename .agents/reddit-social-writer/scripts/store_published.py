@@ -7,6 +7,7 @@ from pathlib import Path
 
 from storage_common import (
     FORMAT_BY_FOLDER,
+    add_profile_arguments,
     build_published_filename,
     default_format_template,
     derive_title,
@@ -16,6 +17,7 @@ from storage_common import (
     plain,
     read_body,
     render_template,
+    resolve_social_corpus_root,
     resolve_storage_roots,
     yaml_list,
     yaml_string,
@@ -43,6 +45,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--discussion-prompt")
     parser.add_argument("--body")
     parser.add_argument("--body-file", type=Path)
+    add_profile_arguments(parser)
     return parser.parse_args()
 
 
@@ -94,7 +97,12 @@ def main() -> int:
     title = (args.title or derive_title(body, "Shared Reddit item")).strip()
     published_at = normalize_date(args.published_at)
 
-    target_dir = repo_root / "content" / "reddit" / FORMAT_BY_FOLDER[args.format]
+    target_dir = resolve_social_corpus_root(
+        repo_root,
+        "reddit",
+        args.profile,
+        args.profile_config,
+    ) / FORMAT_BY_FOLDER[args.format]
     target_dir.mkdir(parents=True, exist_ok=True)
     target = target_dir / build_published_filename(target_dir, published_at, args.format, title)
 

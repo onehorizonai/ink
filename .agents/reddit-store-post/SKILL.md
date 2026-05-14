@@ -7,6 +7,8 @@ description: Store one or more already written, shared, or published Reddit post
 
 Use this to log Reddit content that was already posted or fully written.
 
+Resolve the active Ink profile before writing local files or creating One Horizon records. If multiple profiles exist and none is named, ask which profile to use.
+
 ## Intent Split
 
 - Use this skill when the primary user intent is storage, logging, saving, or importing existing Reddit content.
@@ -56,7 +58,7 @@ If the user gives no format, store it as `post`.
 **Single item:**
 
 ```bash
-python3 .agents/reddit-social-writer/scripts/store_published.py --subreddit startups --body "..."
+python3 .agents/reddit-social-writer/scripts/store_published.py --profile <profileId> --subreddit startups --body "..."
 ```
 
 **Multiple items (batch):**
@@ -65,6 +67,7 @@ Write all posts to a temporary file separated by `|` (or `---` for multi-line po
 
 ```bash
 python3 .agents/reddit-social-writer/scripts/store_published_batch.py \
+  --profile <profileId> \
   --posts-file /tmp/posts.txt \
   --subreddit startups \
   [--separator "|"] \
@@ -77,7 +80,7 @@ Do not handwrite YAML frontmatter for normal storage flows when the scripts can 
 
 ## One Horizon: Record Published Post
 
-After each local corpus write succeeds, use the One Horizon MCP to create a child initiative under `Ink - Reddit`.
+After each selected-profile local corpus write succeeds, use the One Horizon MCP to create a child initiative under `Ink - Reddit` in the selected profile workspace.
 
 Before mutating One Horizon, read `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`.
 

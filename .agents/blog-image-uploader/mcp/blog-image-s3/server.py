@@ -8,6 +8,7 @@ import hashlib
 import hmac
 import json
 import mimetypes
+import os
 import re
 import sys
 import traceback
@@ -26,6 +27,9 @@ PROTOCOL_VERSION = "2024-11-05"
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 CONFIG_PATH = REPO_ROOT / ".secrets" / "blog-image-s3.json"
+PROFILE_CONFIG_ENV = "INK_PROFILE_CONFIG"
+PROFILE_ENV = "INK_PROFILE"
+DEFAULT_PROFILE_CONFIG = REPO_ROOT / ".local" / "context" / "ink-profiles.local.json"
 SERVICE = "s3"
 
 TOOLS = [
@@ -40,6 +44,8 @@ TOOLS = [
                 "prefix": {"type": "string"},
                 "overwrite": {"type": "boolean", "default": False},
                 "content_type": {"type": "string"},
+                "profile": {"type": "string"},
+                "profile_config": {"type": "string"},
             },
             "required": ["local_path"],
             "additionalProperties": False,
@@ -68,6 +74,8 @@ class UploaderConfig:
     history_path: Path
     addressing_style: str
     timeout_seconds: int
+    profile_id: str | None
+    config_path: Path
 
 
 class UploadHistory:
@@ -285,25 +293,128 @@ def send_response(message_id: Any, result: dict[str, Any]) -> None:
     send_message({"jsonrpc": "2.0", "id": message_id, "result": result})
 
 
-def load_config() -> UploaderConfig:
-    if not CONFIG_PATH.exists():
+def _optional_string(arguments: dict[str, Any], key: str) -> str | None:
+    value = arguments.get(key)
+    if value is None:
+        return None
+    if not isinstance(value, str):
+        raise ToolError("invalid_input", f"{key} must be a string when provided.")
+    value = value.strip()
+    return value or None
+
+
+def _resolve_profile_config_path(arguments: dict[str, Any]) -> Path:
+    configured = _optional_string(arguments, "profile_config")
+    if configured is None:
+        configured = os.environ.get(PROFILE_CONFIG_ENV, "").strip() or None
+    if configured is None:
+        return DEFAULT_PROFILE_CONFIG
+    return resolve_repo_path(configured)
+
+
+def resolve_ink_profile(arguments: dict[str, Any]) -> tuple[str, dict[str, Any]] | None:
+    requested = _optional_string(arguments, "profile") or os.environ.get(PROFILE_ENV, "").strip()
+    profile_config_path = _resolve_profile_config_path(arguments)
+
+    if not profile_config_path.exists():
+        if requested:
+            raise ToolError(
+                "missing_config",
+                f"Ink profile '{requested}' was requested, but no profile config exists.",
+                details={"path": str(profile_config_path)},
+            )
+        return None
+
+    try:
+        config = json.loads(profile_config_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ToolError(
+            "invalid_config",
+            "The Ink profile config file is not valid JSON.",
+            details={"path": str(profile_config_path), "reason": str(exc)},
+        ) from exc
+
+    if not isinstance(config, dict) or not isinstance(config.get("profiles"), dict) or not config["profiles"]:
+        raise ToolError(
+            "invalid_config",
+            "The Ink profile config must contain a non-empty profiles object.",
+            details={"path": str(profile_config_path)},
+        )
+
+    profiles = config["profiles"]
+    if requested:
+        if requested not in profiles:
+            raise ToolError(
+                "invalid_input",
+                f"Unknown Ink profile '{requested}'.",
+                details={"available_profiles": sorted(profiles)},
+            )
+        profile = profiles[requested]
+        if not isinstance(profile, dict):
+            raise ToolError("invalid_config", f"Ink profile '{requested}' must be an object.")
+        return requested, profile
+
+    if len(profiles) == 1:
+        profile_id = next(iter(profiles))
+        profile = profiles[profile_id]
+        if not isinstance(profile, dict):
+            raise ToolError("invalid_config", f"Ink profile '{profile_id}' must be an object.")
+        return profile_id, profile
+
+    raise ToolError(
+        "invalid_input",
+        "Multiple Ink profiles are configured. Pass profile or set INK_PROFILE before image upload.",
+        details={"available_profiles": sorted(profiles)},
+    )
+
+
+def resolve_profile_file(
+    arguments: dict[str, Any],
+    field_name: str,
+    legacy_path: Path,
+    config_label: str,
+) -> tuple[Path, str | None]:
+    selected = resolve_ink_profile(arguments)
+    if selected is None:
+        return legacy_path, None
+
+    profile_id, profile = selected
+    raw_path = profile.get(field_name)
+    if not isinstance(raw_path, str) or not raw_path.strip():
+        raise ToolError(
+            "invalid_config",
+            f"Selected Ink profile '{profile_id}' is missing '{field_name}'.",
+            details={"profile": profile_id, "field": field_name, "config": config_label},
+        )
+    return resolve_repo_path(raw_path), profile_id
+
+
+def load_config(arguments: dict[str, Any]) -> UploaderConfig:
+    config_path, profile_id = resolve_profile_file(
+        arguments,
+        "imageUploadConfig",
+        CONFIG_PATH,
+        "image upload",
+    )
+
+    if not config_path.exists():
         raise ToolError(
             "missing_config",
-            "Missing S3 upload config. Create .secrets/blog-image-s3.json before using this server.",
-            details={"path": str(CONFIG_PATH)},
+            "Missing S3 upload config for the selected Ink profile.",
+            details={"path": str(config_path), "profile": profile_id},
         )
 
     try:
-        raw = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+        raw = json.loads(config_path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
         raise ToolError(
             "invalid_config",
             "The S3 upload config file is not valid JSON.",
-            details={"path": str(CONFIG_PATH), "reason": str(exc)},
+            details={"path": str(config_path), "reason": str(exc)},
         ) from exc
 
     if not isinstance(raw, dict):
-        raise ToolError("invalid_config", "The S3 upload config must be a JSON object.", details={"path": str(CONFIG_PATH)})
+        raise ToolError("invalid_config", "The S3 upload config must be a JSON object.", details={"path": str(config_path)})
 
     required_fields = ["bucket", "region", "access_key_id", "secret_access_key"]
     missing = [field for field in required_fields if not isinstance(raw.get(field), str) or not str(raw.get(field)).strip()]
@@ -311,7 +422,7 @@ def load_config() -> UploaderConfig:
         raise ToolError(
             "invalid_config",
             "The S3 upload config is missing required string fields.",
-            details={"missing_fields": missing, "path": str(CONFIG_PATH)},
+            details={"missing_fields": missing, "path": str(config_path), "profile": profile_id},
         )
 
     addressing_style = str(raw.get("addressing_style", "virtual")).strip() or "virtual"
@@ -319,7 +430,7 @@ def load_config() -> UploaderConfig:
         raise ToolError(
             "invalid_config",
             "addressing_style must be either 'virtual' or 'path'.",
-            details={"path": str(CONFIG_PATH)},
+            details={"path": str(config_path)},
         )
 
     timeout_raw = raw.get("timeout_seconds", 30)
@@ -327,25 +438,28 @@ def load_config() -> UploaderConfig:
         raise ToolError(
             "invalid_config",
             "timeout_seconds must be a positive integer when provided.",
-            details={"path": str(CONFIG_PATH)},
+            details={"path": str(config_path)},
         )
 
     endpoint_url = raw.get("endpoint_url")
     if endpoint_url is not None and (not isinstance(endpoint_url, str) or not endpoint_url.strip()):
-        raise ToolError("invalid_config", "endpoint_url must be a non-empty string when provided.", details={"path": str(CONFIG_PATH)})
+        raise ToolError("invalid_config", "endpoint_url must be a non-empty string when provided.", details={"path": str(config_path)})
 
     public_base_url = raw.get("public_base_url")
     if public_base_url is not None and (not isinstance(public_base_url, str) or not public_base_url.strip()):
-        raise ToolError("invalid_config", "public_base_url must be a non-empty string when provided.", details={"path": str(CONFIG_PATH)})
+        raise ToolError("invalid_config", "public_base_url must be a non-empty string when provided.", details={"path": str(config_path)})
 
     key_prefix = str(raw.get("key_prefix", "")).strip().strip("/")
     history_path_raw = raw.get("history_path")
     if history_path_raw is None:
-        history_path = REPO_ROOT / ".secrets" / "blog-image-upload-history.json"
+        if profile_id:
+            history_path = REPO_ROOT / ".secrets" / profile_id / "blog-image-upload-history.json"
+        else:
+            history_path = REPO_ROOT / ".secrets" / "blog-image-upload-history.json"
     elif isinstance(history_path_raw, str) and history_path_raw.strip():
         history_path = resolve_repo_path(history_path_raw)
     else:
-        raise ToolError("invalid_config", "history_path must be a non-empty string when provided.", details={"path": str(CONFIG_PATH)})
+        raise ToolError("invalid_config", "history_path must be a non-empty string when provided.", details={"path": str(config_path)})
 
     return UploaderConfig(
         bucket=str(raw["bucket"]).strip(),
@@ -359,6 +473,8 @@ def load_config() -> UploaderConfig:
         history_path=history_path,
         addressing_style=addressing_style,
         timeout_seconds=timeout_raw,
+        profile_id=profile_id,
+        config_path=config_path,
     )
 
 
@@ -454,7 +570,7 @@ def call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
     if name != "upload_image":
         raise ToolError("provider_request_failed", f"Unknown tool: {name}")
 
-    config = load_config()
+    config = load_config(arguments)
     client = S3Client(config)
     history = UploadHistory(config.history_path)
 
@@ -486,6 +602,7 @@ def call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
     upload_result = client.upload_object(object_key, payload, content_type)
     public_url = client.public_url(object_key)
     record = {
+        "profile": config.profile_id,
         "local_path": str(local_path),
         "object_key": object_key,
         "bucket": config.bucket,
@@ -506,6 +623,7 @@ def call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         "etag": upload_result.get("etag", ""),
         "content_type": content_type,
         "bytes_uploaded": len(payload),
+        "profile": config.profile_id,
     }
 
 

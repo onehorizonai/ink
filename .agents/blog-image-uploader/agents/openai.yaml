@@ -1,4 +1,4 @@
 interface:
   display_name: "Blog Image Uploader"
   short_description: "Upload blog images to S3 storage"
-  default_prompt: "Use $blog-image-uploader to upload a local blog image to the configured S3 bucket and return the published URL. Assume the MCP tool already works and do not preflight-verify it; only troubleshoot if a tool call fails."
+  default_prompt: "Use $blog-image-uploader to resolve the active Ink profile, upload a local blog image to that profile's configured S3 bucket, and return the published URL. Assume the MCP tool already works and do not preflight-verify it; only troubleshoot if a tool call fails."

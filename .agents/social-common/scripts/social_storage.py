@@ -2,9 +2,20 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 from datetime import datetime
 from pathlib import Path
+from typing import Any
+
+
+PROFILE_CONFIG_ENV = "INK_PROFILE_CONFIG"
+PROFILE_ENV = "INK_PROFILE"
+DEFAULT_PROFILE_CONFIG = Path(".local/context/ink-profiles.local.json")
+LEGACY_CONTENT_ROOTS = {
+    "linkedin": Path("content/linkedin"),
+    "reddit": Path("content/reddit"),
+}
 
 
 def slugify(text: str) -> str:
@@ -44,6 +55,135 @@ def display_path(path: Path, base: Path) -> str:
         return resolved_path.relative_to(resolved_base).as_posix()
     except ValueError:
         return resolved_path.as_posix()
+
+
+def add_profile_arguments(parser: Any) -> None:
+    parser.add_argument(
+        "--profile",
+        help="Ink profile id to use. Defaults to INK_PROFILE when set.",
+    )
+    parser.add_argument(
+        "--profile-config",
+        type=Path,
+        help=(
+            "Path to ink-profiles.local.json. Defaults to INK_PROFILE_CONFIG "
+            "or .local/context/ink-profiles.local.json."
+        ),
+    )
+
+
+def _resolve_config_path(repo_root: Path, profile_config: Path | None) -> Path:
+    configured = profile_config or (
+        Path(os.environ[PROFILE_CONFIG_ENV]) if os.environ.get(PROFILE_CONFIG_ENV) else None
+    )
+    if configured is None:
+        configured = DEFAULT_PROFILE_CONFIG
+
+    configured = configured.expanduser()
+    if configured.is_absolute():
+        return configured
+    return repo_root / configured
+
+
+def load_profile_config(repo_root: Path, profile_config: Path | None = None) -> dict[str, Any] | None:
+    path = _resolve_config_path(repo_root, profile_config)
+    if not path.exists():
+        return None
+
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"Invalid Ink profile config at {display_path(path, repo_root)}: {exc}") from exc
+
+    if not isinstance(data, dict):
+        raise SystemExit(f"Invalid Ink profile config at {display_path(path, repo_root)}: root must be an object.")
+    profiles = data.get("profiles")
+    if not isinstance(profiles, dict) or not profiles:
+        raise SystemExit(
+            f"Invalid Ink profile config at {display_path(path, repo_root)}: missing non-empty 'profiles'.",
+        )
+    return data
+
+
+def resolve_ink_profile(
+    repo_root: Path,
+    profile: str | None = None,
+    profile_config: Path | None = None,
+) -> tuple[str, dict[str, Any]] | None:
+    config = load_profile_config(repo_root, profile_config)
+    requested = (profile or os.environ.get(PROFILE_ENV) or "").strip()
+
+    if config is None:
+        if requested:
+            config_path = _resolve_config_path(repo_root, profile_config)
+            raise SystemExit(
+                (
+                    f"Ink profile '{requested}' was requested, but no profile config exists at "
+                    f"{display_path(config_path, repo_root)}."
+                ),
+            )
+        return None
+
+    profiles = config["profiles"]
+    if requested:
+        if requested not in profiles:
+            available = ", ".join(sorted(profiles))
+            raise SystemExit(f"Unknown Ink profile '{requested}'. Available profiles: {available}.")
+        selected = profiles[requested]
+        if not isinstance(selected, dict):
+            raise SystemExit(f"Invalid Ink profile '{requested}': profile value must be an object.")
+        return requested, selected
+
+    if len(profiles) == 1:
+        only_id = next(iter(profiles))
+        selected = profiles[only_id]
+        if not isinstance(selected, dict):
+            raise SystemExit(f"Invalid Ink profile '{only_id}': profile value must be an object.")
+        return only_id, selected
+
+    available = ", ".join(sorted(profiles))
+    raise SystemExit(
+        (
+            "Multiple Ink profiles are configured. Pass --profile or set INK_PROFILE. "
+            f"Available profiles: {available}."
+        ),
+    )
+
+
+def resolve_repo_path(repo_root: Path, value: str, *, field_name: str) -> Path:
+    if not isinstance(value, str) or not value.strip():
+        raise SystemExit(f"Selected Ink profile is missing '{field_name}'.")
+
+    path = Path(os.path.expandvars(value.strip())).expanduser()
+    if path.is_absolute():
+        return path
+    return repo_root / path
+
+
+def resolve_social_corpus_root(
+    repo_root: Path,
+    channel: str,
+    profile: str | None = None,
+    profile_config: Path | None = None,
+) -> Path:
+    selected = resolve_ink_profile(repo_root, profile, profile_config)
+    if selected is None:
+        return repo_root / LEGACY_CONTENT_ROOTS[channel]
+
+    profile_id, profile_data = selected
+    roots = profile_data.get("contentRoots")
+    if not isinstance(roots, dict):
+        raise SystemExit(f"Selected Ink profile '{profile_id}' is missing 'contentRoots'.")
+    return resolve_repo_path(repo_root, roots.get(channel, ""), field_name=f"contentRoots.{channel}")
+
+
+def resolve_social_drafts_root(
+    repo_root: Path,
+    channel: str,
+    profile: str | None = None,
+    profile_config: Path | None = None,
+) -> Path:
+    return resolve_social_corpus_root(repo_root, channel, profile, profile_config) / "drafts"
 
 
 def render_template(template_text: str, values: dict[str, str]) -> str:

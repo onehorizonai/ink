@@ -7,12 +7,13 @@ description: Set up Ink's author-scoped context docs in One Horizon. Use when th
 
 Set up Ink's author-scoped context docs and parent initiatives in One Horizon without guessing.
 
-This skill owns context setup for Ink. Use One Horizon tools to resolve the workspace and author, inspect existing author context docs and initiatives, offer to use old `.local/context/` files as migration source after confirmation, gather missing facts in one grouped pass, show a confirmation summary, and create missing docs only after explicit approval.
+This skill owns context setup for Ink. Resolve the Ink profile first, then use One Horizon tools to resolve the selected profile workspace and author, inspect existing author context docs and initiatives, offer to use old `.local/context/` files as migration source after confirmation, gather missing facts in one grouped pass, show a confirmation summary, and create missing docs only after explicit approval.
 
 ## Read First
 
-- `../../.local/README.md` — for the blog-publishing path contract (the only local file this skill cares about)
+- `../../.local/README.md` — for the profile registry and blog-publishing path contracts
 - `references/mcp-readiness.md` — for One Horizon tool-call recovery when a required MCP call is missing or fails
+- `references/ink-profile-contract.md` — for selecting the active Ink profile, workspace, author, local corpus roots, and bootstrap source safety
 - `references/context-doc-templates.md` — for author resolution, document naming, and the canonical body shape of each One Horizon context doc
 - `references/ink-initiative-hierarchy.md` — for the required Ink parent initiative tree and child-placement contract
 - Check whether the author's One Horizon context docs already exist before gathering new inputs
@@ -21,7 +22,7 @@ Do not treat `.agents/context/`, `README.md`, `AGENTS.md`, `CLAUDE.md`, or other
 
 ## Scope
 
-This skill creates missing author-scoped One Horizon context docs. It does not update existing author context docs.
+This skill creates missing author-scoped One Horizon context docs in the selected Ink profile workspace. It does not update existing author context docs.
 
 Doc name pattern:
 
@@ -40,7 +41,7 @@ And the following parent initiatives if they are missing:
   - `Ink - Blog`
   - `Ink - Website Briefs`
 
-This skill does not create or update `.local/context/blog-publishing.local.md` unless the user explicitly asks.
+This skill does not create or update profile blog publishing path files unless the user explicitly asks.
 
 ## Hard Rules
 
@@ -67,13 +68,16 @@ This skill does not create or update `.local/context/blog-publishing.local.md` u
 Before doing anything else:
 
 1. Read `references/mcp-readiness.md`.
-2. Resolve the active workspace with One Horizon tools. Ask the user which workspace to use if more than one is available.
-3. Resolve the author:
+2. Resolve the active Ink profile using `references/ink-profile-contract.md`. If multiple profiles are configured and none is named in the prompt or `INK_PROFILE`, ask which profile to use before continuing.
+3. Use the selected profile's `workspaceId`. Do not silently use the One Horizon MCP default workspace.
+4. Resolve the author inside the selected profile workspace:
    - If the user named an author, use One Horizon member/team tools to find that person.
+   - If the selected profile has `authorUserId`, use that identity after confirming it exists in the workspace.
+   - Otherwise use `authorName` from the selected profile when available.
    - Otherwise use the authenticated/current One Horizon person when the MCP exposes it.
    - If the current person cannot be determined, ask which author these context docs are for before continuing.
-4. If a required One Horizon tool is missing or a tool call fails, follow `references/mcp-readiness.md`.
-5. Derive doc names with `Ink Context - {Author Name} - {Doc Type}`. Do not use unscoped global doc names.
+5. If a required One Horizon tool is missing or a tool call fails, follow `references/mcp-readiness.md`.
+6. Derive doc names with `Ink Context - {Author Name} - {Doc Type}` inside the selected workspace. Do not use unscoped global doc names or docs from another workspace.
 
 ## Migration from Old Local Files
 
@@ -122,7 +126,9 @@ Always ask:
 - the exact LinkedIn profile URL
 - the author if the One Horizon MCP cannot determine the current person
 
-Prefer the company website as primary when one exists, but confirm that with the user.
+Prefer the selected profile's `website` as primary when it exists, but confirm that with the user.
+
+For profile setup from a source repo, use only the safe source paths listed in `references/ink-profile-contract.md` from the selected profile's `sourceRepo` after the user confirms the setup summary. Do not read `.env*`, secrets, dependency folders, build output, or private runtime state.
 
 If public access is blocked or the page content is not available, ask the user to paste the relevant public bio, about, company, or product text instead of inferring from memory.
 
@@ -181,7 +187,7 @@ Do not use soft wording such as `I can go ahead if this looks right`.
 
 ## Initiative Check
 
-After context docs are confirmed, check whether the required parent initiatives exist:
+After context docs are confirmed, check whether the required parent initiatives exist in the selected profile workspace:
 
 - `Ink`
 - `Ink - LinkedIn`

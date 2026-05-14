@@ -7,17 +7,17 @@ description: Turn approved One Horizon Ink content ideas into reviewable draft i
 
 One Horizon is the review source of truth. This workflow turns approved ideas into draft initiatives; it does not publish and does not create local LinkedIn or Reddit draft files.
 
-If One Horizon auth or tools are unavailable, stop. Do not draft, guess context, or use local fallback context.
+Resolve the active Ink profile before any One Horizon search or writer invocation. If more than one profile is configured and none is named in the prompt or `INK_PROFILE`, ask which profile to use. If One Horizon auth or tools are unavailable, stop. Do not draft, guess context, use the One Horizon default workspace silently, or use local fallback context.
 Before mutating One Horizon records, read `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`.
 When an idea needs human input, read `references/planned-blocker-comment.md`, comment, and set the idea status to `In Review`.
 
 ## Workflow
 
-1. Resolve workspace, author, and the `Ink - Blog`, `Ink - LinkedIn`, and `Ink - Reddit` parent initiatives.
+1. Resolve the selected Ink profile with `../one-horizon-context-setup/references/ink-profile-contract.md`, then resolve workspace, author, and the `Ink - Blog`, `Ink - LinkedIn`, and `Ink - Reddit` parent initiatives inside that workspace.
 2. Find `Planned` records titled `[Ink Idea] [Blog] ...`, `[Ink Idea] [LinkedIn] ...`, or `[Ink Idea] [Reddit] ...`; use `search_tasks`, then `get_task_details`.
 3. If a source `[Ink Idea]` record is an initiative and its parent is missing or does not match the channel, move it with `update_initiative` before drafting. If it is not an initiative and the available mutation tool has no parent field, note that and continue.
 4. Parse the Content Idea Brief. Required to draft: channel, angle, audience, and enough thesis direction to avoid inventing the core argument. Treat missing `Proof needed`, `Risks`, and `Next workflow` as draft assumptions.
-5. Resolve required author context by exact One Horizon document title before invoking the writer. Follow `../one-horizon-context-setup/references/context-doc-templates.md` for missing or unreadable docs.
+5. Resolve required author context by exact One Horizon document title inside the selected profile workspace before invoking the writer. Follow `../one-horizon-context-setup/references/context-doc-templates.md` for missing or unreadable docs.
 6. If the idea still needs user input, comment with `references/planned-blocker-comment.md`, set the source idea to `In Review` with `update_feature_request` for reported ideas or `update_initiative` for initiative records, and stop. Do not post raw `missing fields` lists. Do not leave human-action items in `Planned`.
 7. Run the channel writer:
    - Blog: `../blog-post-writer/SKILL.md`; do not write to `publish_output_dir`.

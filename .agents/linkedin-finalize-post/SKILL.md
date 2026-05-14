@@ -1,11 +1,13 @@
 ---
 name: linkedin-finalize-post
-description: Finalize a LinkedIn post with the repo review workflow and store it in the published corpus only when approval is explicit. Use when the user asks to finalize a post, approve the final version, or save the approved post, and the result should go through the humanizer, tone, style, and optional fact-check passes before optionally being written into `content/linkedin/` with the repo storage template. Do not use this skill for simple corpus logging of already-written posts that do not need final editing.
+description: Finalize a LinkedIn post with the repo review workflow and store it in the selected Ink profile's published corpus only when approval is explicit. Use when the user asks to finalize a post, approve the final version, or save the approved post, and the result should go through the humanizer, tone, style, and optional fact-check passes before optionally being written into the selected profile's LinkedIn root with the repo storage template. Do not use this skill for simple corpus logging of already-written posts that do not need final editing.
 ---
 
 # LinkedIn Finalize Post
 
 Use this when the draft is close and needs a final pass before approval or storage.
+
+Resolve the active Ink profile before review context, storage, or One Horizon record creation. If multiple profiles exist and none is named, ask which profile to use.
 
 ## Read
 
@@ -46,7 +48,7 @@ Carry forward:
 
 ## One Horizon: Record Published Post
 
-After local corpus storage succeeds, use the One Horizon MCP to create a child initiative under `Ink - LinkedIn`.
+After selected-profile local corpus storage succeeds, use the One Horizon MCP to create a child initiative under `Ink - LinkedIn` in the selected profile workspace.
 
 Before mutating One Horizon, read `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`.
 

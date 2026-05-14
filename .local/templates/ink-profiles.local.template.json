@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "selectionMode": "ask_when_multiple",
+  "profiles": {
+    "one-horizon": {
+      "label": "One Horizon",
+      "workspaceId": "<one-horizon-workspace-id>",
+      "authorName": "<author-name>",
+      "authorUserId": "",
+      "website": "https://example.com",
+      "sourceRepo": "/absolute/path/to/one-horizon-source",
+      "contentRoots": {
+        "linkedin": "content/linkedin",
+        "reddit": "content/reddit",
+        "blogDrafts": "content/blog/drafts"
+      },
+      "blogPublishingConfig": ".local/context/blog-publishing.local.md",
+      "imageProviderConfig": ".secrets/one-horizon/image-provider.json",
+      "imageUploadConfig": ".secrets/one-horizon/blog-image-s3.json"
+    },
+    "fit-horizon": {
+      "label": "Fit Horizon",
+      "workspaceId": "<fit-horizon-workspace-id>",
+      "authorName": "<author-name>",
+      "authorUserId": "",
+      "website": "https://example.com",
+      "sourceRepo": "/absolute/path/to/fit-horizon-source",
+      "contentRoots": {
+        "linkedin": ".local/content/fit-horizon/linkedin",
+        "reddit": ".local/content/fit-horizon/reddit",
+        "blogDrafts": ".local/content/fit-horizon/blog/drafts"
+      },
+      "blogPublishingConfig": ".local/context/fit-horizon/blog-publishing.local.md",
+      "imageProviderConfig": ".secrets/fit-horizon/image-provider.json",
+      "imageUploadConfig": ".secrets/fit-horizon/blog-image-s3.json"
+    }
+  }
+}

@@ -16,7 +16,7 @@ When critical strategy inputs are missing, ask the next small pack of related ve
 ## Read First
 
 - `../page-brief-builder/references/clarification-loop.md`
-- only the relevant author-scoped One Horizon context docs. Resolve the author with One Horizon tools and use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract.
+- only the relevant author-scoped One Horizon context docs. Resolve the active Ink profile first, then resolve the author with One Horizon tools inside the selected workspace and use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract.
 - Use `find-documents` only to locate candidate context docs by ID, title, status, type, or excerpt. Call `get-document` for the selected `documentId` before extracting fields or treating a context doc as loaded.
 
 ## Required Inputs

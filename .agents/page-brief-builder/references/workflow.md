@@ -34,7 +34,7 @@ Ask one question only when one blocking uncertainty remains.
 
 ## 2. Confirm website and business context
 
-- Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract.
+- Resolve the active Ink profile with `../../one-horizon-context-setup/references/ink-profile-contract.md`, then resolve the author and load only the relevant author-scoped One Horizon context docs from the selected workspace. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract.
 - Use `find-documents` only to locate candidate context docs by ID, title, status, type, or excerpt. Call `get-document` for the selected `documentId` before extracting fields or treating a context doc as loaded.
 - If a required One Horizon tool call is missing or fails, follow `../../one-horizon-context-setup/references/mcp-readiness.md`.
 - Ask for additional business-specific context even when author-scoped One Horizon context docs already exist.

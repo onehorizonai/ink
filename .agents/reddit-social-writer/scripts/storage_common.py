@@ -9,6 +9,7 @@ if str(SHARED_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SHARED_SCRIPTS))
 
 from social_storage import (  # noqa: E402
+    add_profile_arguments,
     build_draft_filename as _build_draft_filename,
     build_published_filename as _build_published_filename,
     derive_title,
@@ -18,6 +19,8 @@ from social_storage import (  # noqa: E402
     plain,
     read_body,
     render_template,
+    resolve_social_corpus_root,
+    resolve_social_drafts_root,
     resolve_storage_roots,
     yaml_list,
     yaml_string,

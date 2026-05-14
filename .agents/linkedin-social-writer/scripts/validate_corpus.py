@@ -7,7 +7,12 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-from storage_common import display_path, resolve_storage_roots
+from storage_common import (
+    add_profile_arguments,
+    display_path,
+    resolve_social_corpus_root,
+    resolve_storage_roots,
+)
 
 SHARED_SCRIPTS = Path(__file__).resolve().parents[2] / "social-common" / "scripts"
 if str(SHARED_SCRIPTS) not in sys.path:
@@ -37,13 +42,15 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Validate the published-post corpus for linkedin-social-writer.",
     )
-    default_root = REPO_ROOT / "content" / "linkedin"
     parser.add_argument(
         "--root",
         type=Path,
-        default=default_root,
-        help="Corpus root directory. Defaults to content/linkedin at the repo root.",
+        help=(
+            "Corpus root directory. Defaults to the selected Ink profile's LinkedIn root, "
+            "or content/linkedin when no profile config exists."
+        ),
     )
+    add_profile_arguments(parser)
     return parser.parse_args()
 
 
@@ -63,7 +70,11 @@ def validate_file(path: Path) -> tuple[list[str], list[str], str | None]:
 
 def main() -> int:
     args = parse_args()
-    root = args.root.resolve()
+    root = (
+        args.root
+        if args.root
+        else resolve_social_corpus_root(repo_root=REPO_ROOT, channel="linkedin", profile=args.profile, profile_config=args.profile_config)
+    ).resolve()
 
     if not root.exists():
         print(f"[ERROR] Corpus directory not found: {display_path(root, REPO_ROOT)}")

@@ -7,11 +7,12 @@ description: Process reviewed One Horizon Ink draft initiatives into revised dra
 
 `In Review` means human review. `Planned` or `In Progress` means the runner may act. Social publishing stays manual. Blog publishing means opening a PR.
 
+Resolve the active Ink profile before listing or mutating One Horizon drafts. If more than one profile is configured and none is named in the prompt or `INK_PROFILE`, ask which profile to use. Do not silently use the One Horizon default workspace.
 Before mutating One Horizon records, read `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`.
 
 ## Workflow
 
-1. Find `Planned` or `In Progress` initiatives titled `[Ink Draft] [Blog] ...`, `[Ink Draft] [LinkedIn] ...`, or `[Ink Draft] [Reddit] ...`; use `search_tasks` or `list_initiatives`, then fetch details and comments.
+1. Resolve the selected Ink profile with `../one-horizon-context-setup/references/ink-profile-contract.md`. Find `Planned` or `In Progress` initiatives titled `[Ink Draft] [Blog] ...`, `[Ink Draft] [LinkedIn] ...`, or `[Ink Draft] [Reddit] ...` inside that profile workspace; use `search_tasks` or `list_initiatives`, then fetch details and comments.
 2. For each draft initiative, verify its parent matches the channel in the title. If it is missing or under the wrong parent, call `update_initiative` with the matching `Ink - Channel` `parentInitiativeId` before applying feedback or publishing.
 3. Treat comments containing `Ink automation checkpoint` as automation comments. Treat later non-automation comments as human feedback.
 4. If human feedback exists, revise the draft with the matching writer skill, update the `## Draft` section with `patch_document(taskId=...)`, comment with a short change summary, and set status to `In Review`.
@@ -48,22 +49,24 @@ Constraints:
 The blog writer pass must complete these checks before the PR path can start:
 
 1. Resolve the confirmed blog post type from the draft or comments. If it is missing and cannot be safely inferred, comment the blocker and set the initiative `Blocked`.
-2. Rerun internal corpus research, fresh external research, source validation, outline validation, image planning, image search, and image download.
+2. Rerun internal corpus research, fresh external research, source validation, outline validation, image planning, image search, and image download using the selected Ink profile.
 3. Rerun both writing passes and the full review sequence: humanizer, style review, fact-check, source URL check, tone review, and Ramsay review.
-4. Return the final MDX body, final metadata, required article filename or slug, selected/downloaded assets, optional uploaded asset paths, review ledger, and a short rebuild summary.
-5. Treat unresolved Ramsay `Must Fix` items, failed source validation, missing required images, missing local publishing context, or incomplete review ledger as blockers. Comment the blocker and set the initiative `Blocked` instead of opening a PR.
+4. Return the final MDX body, final metadata, required article filename or slug, selected/downloaded assets, optional selected-profile uploaded asset paths, review ledger, and a short rebuild summary. The returned published date must be unique inside the selected profile's `publish_output_dir`.
+5. Treat unresolved Ramsay `Must Fix` items, failed source validation, missing required images, incomplete selected-profile image upload config when upload is required, missing local publishing context, or incomplete review ledger as blockers. Comment the blocker and set the initiative `Blocked` instead of opening a PR.
 
 If image sourcing fails with a provider/network-style error such as `provider_request_failed`, retry the image search/download path once in the same run before blocking the initiative. Use the blocker path only after a concrete second failure or a clearly non-transient config/auth error.
 
 ## Blog PR Path
 
-1. Read `../../.local/context/blog-publishing.local.md` and resolve `publish_output_dir`.
+1. Read the selected Ink profile's `blogPublishingConfig` and resolve `publish_output_dir`, plus optional `post_publish_generate_command` and `post_publish_build_command` values.
 2. Find the publishing repo with `git -C <publish_output_dir> rev-parse --show-toplevel`.
 3. If the repo is dirty, comment the blocker and set the initiative `Blocked`.
 4. Create branch `geeza/ink-blog-<taskId>-<slug>`; append `-2`, `-3`, etc. on collision.
-5. Write only the final MDX returned by the Blog Writer Publish Pass to `YYYY-MM-DD-short-slug.mdx` in `publish_output_dir`.
-6. Commit only that article and the required assets returned by the Blog Writer Publish Pass, push, and open a PR with `gh pr create --title "Ink blog: <draft title>"`.
-7. Comment with the PR URL, the rebuild summary, and `Ink automation checkpoint: content-publishing-runner <ISO timestamp>`.
+5. Before writing, scan `publish_output_dir` for existing `.mdx` filename dates and `metadata.date` values. The published blog date must be unique for the selected Ink profile; if the returned date is already used, choose the nearest unused date that preserves publishing order and update both `metadata.date` and the filename. Write only the final MDX returned by the Blog Writer Publish Pass to `YYYY-MM-DD-short-slug.mdx` in `publish_output_dir`. Do not append `-2`, `-3`, etc. to published blog filenames to work around a date collision.
+6. If `post_publish_generate_command` is set, run it from the publishing repo root before validation so generated registries, LLM indexes, or route manifests stay current.
+7. If `post_publish_build_command` is set, run it from the publishing repo root before commit. Treat failures as blockers.
+8. Commit only the article, required assets, and generated/public discovery files created by the selected profile's post-publish commands, push, and open a PR with `gh pr create --title "Ink blog: <draft title>"`.
+9. Comment with the PR URL, the rebuild summary, and `Ink automation checkpoint: content-publishing-runner <ISO timestamp>`.
 
 If branch, commit, push, GitHub auth, or PR creation fails, comment the blocker and set `Blocked`.
 

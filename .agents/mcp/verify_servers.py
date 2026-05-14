@@ -18,17 +18,20 @@ from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 MCP_CONFIG_PATH = REPO_ROOT / ".mcp.json"
+DEFAULT_PROFILE_CONFIG = REPO_ROOT / ".local" / "context" / "ink-profiles.local.json"
 PROTOCOL_VERSION = "2024-11-05"
 DEFAULT_TIMEOUT_SECONDS = 20.0
 
-CONFIG_CHECKS: dict[str, tuple[Path, tuple[str, ...]]] = {
+CONFIG_CHECKS: dict[str, tuple[Path, tuple[str, ...], str | None]] = {
     "blog-image-finder": (
         REPO_ROOT / ".secrets" / "image-provider.json",
         ("provider", "access_key"),
+        "imageProviderConfig",
     ),
     "blog-image-uploader": (
         REPO_ROOT / ".secrets" / "blog-image-s3.json",
         ("bucket", "region", "access_key_id", "secret_access_key"),
+        "imageUploadConfig",
     ),
 }
 
@@ -67,6 +70,35 @@ def normalize_server_names(available: dict[str, Any], selected: list[str]) -> li
     return selected
 
 
+def resolve_repo_path(raw_path: str) -> Path:
+    path = Path(raw_path).expanduser()
+    if path.is_absolute():
+        return path
+    return (REPO_ROOT / path).resolve()
+
+
+def load_profile(profile_id: str, profile_config: Path | None) -> dict[str, Any]:
+    path = profile_config or DEFAULT_PROFILE_CONFIG
+    if not path.is_absolute():
+        path = (REPO_ROOT / path).resolve()
+    if not path.exists():
+        raise VerificationError(f"Profile config not found at {path}")
+
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise VerificationError(f"Invalid JSON in {path}: {exc}") from exc
+
+    profiles = payload.get("profiles") if isinstance(payload, dict) else None
+    if not isinstance(profiles, dict) or not profiles:
+        raise VerificationError(f"{path} does not contain a non-empty profiles object")
+    profile = profiles.get(profile_id)
+    if not isinstance(profile, dict):
+        available = ", ".join(sorted(profiles))
+        raise VerificationError(f"Unknown Ink profile {profile_id!r}. Available profiles: {available}")
+    return profile
+
+
 def validate_command_entry(name: str, entry: Any) -> tuple[list[str], Path]:
     if not isinstance(entry, dict):
         raise VerificationError(f"{name}: .mcp.json entry must be an object")
@@ -94,12 +126,19 @@ def validate_command_entry(name: str, entry: Any) -> tuple[list[str], Path]:
     return [command, *args], script_path
 
 
-def validate_optional_config(name: str) -> list[tuple[str, str]]:
+def validate_optional_config(name: str, profile_id: str | None, profile_config: Path | None) -> list[tuple[str, str]]:
     check = CONFIG_CHECKS.get(name)
     if not check:
         return []
 
-    path, required_fields = check
+    path, required_fields, profile_field = check
+    if profile_id and profile_field:
+        profile = load_profile(profile_id, profile_config)
+        raw_path = profile.get(profile_field)
+        if not isinstance(raw_path, str) or not raw_path.strip():
+            return [("FAIL", f"{name}: profile {profile_id!r} is missing {profile_field}")]
+        path = resolve_repo_path(raw_path)
+
     if not path.exists():
         return [("WARN", f"{name}: local config not found at {path}")]
 
@@ -116,7 +155,8 @@ def validate_optional_config(name: str) -> list[tuple[str, str]]:
         joined = ", ".join(missing_fields)
         return [("FAIL", f"{name}: config is missing required string fields: {joined}")]
 
-    return [("OK", f"{name}: config looks present at {path}")]
+    profile_note = f" for profile {profile_id}" if profile_id else ""
+    return [("OK", f"{name}: config looks present{profile_note} at {path}")]
 
 
 def send_message(stdin: Any, payload: dict[str, Any]) -> None:
@@ -292,6 +332,12 @@ def main() -> int:
         default=DEFAULT_TIMEOUT_SECONDS,
         help=f"Seconds to wait for each MCP response (default: {DEFAULT_TIMEOUT_SECONDS:g})",
     )
+    parser.add_argument("--profile", help="Optional Ink profile id whose local image configs should be checked")
+    parser.add_argument(
+        "--profile-config",
+        type=Path,
+        help="Optional path to ink-profiles.local.json when using --profile",
+    )
     args = parser.parse_args()
 
     if shutil.which("uv") is None:
@@ -324,7 +370,7 @@ def main() -> int:
             continue
 
         config_failed = False
-        for level, message in validate_optional_config(name):
+        for level, message in validate_optional_config(name, args.profile, args.profile_config):
             print_status(level, message)
             if level == "FAIL":
                 failures += 1

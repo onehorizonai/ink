@@ -17,7 +17,7 @@ It must not output production code, HTML, CSS, JS, React, component code, or fin
 1. Read `references/workflow.md`.
 2. Read `references/clarification-loop.md`.
 3. Read `references/reuse-map.md`.
-4. Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract.
+4. Resolve the active Ink profile, then resolve the author and load only the relevant author-scoped One Horizon context docs from that profile workspace. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming contract.
 5. If the relevant author-scoped One Horizon context docs are missing, ask for business-specific context directly. Use `../one-horizon-context-setup/SKILL.md` only if the user wants missing author context docs created.
 7. If intake is incomplete, stop and resolve the intake gaps before analysis.
 8. Run every mandatory step in `references/workflow.md`.
@@ -27,6 +27,7 @@ It must not output production code, HTML, CSS, JS, React, component code, or fin
 ## Working Agreement
 
 - Treat `references/workflow.md` as the authoritative sequence. Every step is mandatory.
+- Resolve the active Ink profile before loading One Horizon context or website/business context. If multiple profiles exist and none is named, ask which profile to use.
 - Treat `references/clarification-loop.md` as the shared questioning contract for every page-brief stage.
 - If a step is impossible, do not skip it silently. State what could not be done, why, what assumption was used instead, and what follow-up input would resolve it.
 - Always confirm the target website or web property.
@@ -116,6 +117,6 @@ Do not output `TBD`, `TODO`, `TBA`, `TBC`, `placeholder`, `etc.`, or vague fille
 - Read `references/clarification-loop.md` for the shared questioning contract.
 - Read `references/reuse-map.md` for sub-skill routing and tool guidance.
 - If a One Horizon tool call fails, read `../one-horizon-context-setup/references/mcp-readiness.md` for recovery.
-- Resolve the author with One Horizon MCP tools, then load relevant author-scoped context from One Horizon: `Profile`, `Current Work`, and `Market Context`.
+- Resolve the active Ink profile with `../one-horizon-context-setup/references/ink-profile-contract.md`, then resolve the author with One Horizon MCP tools and load relevant author-scoped context from the selected workspace: `Profile`, `Current Work`, and `Market Context`.
 - Read `../linkedin-social-writer/references/mcp-tools.md` before using Ink's local research tools.
 - Use `../page-brief-assembler/references/final-brief-template.md` as the output contract.

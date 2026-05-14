@@ -28,7 +28,7 @@ Do not ask for information that can be recovered from the corpus, One Horizon co
 
 ## 3. Load the minimum user context
 
-Resolve the author and load only the relevant author-scoped One Horizon context docs. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract:
+Resolve the active Ink profile with `../../one-horizon-context-setup/references/ink-profile-contract.md`, then resolve the author and load only the relevant author-scoped One Horizon context docs from the selected workspace. Use `../../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract:
 
 - `Profile` for identity basics
 - `Current Work` for almost every business draft
@@ -44,7 +44,7 @@ If a required One Horizon tool call is missing or fails, follow `../../one-horiz
 
 ## 4. Retrieve examples
 
-- Search the same format folder first.
+- Search the selected profile's LinkedIn corpus root and the same format folder first.
 - Use 3-5 good examples before widening.
 - Expand to adjacent formats only when the exact bucket is thin.
 - Favor recent examples when the voice may have shifted.
@@ -76,9 +76,9 @@ Add:
 
 If the user wants the draft stored locally:
 
-- use `scripts/create_draft.py`
-- write to `content/linkedin/drafts/`
-- never place unpublished drafts inside `content/linkedin/`
+- use `scripts/create_draft.py --profile <profileId>` when a profile is selected
+- write to the selected profile's LinkedIn draft root
+- never place unpublished drafts inside the selected profile's published LinkedIn corpus folders
 
 ## 8. Store shared or approved posts
 
