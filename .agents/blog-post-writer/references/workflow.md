@@ -12,6 +12,7 @@ Capture:
 - goal or desired next step
 - source material, links, transcripts, or notes
 - required claims, examples, or products
+- affiliate or referral partners, if any, including the exact buying decision they belong to
 - visuals, screenshots, charts, or code that should appear
 - the required cover image plus likely inline-image opportunities
 - hard constraints such as target length, SEO terms, internal links, legal sensitivity, or launch timing
@@ -60,6 +61,7 @@ Capture:
 - Build a fresh source set for the current article. Do not reuse an older article's source bundle or citations as-is.
 - Prefer primary sources, original company docs, canonical essays, and credible reporting over derivative SEO summaries.
 - Note the claims that still need verification during the fact-check pass.
+- If affiliates are in scope, read `affiliate-integration.md` and verify partner facts from affiliate profiles, product data, or partner pages before deciding whether a link belongs in the outline.
 - Do not skip this step. If the article is intentionally personal, reflective, or journal-like and web research adds no signal, run a minimal external scan and state that no outside source materially shaped the draft.
 
 ## 6. Ask only necessary questions
@@ -101,6 +103,7 @@ If a required One Horizon tool call is missing or fails, follow `../../one-horiz
 - Bias the structure toward a sharper tech-magazine flow: a live thesis, clear stakes, concrete proof, and momentum from section to section.
 - Let the confirmed article type set the opening move, proof model, and close. Do not outline an `explainer` like a `rant`, or a `journal / dispatch` like a `comparison`.
 - Decide which sections should carry visuals while the outline is still cheap to change.
+- If affiliate links are in scope, assign them only to sections with a natural buying decision or constraint; omit them from sections where they would read like an ad break.
 
 ## 9. Plan the images
 
@@ -135,6 +138,7 @@ If a required One Horizon tool call is missing or fails, follow `../../one-horiz
 
 - Check the outline against the relevant article-type playbook in `references/format-playbooks.md`.
 - Confirm the outline and image plan fit the brief constraints such as SEO targets, required links, visuals, and CTA intensity.
+- Confirm any affiliate links fit `affiliate-integration.md`: real decision first, partner route second, disclosure immediately nearby.
 - Cut sections that repeat instead of advancing the argument.
 - Convert list-shaped sections back into prose unless the brief truly demands a list.
 - Plan `---` between major sections before full drafting starts.
@@ -180,6 +184,7 @@ For every article:
 - run the style review pass second
 - run the fact-check pass third
 - run the source-url-check pass fourth for every article; if the draft, notes, or handoff include no URLs, state `No URLs present to validate` instead of skipping the pass
+- if the draft includes affiliate links and `affiliate-compliance-review` is available, run it after URL checking and before tone review
 - run the tone review fifth and use it as the last content-adjustment pass before Ramsay review
 - run `../../blog-post-ramsay-review/SKILL.md` sixth for every article after tone review
 - if `../../blog-post-ramsay-review/SKILL.md` returns any `Must Fix` items, revise the draft to address every one of them before calling the article final unless the user explicitly waives an item

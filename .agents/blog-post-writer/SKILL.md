@@ -15,22 +15,23 @@ Before presenting anything as final, complete and report a visible review ledger
 ## Quick Start
 
 1. Read `references/workflow.md`.
-2. Load the minimum author-scoped One Horizon context docs (resolved in step 9 below; read here only if the blog post type requires personal context before the archive search).
-3. Resolve the active Ink profile, then read the selected profile's `blogPublishingConfig`.
-4. Ask the user to confirm the general blog post type before drafting. If the brief already implies one, state the inferred type and ask the user to confirm or correct it. If the user says something broad like `article`, map it to the nearest playbook in `references/format-playbooks.md` and verify the mapped type back to the user. Do not start internal research, external research, or outline work until the type is confirmed.
+2. If the brief includes partner, referral, commerce, or affiliate links, read `references/affiliate-integration.md` before outlining.
+3. Load the minimum author-scoped One Horizon context docs (resolved in step 10 below; read here only if the blog post type requires personal context before the archive search).
+4. Resolve the active Ink profile, then read the selected profile's `blogPublishingConfig`.
+5. Ask the user to confirm the general blog post type before drafting. If the brief already implies one, state the inferred type and ask the user to confirm or correct it. If the user says something broad like `article`, map it to the nearest playbook in `references/format-playbooks.md` and verify the mapped type back to the user. Do not start internal research, external research, or outline work until the type is confirmed.
    Exception: when this skill is invoked by `../content-creation-runner/SKILL.md` or `../content-publishing-runner/SKILL.md` and the One Horizon brief, stored draft, comments, or handoff already provide a confirmed or normalized type, treat that as the confirmed type and continue without asking the user again.
-5. If the profile blog publishing file is missing, or if either stored folder is `[unset]` or missing on disk, ask the user for the existing blog articles folder and the published blog output folder, then update the selected profile's `blogPublishingConfig` before continuing.
-6. Search `source_articles_dir` from the selected profile's blog publishing config for up to 3-7 relevant internal examples. Prefer the same theme, argument shape, or confirmed article type first. Use them for voice and structure only. Do not inherit their source lists or citations. If none are relevant, say so explicitly and continue.
-7. Read `../linkedin-social-writer/references/mcp-tools.md`.
-8. Do a lightweight external research pass on the topic. Build a fresh source set for the article with the local MCP research tools.
-9. Resolve the author in the selected profile workspace and load only the relevant author-scoped One Horizon context docs. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract.
-10. Distill voice markers with `references/style-capture.md`.
-11. Draft an outline and image plan and validate both against `references/format-playbooks.md` and the brief constraints.
-12. Use `search_images` then `download_image` from `../blog-image-finder/SKILL.md` for final external blog assets.
-13. Write pass one by locking the opening, section spine, `---` section breaks, cover image, and inline image placements.
-14. Write pass two by adding proof, examples, transitions, detail, and the final inline images while keeping the article prose-led rather than list-led.
-15. Run every mandatory review pass described in `references/review-passes.md`, including `../blog-post-ramsay-review/SKILL.md` after tone review, then report the review ledger with Ramsay verdict, score, and `Must Fix` disposition.
-16. Save unpublished drafts in the selected profile's `contentRoots.blogDrafts` if the user wants them persisted.
+6. If the profile blog publishing file is missing, or if either stored folder is `[unset]` or missing on disk, ask the user for the existing blog articles folder and the published blog output folder, then update the selected profile's `blogPublishingConfig` before continuing.
+7. Search `source_articles_dir` from the selected profile's blog publishing config for up to 3-7 relevant internal examples. Prefer the same theme, argument shape, or confirmed article type first. Use them for voice and structure only. Do not inherit their source lists or citations. If none are relevant, say so explicitly and continue.
+8. Read `../linkedin-social-writer/references/mcp-tools.md`.
+9. Do a lightweight external research pass on the topic. Build a fresh source set for the article with the local MCP research tools.
+10. Resolve the author in the selected profile workspace and load only the relevant author-scoped One Horizon context docs. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract.
+11. Distill voice markers with `references/style-capture.md`.
+12. Draft an outline and image plan and validate both against `references/format-playbooks.md` and the brief constraints.
+13. Use `search_images` then `download_image` from `../blog-image-finder/SKILL.md` for final external blog assets.
+14. Write pass one by locking the opening, section spine, `---` section breaks, cover image, and inline image placements.
+15. Write pass two by adding proof, examples, transitions, detail, and the final inline images while keeping the article prose-led rather than list-led.
+16. Run every mandatory review pass described in `references/review-passes.md`, including `../blog-post-ramsay-review/SKILL.md` after tone review, then report the review ledger with Ramsay verdict, score, and `Must Fix` disposition.
+17. Save unpublished drafts in the selected profile's `contentRoots.blogDrafts` if the user wants them persisted.
 
 ## Working Agreement
 
@@ -74,6 +75,10 @@ Before presenting anything as final, complete and report a visible review ledger
 - Use `upload_image` from `blog-image-uploader` only when the user wants the selected assets uploaded to the selected profile's blog image bucket or the publish workflow requires it. Pass the selected Ink profile. When uploading, target `images/posts/...`, not `posts/...`.
 - Treat pass one as structure work and pass two as expansion work. Do not try to fully solve the whole article in one run.
 - Use the exact workflow order. Do not skip or merge mandatory steps, and do not start full prose before the outline is validated.
+- If the article includes affiliate links, plan them during the outline and source work using `references/affiliate-integration.md`; do not append them after the article is otherwise finished.
+- Omit affiliate links when there is no natural buying-decision moment in the article.
+- Put affiliate disclosures close to the links and in plain language. Do not bury commercial relationships in a footer, source list, or detached note.
+- Keep affiliate claims modest and source-backed. Avoid unsupported `best`, savings, medical, performance, or guaranteed-outcome claims.
 - Do not skip internal research when relevant published blog examples exist.
 - Default to paragraphs. Avoid bullet points and numbered lists in the article body unless the brief or the material truly leaves no good prose alternative.
 - Separate major sections with `---`.
@@ -104,9 +109,10 @@ For articles:
 - Continue with `../content-style-review/SKILL.md`.
 - Continue with `../fact-check/SKILL.md`.
 - Continue with `../source-url-check/SKILL.md` for every article. If there are no URLs to validate, say so explicitly instead of skipping the pass.
+- If the draft includes affiliate links and `affiliate-compliance-review` is available in the session, run it before tone review and resolve required edits before Ramsay review.
 - Continue with `../content-tone-review/SKILL.md` as the last content-adjustment pass before Ramsay review.
 - Continue with `../blog-post-ramsay-review/SKILL.md` for every article after tone review. If that pass returns any `Must Fix` items, address all of them before calling the draft final unless the user explicitly waives one, then verify the fixes against the Ramsay findings instead of assuming they are resolved.
-- Finish with a `Review Ledger` section that lists all six passes in order. For `Ramsay review`, include the verdict, the score, and whether `Must Fix` is `none`, `addressed`, or `waived by user`.
+- Finish with a `Review Ledger` section that lists all standard six passes in order, plus `Affiliate compliance review` before tone review when affiliate links are present. For `Ramsay review`, include the verdict, the score, and whether `Must Fix` is `none`, `addressed`, or `waived by user`.
 - Add one extra self-edit for longer articles, argument-heavy articles, or drafts with multiple claims.
 - Do not present a draft as final until every mandatory step and pass above has been completed, reported in the review ledger, and accounted for.
 
@@ -156,7 +162,7 @@ Unless the user asks differently, return:
 - the selected cover image and inline image plan, plus any downloaded or uploaded asset paths when image work happened
 - a short note on the outline or structural decisions that shaped the article
 - a short note listing the voice cues you matched
-- a `Review Ledger` section with these lines in this order: `Humanizer`, `Style review`, `Fact check`, `Source URL check`, `Tone review`, `Ramsay review`
+- a `Review Ledger` section with these lines in this order: `Humanizer`, `Style review`, `Fact check`, `Source URL check`, `Affiliate compliance review` when applicable, `Tone review`, `Ramsay review`
 - on the `Ramsay review` line, include the verdict, the `X/15` score, and whether `Must Fix` is `none`, `addressed`, or `waived by user`
 - a short workflow-completion note confirming that internal research, external research, outline validation, both writing passes, and the full review ledger all ran
 - any assumptions or missing facts that could change the draft
@@ -177,6 +183,7 @@ When invoked by a runner for an existing Blog initiative, return draft and revie
 - Read `references/review-passes.md` for pass order and responsibilities.
 - Read `references/style-capture.md` when extracting voice markers.
 - Read `references/format-playbooks.md` for article-shape rules.
+- Read `references/affiliate-integration.md` when partner, referral, commerce, or affiliate links are in scope.
 - Read `../social-common/references/repetition-guard.md` when comparing a draft against recent corpus patterns.
 - Read the selected profile's `blogPublishingConfig` for the active blog source and publish folders.
 - If a One Horizon tool call fails, read `../one-horizon-context-setup/references/mcp-readiness.md` for recovery.
