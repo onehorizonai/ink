@@ -43,6 +43,7 @@ Use this for one-off channel content and Content Program runs. It can produce dr
 - Keep claims, metrics, prices, and customer examples out unless provided or verified.
 - Separate generation from manual execution for tools such as Buffer, Metricool, email service providers, design tools, music generators, and video editors.
 - Use existing review skills for longer narrative drafts or risky claims.
+- When a channel output is sent to One Horizon for someone else to review, the One Horizon record must include the actual draft or handoff bundle in a structure that fits the requested content type. Include only the relevant sections for that output, such as copy, scripts, outlines, variants, captions, hashtags, replies, asset notes, source notes, claims, compliance risks, manual steps, or review questions. Do not ask reviewers to inspect local files on the user's machine.
 
 ## Output Shape
 

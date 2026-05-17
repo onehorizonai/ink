@@ -50,6 +50,9 @@ For `manual-asset` or `manual-external-tool`, return prompts, asset briefs, and 
 - Manual or semi-manual runs may use `[Ink Program Run] <program> - <date/title>` under `Ink - Programs`.
 - Specialized channel outputs stay under their existing parents. Generic channel outputs may use `Ink - Channel Content`. All may include optional `program_id`, `format_id`, `run_id`, and `campaign_id` metadata.
 - Set work to `In Review` whenever a human must approve, publish, schedule, provide assets, or answer a blocker.
+- One Horizon review records must be self-contained. Put the actual reviewable bundle in the One Horizon description or linked One Horizon document, using sections that match the specific program format and content type. Examples might include copy, scripts, outlines, captions, creative variants, asset briefs, footage notes, source notes, claims, compliance risks, publish handoffs, or QA steps, but do not force irrelevant sections. Local file paths may be included only as supplemental archive pointers, never as the primary review artifact.
+- When creating triage/review items with a reporter and reviewer, include the final title, full description, team, and assignee/reviewer in the initial create/report call whenever possible. Avoid follow-up metadata-only updates that replace contributors unless the tool explicitly preserves reporter contributors; if an update is unavoidable, verify the reporter is still present afterward.
+- Unknown-scope triage items may support only `Idea`, `Open`, or `Cancelled`; do not force `In Review` if the platform rejects it. Use the supported active review state and make the review decision clear in the description.
 
 ## Output Shape
 

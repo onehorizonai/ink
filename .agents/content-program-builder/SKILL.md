@@ -39,6 +39,7 @@ Use this skill when the user wants a recurring series, campaign, repeatable form
 - Keep program docs concise and operational. Link to existing specialized skills when available and use `../channel-content-writer/SKILL.md` as the broad fallback route.
 - For semi-manual workflows, document what Ink can automate and what remains manual.
 - If a program uses external tools such as design apps, schedulers, music generators, or video editors, produce prompts and handoff steps without claiming Ink performed those external actions.
+- If the program creates One Horizon review or triage records, design those records as self-contained review packages whose sections come from the program's formats and routes. A reviewer should be able to approve, request changes, or block production from the One Horizon description alone, without access to `.local/` files or the user's machine. Do not assume every program has scripts, captions, hashtags, comments, footage, or source notes; include the artifacts that matter for that content type.
 
 ## Output Shape
 
