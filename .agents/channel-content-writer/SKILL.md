@@ -21,9 +21,10 @@ Use this for one-off channel content and Content Program runs. It can produce dr
    - Blog: `../blog-post-writer/SKILL.md`
    - Website/page briefs: `../page-brief-builder/SKILL.md`
    - Final page copy: `../copywriting/SKILL.md`
-4. For all other channels, load only the relevant One Horizon context and any selected Content Program pack.
-5. Produce a channel-native output or handoff bundle. Do not publish, schedule, send email, generate video/music, or upload externally unless a real tool is available and explicitly used.
-6. Store private drafts or examples only when requested, under the selected profile's channel workspace.
+4. For Instagram Reels, also read `references/instagram-reels.md` before drafting or preparing the handoff.
+5. For broad channels, load only the relevant One Horizon context and any selected Content Program pack.
+6. Produce a channel-native output or handoff bundle. Do not publish, schedule, send email, generate video/music, or upload externally unless a real tool is available and explicitly used.
+7. Store private drafts or examples only when requested, under the selected profile's channel workspace.
 
 ## Channel Defaults
 
@@ -39,6 +40,8 @@ Use this for one-off channel content and Content Program runs. It can produce dr
 ## Guardrails
 
 - Be channel-native, not a generic social rewrite.
+- Keep production notes out of audience-facing copy. Do not leak labels such as `<brand> angle:`, `CTA:`, `hook:`, `note:`, `audience:`, or `internal:` into captions, descriptions, scripts, comments, or post bodies unless the platform-native artifact explicitly calls for that visible label.
+- Put strategy, rationale, assumptions, and review notes in separate handoff sections instead of inside the final copy block.
 - Respect platform norms and likely moderation or deliverability risk.
 - Keep claims, metrics, prices, and customer examples out unless provided or verified.
 - Separate generation from manual execution for tools such as Buffer, Metricool, email service providers, design tools, music generators, and video editors.
@@ -61,4 +64,5 @@ Return:
 - `../content-program-builder/references/channel-taxonomy.md`
 - `../content-program-runner/references/run-contract.md`
 - `references/channel-workspace.md`
+- `references/instagram-reels.md`
 - selected profile local channel workspace, usually `.local/content/<profile-id>/channels/`
