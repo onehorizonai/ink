@@ -1,0 +1,47 @@
+id: hook-list-reel
+name: Hook List Reel
+status: starter
+visibility: tracked
+summary: Instagram Reels starter format with hook overlay video, a keyword-rich list description, and exactly 5 hashtags.
+goals:
+  - brand awareness
+  - searchable discovery
+  - saves and shares
+channels:
+  - instagram-reels
+cadence:
+  type: recurring
+  recommendation: weekly
+  batch_size: 3
+audiences:
+  - selected profile audience
+formats:
+  - id: hook-video
+    output: video-asset-brief
+    route: asset-handoff
+  - id: keyword-list-description
+    output: reel-description
+    route: generic-channel-draft
+  - id: five-hashtag-set
+    output: hashtag-set
+    route: generic-channel-draft
+routes:
+  - id: generic-channel-draft
+    uses: channel-content-writer
+    when: draft hook variants, keyword-rich Reel descriptions, hashtags, and review handoffs
+  - id: asset-handoff
+    uses: manual-asset
+    when: source, edit, preview, publish, schedule, or manage Instagram Reel assets outside Ink
+kpis:
+  - reach
+  - non_follower_reach
+  - shares
+  - saves
+  - comments
+  - average_watch_time
+  - completion_rate
+  - replays
+one_horizon:
+  parent: Ink - Programs
+  program_title: "[Ink Program] Hook List Reel"
+  run_title: "[Ink Program Run] Hook List Reel - <date>"

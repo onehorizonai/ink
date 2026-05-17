@@ -19,6 +19,8 @@ Use these patterns when the user or program format does not provide a stricter s
 - Caption
 - Manual editing or publishing steps
 
+For Instagram Reels, also read `instagram-reels.md` and apply its original-content, mobile safe-zone, caption SEO, accessibility, hashtag, and performance guidance.
+
 ## YouTube Long Form
 
 - Title options

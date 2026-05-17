@@ -60,6 +60,7 @@ See `.agents/content-program-builder/references/program-pack-contract.md` for th
 - `daily-recap-card`: recurring branded recap card plus caption and engagement comment.
 - `meme-carousel`: recurring carousel made from multiple related meme slides.
 - `channel-starter-formats`: generic starter formats for short video, newsletters, community posts, and YouTube outlines.
+- `hook-list-reel`: Instagram Reel with hook overlay video, keyword-rich list description, and exactly 5 bottom hashtags.
 
 ## Channels And Routes
 
