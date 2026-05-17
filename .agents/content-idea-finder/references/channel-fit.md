@@ -42,10 +42,27 @@ Good fits:
 - a deep dive on trust-first work capture versus surveillance tooling
 - an operational guide on connecting tasks, PRs, and recaps
 
+## Choose Generic Channel Content when
+
+- the best surface is not LinkedIn, Reddit, or the blog
+- the output needs channel-native structure, scripts, prompts, asset briefs, or manual handoff notes
+- the idea is strongest as a short video, visual post, newsletter, community post, podcast/webinar, paid/partner asset, direct/product message, event asset, or sales collateral
+- the goal is reach, lifecycle activation, community engagement, video discovery, email nurture, product adoption, partner distribution, event support, or sales enablement
+
+Use canonical slugs from `../../content-program-builder/references/channel-taxonomy.md` where possible.
+
+Good fits:
+
+- Instagram Reel, TikTok, or YouTube Shorts scripts for a recurring pain point
+- a newsletter issue or email sequence around a launch or market shift
+- a Discord, Slack community, forum, Product Hunt, Hacker News, or Quora post where local norms matter
+- podcast/webinar outlines, ad creative briefs, SMS/push/in-app copy, event talks, one-pagers, or case studies
+
 ## Use Both when
 
 - there is a strong evergreen blog thesis and a timely lighter LinkedIn entry point
 - Reddit can validate the objection, language, or practitioner angle before long-form writing
+- a short video, newsletter, or community post can test the hook before a larger blog, webinar, or sales asset
 
 Then:
 
@@ -59,3 +76,5 @@ Then:
 - stretching a nuanced framework into a short LinkedIn post with no room for proof
 - forcing Reddit when the idea is branded, link-heavy, or likely to violate subreddit norms
 - repeating the same angle in both channels without changing the job
+- treating every generic channel like a repackaged LinkedIn post
+- pretending Ink can publish, schedule, send, design, record, or edit external media when the repo only has a handoff route

@@ -12,8 +12,13 @@
       "contentRoots": {
         "linkedin": "content/linkedin",
         "reddit": "content/reddit",
-        "blogDrafts": "content/blog/drafts"
+        "blogDrafts": "content/blog/drafts",
+        "channels": ".local/content/one-horizon/channels"
       },
+      "contentProgramRoots": [
+        ".local/content-programs/one-horizon",
+        "content-programs"
+      ],
       "blogPublishingConfig": ".local/context/blog-publishing.local.md",
       "imageProviderConfig": ".secrets/one-horizon/image-provider.json",
       "imageUploadConfig": ".secrets/one-horizon/blog-image-s3.json"
@@ -28,8 +33,13 @@
       "contentRoots": {
         "linkedin": ".local/content/fit-horizon/linkedin",
         "reddit": ".local/content/fit-horizon/reddit",
-        "blogDrafts": ".local/content/fit-horizon/blog/drafts"
+        "blogDrafts": ".local/content/fit-horizon/blog/drafts",
+        "channels": ".local/content/fit-horizon/channels"
       },
+      "contentProgramRoots": [
+        ".local/content-programs/fit-horizon",
+        "content-programs"
+      ],
       "blogPublishingConfig": ".local/context/fit-horizon/blog-publishing.local.md",
       "imageProviderConfig": ".secrets/fit-horizon/image-provider.json",
       "imageUploadConfig": ".secrets/fit-horizon/blog-image-s3.json"

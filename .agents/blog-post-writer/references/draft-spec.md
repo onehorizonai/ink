@@ -62,6 +62,12 @@ Do not include:
 - `coverImage`
 - `tags`
 - `readingTime`
+- `program_id`
+- `format_id`
+- `run_id`
+- `campaign_id`
+
+Content Program fields are optional. Existing one-off drafts remain valid without them.
 
 ## Image Rules
 

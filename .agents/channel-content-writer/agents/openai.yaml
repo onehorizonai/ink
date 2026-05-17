@@ -1,0 +1,4 @@
+interface:
+  display_name: "Channel Content Writer"
+  short_description: "Draft for any marketing channel"
+  default_prompt: "Use $channel-content-writer to create channel-native marketing content or handoff assets for a channel that does not have a dedicated Ink writer skill. Route to existing Ink skills when one fits, and do not publish, schedule, send, or generate external media unless a real tool is available and explicitly used."

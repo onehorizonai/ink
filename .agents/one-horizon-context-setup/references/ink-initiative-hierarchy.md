@@ -11,6 +11,8 @@ Resolve the active Ink profile first with `ink-profile-contract.md`. All initiat
 - `Ink - LinkedIn` is the parent for LinkedIn ideas, drafts, and published posts.
 - `Ink - Reddit` is the parent for Reddit ideas, drafts, and published posts.
 - `Ink - Website Briefs` is the parent for website brief work.
+- `Ink - Programs` is the optional parent for Content Program definitions and manual or semi-manual program runs.
+- `Ink - Channel Content` is the optional parent for generic channel drafts, handoffs, and published records when a channel does not have a dedicated Ink parent yet.
 
 ## Required Behavior
 
@@ -21,6 +23,17 @@ Resolve the active Ink profile first with `ink-profile-contract.md`. All initiat
 - Follow the Blog Lifecycle Contract below for Blog work.
 - Set work to `In Review` whenever a human needs to look at it, confirm it, or answer a blocker. `Planned` and `In Progress` are automation-actionable states, not human waiting states.
 - Do not attempt hierarchy repair for non-initiative records when the available One Horizon mutation tool does not expose parent metadata. Note the limitation and continue with the workflow-specific contract.
+
+## Content Program Contract
+
+Content Programs are optional. They organize repeatable marketing series, campaigns, formats, calendars, and performance tracking across any marketing channel, format, or production surface without changing the existing dedicated channel parents.
+
+- Store program definitions as `[Ink Program] <name>` initiatives under `Ink - Programs`.
+- Store manual or semi-manual run work as `[Ink Program Run] <program> - <date/title>` initiatives under `Ink - Programs`.
+- Keep dedicated channel outputs under `Ink - Blog`, `Ink - LinkedIn`, `Ink - Reddit`, or `Ink - Website Briefs`.
+- Keep generic non-specialized outputs under `Ink - Channel Content` when One Horizon tracking is needed and no dedicated parent exists.
+- Link channel outputs back to the program through optional metadata: `program_id`, `format_id`, `run_id`, and `campaign_id`.
+- If `Ink - Programs` or `Ink - Channel Content` does not exist, program or generic channel skills may ask before creating it. Existing dedicated channel workflows do not require either optional parent.
 
 ## Blog Lifecycle Contract
 
@@ -80,3 +93,6 @@ update_initiative({
 - Titles starting `[Ink Idea] [LinkedIn]`, `[Ink Draft] [LinkedIn]`, or LinkedIn published-post records go under `Ink - LinkedIn`.
 - Titles starting `[Ink Idea] [Reddit]`, `[Ink Draft] [Reddit]`, or Reddit published-post records go under `Ink - Reddit`.
 - Website page brief records go under `Ink - Website Briefs`.
+- Titles starting `[Ink Program]` or `[Ink Program Run]` go under `Ink - Programs`.
+- Generic channel titles such as `[Ink Idea] [Instagram]`, `[Ink Draft] [TikTok]`, `[Ink Draft] [Newsletter]`, `[Ink Draft] [YouTube Shorts]`, `[Ink Published] [X]`, or `[Ink Channel] ...` go under `Ink - Channel Content` unless a dedicated parent exists.
+- Do not create one parent initiative per platform by default. Add a dedicated parent only when the repo gains a dedicated workflow that needs its own lifecycle contract.

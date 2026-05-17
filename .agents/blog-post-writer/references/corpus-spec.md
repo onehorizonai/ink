@@ -65,6 +65,12 @@ Add these whenever known:
 
 - `tags`
 - `readingTime`
+- `program_id`
+- `format_id`
+- `run_id`
+- `campaign_id`
+
+Content Program fields are optional. Existing published articles remain valid without them.
 
 ## Body Conventions
 

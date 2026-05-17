@@ -1,0 +1,51 @@
+id: channel-starter-formats
+name: Channel Starter Formats
+status: starter
+visibility: tracked
+summary: Public-safe starter formats for broad marketing channels that do not yet need dedicated Ink skills.
+goals:
+  - broad channel coverage
+  - reusable program scaffolding
+  - manual handoff quality
+channels:
+  - instagram-reels
+  - tiktok-video
+  - youtube-shorts
+  - youtube-long
+  - newsletter
+  - discord
+  - forum
+  - x
+cadence:
+  type: reusable
+  recommendation: use_as_needed
+  batch_size: 1
+audiences:
+  - selected profile audience
+formats:
+  - id: short-video-script
+    output: script-and-shot-list
+    route: generic-channel-draft
+  - id: newsletter-issue
+    output: email-draft
+    route: generic-channel-draft
+  - id: community-post
+    output: native-community-post
+    route: generic-channel-draft
+  - id: youtube-outline
+    output: long-form-video-outline
+    route: generic-channel-draft
+routes:
+  - id: generic-channel-draft
+    uses: channel-content-writer
+    when: draft channel-native outputs for broad marketing surfaces
+kpis:
+  - reach
+  - engagement
+  - replies
+  - clicks
+  - conversions
+one_horizon:
+  parent: Ink - Programs
+  program_title: "[Ink Program] Channel Starter Formats"
+  run_title: "[Ink Program Run] Channel Starter Formats - <date>"

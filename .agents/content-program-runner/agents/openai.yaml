@@ -1,0 +1,4 @@
+interface:
+  display_name: "Content Program Runner"
+  short_description: "Create multi-channel program runs"
+  default_prompt: "Use $content-program-runner to load an existing Ink Content Program, create one or more runs for any marketing channel, route specialized outputs through existing skills, use $channel-content-writer for broad channels, and produce manual handoff artifacts for external-tool steps without publishing, scheduling, sending, or uploading anything."

@@ -27,8 +27,13 @@ Required shape:
       "contentRoots": {
         "linkedin": "content/linkedin",
         "reddit": "content/reddit",
-        "blogDrafts": "content/blog/drafts"
+        "blogDrafts": "content/blog/drafts",
+        "channels": ".local/content/one-horizon/channels"
       },
+      "contentProgramRoots": [
+        ".local/content-programs/one-horizon",
+        "content-programs"
+      ],
       "blogPublishingConfig": ".local/context/blog-publishing.local.md",
       "imageProviderConfig": ".secrets/one-horizon/image-provider.json",
       "imageUploadConfig": ".secrets/one-horizon/blog-image-s3.json"
@@ -58,7 +63,7 @@ For non-interactive scripts, `--profile` has the same meaning as an explicit pro
 - Use `authorUserId` when present; otherwise resolve `authorName` with One Horizon member/team tools.
 - Author context doc titles remain `Ink Context - {Author Name} - {Doc Type}`, but they are only valid inside the selected workspace.
 - The workspace-shared `Ink Context - Trend Sources` document is also per selected workspace.
-- Required Ink parent initiatives (`Ink`, `Ink - LinkedIn`, `Ink - Reddit`, `Ink - Blog`, `Ink - Website Briefs`) are per selected workspace.
+- Required Ink parent initiatives (`Ink`, `Ink - LinkedIn`, `Ink - Reddit`, `Ink - Blog`, `Ink - Website Briefs`) are per selected workspace. `Ink - Programs` is optional and used by Content Program workflows. `Ink - Channel Content` is optional and used by generic channel workflows when a channel does not have a dedicated parent yet.
 
 ## Local Content Roots
 
@@ -67,13 +72,17 @@ Each selected profile owns its own local paths:
 - `contentRoots.linkedin`: published LinkedIn corpus root; drafts live under `<linkedin>/drafts/`.
 - `contentRoots.reddit`: published Reddit corpus root; drafts live under `<reddit>/drafts/`.
 - `contentRoots.blogDrafts`: unpublished blog draft root.
+- `contentRoots.channels`: optional private root for generic non-specialized channel drafts, examples, assets, corpora, and performance notes. If missing, use `.local/content/<profile-id>/channels/` for private work. Public-safe generic channel conventions live in `.agents/channel-content-writer/references/channel-workspace.md`.
+- `contentProgramRoots`: optional ordered list of local or tracked Content Program pack roots. If missing, use `.local/content-programs/<profile-id>/` first, then tracked `content-programs/`.
 - `blogPublishingConfig`: local Markdown file containing that profile's `source_articles_dir`, `publish_output_dir`, `last_confirmed_on`, and optional post-publish commands such as `post_publish_generate_command` and `post_publish_build_command`.
 - `imageProviderConfig`: optional local JSON file for image search/download provider credentials, staging folder, and download history.
 - `imageUploadConfig`: optional local JSON file for image upload bucket/CDN credentials, object prefix, and upload history.
 
 Image config files belong under ignored local paths such as `.secrets/<profile-id>/`. Do not share one image upload config between profiles unless the profiles intentionally publish to the same bucket/CDN. When multiple profiles exist, image MCP tools must resolve the selected Ink profile before searching, downloading, or uploading images.
 
-Legacy behavior is allowed only when no profile config exists. In that case scripts and old docs may still use `content/linkedin`, `content/reddit`, `content/blog/drafts`, `.local/context/blog-publishing.local.md`, `.secrets/image-provider.json`, and `.secrets/blog-image-s3.json`.
+Content Program packs under `.local/content-programs/<profile-id>/` are private by default. Tracked packs under `content-programs/` must be generic and safe for open-source users.
+
+Legacy behavior is allowed only when no profile config exists. In that case scripts and old docs may still use `content/linkedin`, `content/reddit`, `content/blog/drafts`, tracked `content-programs/`, `.local/context/blog-publishing.local.md`, `.secrets/image-provider.json`, and `.secrets/blog-image-s3.json`.
 
 ## Profile Bootstrap Source Safety
 

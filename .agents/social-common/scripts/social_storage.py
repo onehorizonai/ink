@@ -72,6 +72,22 @@ def add_profile_arguments(parser: Any) -> None:
     )
 
 
+def add_program_metadata_arguments(parser: Any) -> None:
+    parser.add_argument("--program-id", help="Optional Ink Content Program id.")
+    parser.add_argument("--format-id", help="Optional Content Program format id.")
+    parser.add_argument("--run-id", help="Optional Content Program run id.")
+    parser.add_argument("--campaign-id", help="Optional Content Program campaign id.")
+
+
+def program_metadata_values(args: Any) -> dict[str, str]:
+    return {
+        "program_id_yaml": yaml_string(getattr(args, "program_id", None)),
+        "format_id_yaml": yaml_string(getattr(args, "format_id", None)),
+        "run_id_yaml": yaml_string(getattr(args, "run_id", None)),
+        "campaign_id_yaml": yaml_string(getattr(args, "campaign_id", None)),
+    }
+
+
 def _resolve_config_path(repo_root: Path, profile_config: Path | None) -> Path:
     configured = profile_config or (
         Path(os.environ[PROFILE_CONFIG_ENV]) if os.environ.get(PROFILE_CONFIG_ENV) else None

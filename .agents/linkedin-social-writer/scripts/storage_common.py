@@ -10,6 +10,7 @@ if str(SHARED_SCRIPTS) not in sys.path:
 
 from social_storage import (  # noqa: E402
     add_profile_arguments,
+    add_program_metadata_arguments,
     build_draft_filename as _build_draft_filename,
     build_published_filename as _build_published_filename,
     derive_title,
@@ -17,6 +18,7 @@ from social_storage import (  # noqa: E402
     load_text,
     normalize_date,
     plain,
+    program_metadata_values,
     read_body,
     render_template,
     resolve_social_corpus_root,

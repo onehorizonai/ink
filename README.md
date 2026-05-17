@@ -2,7 +2,7 @@
 
 ![Ink banner](assets/readme/ink-banner.jpg)
 
-A writing system for LinkedIn posts, Reddit discussions, and blog articles. Your drafts and corpus files stay on your machine. Your context and content pipeline live in One Horizon.
+A marketing workflow system for repeatable programs and one-off content across social, video, audio, email, community, owned, paid, partner, direct, product, event, and sales channels. Dedicated LinkedIn, Reddit, blog, and website brief workflows are included as first-class adapters, while broader channels use a generic channel-native writer. Your drafts and corpus files stay on your machine. Your context and content pipeline live in One Horizon.
 
 Ink is a [One Horizon](https://onehorizon.ai/?utm_source=github&utm_medium=ink&utm_content=readme) project for Claude Code, Cursor, and Codex. It reads your published archive and One Horizon context, runs a consistent workflow, and tracks your content pipeline without locking anything in the cloud.
 
@@ -15,8 +15,10 @@ Claude Code and Cursor are the smoothest path. Codex works too; it just needs on
 - Researches subreddits before drafting so the post fits the community
 - Drafts Reddit posts and follow-up replies that read native to the thread
 - Writes blog posts with internal research, staged review passes, and optional image sourcing
+- Drafts or prepares channel-native handoffs for broader channels such as Instagram, TikTok, YouTube, X/Twitter, Facebook, newsletters, communities, podcasts, ads, direct/product messaging, events, and sales collateral
 - Turns approved One Horizon ideas into reviewable drafts, with Blog staying on one initiative from idea to PR review
 - Creates concise locked briefs for new or updated website pages
+- Builds repeatable Content Programs for recurring series, campaigns, creative formats, calendars, and performance tracking across any marketing channel or production surface
 - Runs humanizer, tone, style, fact-check, and URL review on every draft
 - Logs approved posts to local corpora and records each published item as a One Horizon initiative
 - Keeps drafts, secrets, and corpus files local and out of git
@@ -111,7 +113,7 @@ mkdir -p .local/context
 cp .local/templates/ink-profiles.local.template.json .local/context/ink-profiles.local.json
 ```
 
-Each profile maps a label, `workspaceId`, author, website, source repo, local LinkedIn/Reddit/blog draft roots, blog publishing config, and optional image provider/upload configs. The file is gitignored and machine-local.
+Each profile maps a label, `workspaceId`, author, website, source repo, local LinkedIn/Reddit/blog/channel draft roots, optional Content Program roots, blog publishing config, and optional image provider/upload configs. The file is gitignored and machine-local.
 
 When more than one profile is configured, Ink asks which profile to use unless your prompt names one or `INK_PROFILE` is set:
 
@@ -134,7 +136,10 @@ Good first prompts:
 - `Research the best Reddit communities for...`
 - `Draft a Reddit post about...`
 - `Outline a blog post about...`
+- `Draft an Instagram Reel script about...`
+- `Create a newsletter issue about...`
 - `Create missing context docs from my website and LinkedIn`
+- `Create a Content Program for a weekly meme carousel`
 
 # Usage guides
 
@@ -179,13 +184,13 @@ What happens:
 
 ## Find what to write next
 
-Start with `content-idea-finder` when you want to choose the topic before you commit to a post or article. It files the chosen idea in One Horizon as `[Ink Idea] [Channel] ...`. Blog ideas start as one initiative under `Ink - Blog`; that same initiative later becomes the draft.
+Start with `content-idea-finder` when you want to choose the topic before you commit to a post, article, video, email, community prompt, or other marketing output. It files the chosen idea in One Horizon as `[Ink Idea] [Channel] ...`. Blog ideas start as one initiative under `Ink - Blog`; generic non-specialized channel ideas can live under `Ink - Channel Content`.
 
 Example prompt:
 
 ```text
 Find five content ideas for me.
-Give me three LinkedIn ideas and two blog ideas based on my current context, recent themes, and gaps in my existing content.
+Give me ideas across LinkedIn, newsletter, YouTube Shorts, Discord/community, and blog based on my current context, recent themes, and gaps in my existing content.
 ```
 
 Content idea workflow:
@@ -200,11 +205,50 @@ flowchart TD
     F -- "LinkedIn" --> G["File [Ink Idea] [LinkedIn]"]
     F -- "Reddit" --> H["File [Ink Idea] [Reddit]"]
     F -- "Blog" --> I["Create one [Ink Idea] [Blog] initiative under Ink - Blog"]
+    F -- "Generic channel" --> L["Create [Ink Idea] [Channel] under Ink - Channel Content"]
     G --> J["Review in One Horizon"]
     H --> J
     I --> J
+    L --> J
     J --> K["Move approved ideas to Planned"]
 ```
+
+## Build a Content Program
+
+Use `content-program-builder` when the work should become a repeatable marketing motion instead of a one-off post.
+
+Content Programs cover recurring series, campaigns, repeatable creative formats, asset workflows, calendars, performance trackers, and semi-manual processes across any marketing channel or production surface where Ink can standardize prompts, drafts, scripts, handoffs, review, and tracking.
+
+Example prompts:
+
+```text
+Create a Content Program for a weekly meme carousel aimed at engineering managers.
+```
+
+```text
+Create a Content Program for YouTube Shorts and TikTok clips from our weekly product learnings.
+Ink should generate scripts, shot lists, captions, and manual editing handoffs.
+```
+
+Program workflow:
+
+```mermaid
+flowchart TD
+    A["Resolve Ink profile"] --> B["Clarify goal, audience, channels, routes, cadence, and automation boundary"]
+    B --> C{"Private or generic?"}
+    C -- "Private" --> D["Create local pack under .local/content-programs/<profile-id>"]
+    C -- "Generic" --> E["Create tracked starter pack under content-programs"]
+    D --> F["Write README, program.yaml, workflow, formats, prompts, calendar, performance tracker"]
+    E --> F
+    F --> G["Validate the program pack"]
+    G --> H["Optional [Ink Program] record in One Horizon"]
+```
+
+Use `content-program-runner` after a program exists and you want to create one or more runs. Runs can route to specialized skills when they exist, use `channel-content-writer` for broad channel-native outputs, or return manual handoff bundles for steps that require external tools such as schedulers, email platforms, design editors, music generators, video editors, or ad platforms.
+
+Tracked starter packs live in `content-programs/`. Private selected-profile packs belong under `.local/content-programs/<profile-id>/` unless the profile config overrides `contentProgramRoots`.
+
+Use `.agents/content-program-builder/references/channel-taxonomy.md` for canonical channel slugs. Ink supports broad channel families such as social platforms, video and audio, owned web and email, communities, paid and partner channels, direct/product messaging, events, and sales collateral.
 
 ## Write a LinkedIn post
 
@@ -446,12 +490,14 @@ Use these skills when the writing already exists and you want it saved in the se
 
 Use these skills when a local automation or manual prompt should move content through One Horizon. This repo defines the workflows; automation scheduling is configured outside the repo.
 
-- `content-creation-runner`: finds planned `[Ink Idea]` records, drafts the right Blog, LinkedIn, or Reddit content, and updates Blog initiatives in place.
+- `content-creation-runner`: finds planned `[Ink Idea]` records, drafts dedicated Blog/LinkedIn/Reddit outputs or generic channel handoffs, and updates Blog initiatives in place.
 - `content-publishing-runner`: finds `[Ink Draft]` initiatives in `Planned` or `In Progress`, applies new comments, returns revisions to `In Review`, or prepares publish-ready output.
 
-In this pipeline, the selected Ink profile's One Horizon workspace is the source of truth. Ideas, draft bodies, review notes, and publish handoffs all live there. Social publishing still happens by hand. Blog publishing rebuilds the reviewed draft and opens a pull request on the same Blog initiative.
+In this pipeline, the selected Ink profile's One Horizon workspace is the source of truth. Ideas, draft bodies, review notes, and publish handoffs all live there. Publishing, scheduling, sending, uploading, editing, or external tool execution still happens by hand unless a real integration exists and is explicitly used. Blog publishing rebuilds the reviewed draft and opens a pull request on the same Blog initiative.
 
-When a workflow finds an existing Ink initiative outside the matching channel parent, it should move it under `Ink - Blog`, `Ink - LinkedIn`, or `Ink - Reddit` before continuing.
+When a workflow finds an existing Ink initiative outside the matching channel parent, it should move it under `Ink - Blog`, `Ink - LinkedIn`, `Ink - Reddit`, `Ink - Website Briefs`, `Ink - Programs`, or `Ink - Channel Content` before continuing.
+
+Content Programs use `Ink - Programs` for `[Ink Program]` definitions and `[Ink Program Run]` manual or semi-manual run work. Specialized channel outputs still stay under their existing channel parents. Generic non-specialized outputs may use `Ink - Channel Content`. All can link back with optional `program_id`, `format_id`, `run_id`, and `campaign_id` metadata.
 
 Publishing workflow:
 
@@ -465,8 +511,10 @@ flowchart TD
     F -- "LinkedIn" --> G["Comment with final copy for manual LinkedIn publishing"]
     F -- "Reddit" --> H["Comment with final post and target subreddit"]
     F -- "Blog" --> I["Rebuild from ## Draft and open a PR"]
+    F -- "Generic channel" --> K["Prepare final channel-native handoff"]
     G --> E
     H --> E
+    K --> E
     I --> J["Comment with PR URL on the same Blog initiative"]
     J --> E
 ```
@@ -479,6 +527,9 @@ flowchart TD
 | --- | --- |
 | `one-horizon-context-setup` | Create missing One Horizon author context docs |
 | `content-idea-finder` | Decide what to write next |
+| `channel-content-writer` | Draft or prepare channel-native output for broad channels without dedicated Ink skills |
+| `content-program-builder` | Create or update repeatable Content Program packs |
+| `content-program-runner` | Create runs from an existing Content Program |
 | `content-creation-runner` | Turn approved Ink ideas into review drafts |
 | `content-publishing-runner` | Revise draft initiatives or prepare publish-ready output |
 | `linkedin-social-writer` | Draft LinkedIn posts, replies, DMs, and reposts |
@@ -534,6 +585,8 @@ Keep these local and uncommitted:
 - `.local/context/ink-profiles.local.json` for profile routing and local content roots
 - `.local/context/blog-publishing.local.md` for legacy/default machine-local blog path state
 - any profile-specific blog path file referenced by `blogPublishingConfig`
+- private Content Program packs under `.local/content-programs/<profile-id>/`
+- private generic channel drafts, examples, assets, and performance notes under `.local/content/<profile-id>/channels/`
 - `.secrets/` for API keys, image provider configs, image upload configs, and local image histories
 - each profile's LinkedIn corpus root
 - each profile's Reddit corpus root
