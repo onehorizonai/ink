@@ -1,18 +1,18 @@
 ---
 name: content-publishing-runner
-description: Process reviewed One Horizon Ink draft records into revised drafts or publish-ready output. Use when Codex is asked to handle `[Ink Draft]` initiatives under `Ink - Blog`, `Ink - LinkedIn`, or `Ink - Reddit` that are `Planned` or `In Progress`, apply human comments, prepare social posts for manual publishing, or rebuild blog drafts through the blog writer before creating publishing branches and pull requests. Blog draft work stays on the same initiative that began as `[Ink Idea] [Blog]`. Do not use this skill for ideation, first-draft creation from ideas, corpus storage, or automation setup.
+description: Process reviewed One Horizon Ink draft records into revised drafts or publish-ready output. Use when Codex is asked to handle `[Ink Draft]` initiatives under `Ink - Blog`, `Ink - LinkedIn`, `Ink - Reddit`, or optional `Ink - Channel Content` that are `Planned` or `In Progress`, apply human comments, prepare manual publishing handoffs, or rebuild blog drafts through the blog writer before creating publishing branches and pull requests. Blog draft work stays on the same initiative that began as `[Ink Idea] [Blog]`. Do not use this skill for ideation, first-draft creation from ideas, corpus storage, or automation setup.
 ---
 
 # Content Publishing Runner
 
-`In Review` means human review. `Planned` or `In Progress` means the runner may act. Social publishing stays manual. Blog publishing means opening a PR. For Blog, follow the Blog Lifecycle Contract in `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`.
+`In Review` means human review. `Planned` or `In Progress` means the runner may act. Social, email, video, community, paid, event, and product publishing stays manual unless a real integration exists and is explicitly used. Blog publishing means opening a PR. For Blog, follow the Blog Lifecycle Contract in `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`.
 
 Resolve the active Ink profile before listing or mutating One Horizon drafts. If more than one profile is configured and none is named in the prompt or `INK_PROFILE`, ask which profile to use. Do not silently use the One Horizon default workspace.
 Before mutating One Horizon records, read `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`.
 
 ## Workflow
 
-1. Resolve the selected Ink profile with `../one-horizon-context-setup/references/ink-profile-contract.md`. Find `Planned` or `In Progress` initiatives titled `[Ink Draft] [Blog] ...`, `[Ink Draft] [LinkedIn] ...`, or `[Ink Draft] [Reddit] ...` inside that profile workspace; use `search_tasks` or `list_initiatives`, then fetch details and comments.
+1. Resolve the selected Ink profile with `../one-horizon-context-setup/references/ink-profile-contract.md`. Find `Planned` or `In Progress` initiatives titled `[Ink Draft] [Blog] ...`, `[Ink Draft] [LinkedIn] ...`, `[Ink Draft] [Reddit] ...`, or `[Ink Draft] [<generic channel>] ...` inside that profile workspace; use `search_tasks` or `list_initiatives`, then fetch details and comments.
 2. For each draft initiative, verify its parent matches the channel in the title. If it is missing or under the wrong parent, call `update_initiative` with the matching `Ink - Channel` `parentInitiativeId` before applying feedback or publishing.
 3. Treat comments containing `Ink automation checkpoint` as automation comments. Treat later non-automation comments as human feedback.
 4. If human feedback exists, revise the draft with the matching writer skill, update the existing draft document in place, comment with a short change summary, and set status to `In Review`.
@@ -20,6 +20,7 @@ Before mutating One Horizon records, read `../one-horizon-context-setup/referenc
    - LinkedIn: comment with final copy and say it is ready for manual LinkedIn publishing; set `In Review`.
    - Reddit: comment with final title/body and target subreddit; set `In Review`.
    - Blog: run the Blog Writer Publish Pass below, then run the Blog PR Path with that pass output; set `In Review` after the PR comment.
+   - Generic channels: use `../channel-content-writer/SKILL.md` or the existing draft content to prepare final channel-native copy, scripts, prompts, asset briefs, or manual handoff steps; set `In Review`.
 
 Do not mark social draft initiatives `Completed` here. Completion happens after the user stores/logs the published item.
 

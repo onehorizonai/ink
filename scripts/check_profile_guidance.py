@@ -24,6 +24,11 @@ GUIDANCE_FILES = [
     ".agents/content-idea-finder/references/workflow.md",
     ".agents/content-creation-runner/SKILL.md",
     ".agents/content-publishing-runner/SKILL.md",
+    ".agents/channel-content-writer/SKILL.md",
+    ".agents/channel-content-writer/references/channel-workspace.md",
+    ".agents/content-program-builder/SKILL.md",
+    ".agents/content-program-runner/SKILL.md",
+    "content-programs/README.md",
     ".agents/linkedin-social-writer/SKILL.md",
     ".agents/linkedin-social-writer/references/workflow.md",
     ".agents/reddit-social-writer/SKILL.md",
@@ -93,6 +98,7 @@ def check_profile_contract() -> None:
     require(contract, "ask_when_multiple", PROFILE_CONTRACT)
     require(contract, "workspaceId", PROFILE_CONTRACT)
     require(contract, "contentRoots", PROFILE_CONTRACT)
+    require(contract, "contentRoots.channels", PROFILE_CONTRACT)
     require(contract, "blogPublishingConfig", PROFILE_CONTRACT)
     require(contract, "imageProviderConfig", PROFILE_CONTRACT)
     require(contract, "imageUploadConfig", PROFILE_CONTRACT)
@@ -120,7 +126,7 @@ def check_template() -> None:
         ):
             if key not in profile:
                 raise AssertionError(f"{path} profile {profile_id!r} is missing {key!r}")
-        for channel in ("linkedin", "reddit", "blogDrafts"):
+        for channel in ("linkedin", "reddit", "blogDrafts", "channels"):
             if channel not in profile["contentRoots"]:
                 raise AssertionError(f"{path} profile {profile_id!r} is missing contentRoots.{channel}")
 

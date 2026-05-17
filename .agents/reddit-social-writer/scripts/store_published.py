@@ -8,6 +8,7 @@ from pathlib import Path
 from storage_common import (
     FORMAT_BY_FOLDER,
     add_profile_arguments,
+    add_program_metadata_arguments,
     build_published_filename,
     default_format_template,
     derive_title,
@@ -15,6 +16,7 @@ from storage_common import (
     load_text,
     normalize_date,
     plain,
+    program_metadata_values,
     read_body,
     render_template,
     resolve_social_corpus_root,
@@ -46,6 +48,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--body")
     parser.add_argument("--body-file", type=Path)
     add_profile_arguments(parser)
+    add_program_metadata_arguments(parser)
     return parser.parse_args()
 
 
@@ -72,6 +75,7 @@ def build_content(root: Path, args: argparse.Namespace, title: str, published_at
         "outcome_notes_yaml": yaml_string(args.outcome_notes),
         "based_on_research_yaml": yaml_string(args.based_on_research),
         "discussion_prompt_yaml": yaml_string(args.discussion_prompt),
+        **program_metadata_values(args),
         "context_plain": plain(context),
         "format_template_plain": plain(format_template),
         "audience_plain": plain(args.audience),

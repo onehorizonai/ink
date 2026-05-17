@@ -40,6 +40,8 @@ And the following parent initiatives if they are missing:
   - `Ink - Reddit`
   - `Ink - Blog`
   - `Ink - Website Briefs`
+  - `Ink - Programs` (optional; used by Content Program workflows)
+  - `Ink - Channel Content` (optional; used by generic channel workflows without dedicated parents)
 
 This skill does not create or update profile blog publishing path files unless the user explicitly asks.
 
@@ -194,6 +196,10 @@ After context docs are confirmed, check whether the required parent initiatives 
 - `Ink - Reddit`
 - `Ink - Blog`
 - `Ink - Website Briefs`
+
+If the user is setting up Content Programs, also check `Ink - Programs`.
+
+If the user is setting up generic channel content support for channels without dedicated Ink parents, also check `Ink - Channel Content`.
 
 If any are missing, show a list and ask for confirmation before creating them.
 

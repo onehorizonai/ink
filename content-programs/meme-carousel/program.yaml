@@ -1,0 +1,51 @@
+id: meme-carousel
+name: Meme Carousel
+status: starter
+visibility: tracked
+summary: Recurring carousel format built from several related memes around one audience pain or product-adjacent theme.
+goals:
+  - brand awareness
+  - community resonance
+  - repeatable channel-native output
+channels:
+  - instagram
+  - instagram-reels
+  - tiktok-video
+  - facebook
+  - x
+  - threads
+  - linkedin
+cadence:
+  type: recurring
+  recommendation: twice_weekly
+  batch_size: 2
+audiences:
+  - software teams
+  - founders
+  - operators
+formats:
+  - id: carousel-concept
+    output: carousel-brief
+    route: generic-channel-draft
+  - id: meme-slide
+    output: image-copy
+    route: asset-handoff
+  - id: carousel-caption
+    output: channel-native-copy
+    route: generic-channel-draft
+routes:
+  - id: generic-channel-draft
+    uses: channel-content-writer
+    when: draft concepts, captions, and channel-native variants
+  - id: asset-handoff
+    uses: manual-asset
+    when: create approved carousel visuals outside Ink
+kpis:
+  - reach
+  - shares
+  - saves
+  - comments
+one_horizon:
+  parent: Ink - Programs
+  program_title: "[Ink Program] Meme Carousel"
+  run_title: "[Ink Program Run] Meme Carousel - <date>"

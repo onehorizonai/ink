@@ -1,0 +1,65 @@
+---
+name: content-program-builder
+description: Create or update Ink Content Program packs for recurring marketing series, campaigns, repeatable formats, asset workflows, calendars, and performance trackers across any marketing channel or production surface, including social, video, audio, email, communities, owned web, paid/partner, direct/product, events, and sales assets.
+---
+
+# Content Program Builder
+
+## Overview
+
+Build Content Programs, not one-off drafts. A program is the strategic container for repeatable marketing work: goal, audience, channels, routes, cadence, formats, workflow, assets, calendar, and measurement.
+
+Use this skill when the user wants a recurring series, campaign, repeatable format, semi-manual creative process, or structured program pack for any channel or surface.
+
+## Quick Start
+
+1. Resolve the active Ink profile with `../one-horizon-context-setup/references/ink-profile-contract.md`.
+2. Read `references/program-pack-contract.md`.
+3. Read `references/channel-taxonomy.md`.
+4. Clarify only the missing high-impact details with `references/program-interview.md`.
+5. Decide storage:
+   - default to `.local/content-programs/<profile-id>/<program-id>/` for user, company, brand, asset, or performance-specific programs
+   - use tracked `content-programs/<program-id>/` only when the user explicitly wants a generic open-source starter pack
+6. Audit relevant existing corpus and program examples:
+   - selected profile LinkedIn corpus
+   - selected profile Reddit corpus
+   - selected profile blog source folder when relevant
+   - tracked `content-programs/`
+   - selected profile local program root
+7. Create or update the program pack using the required layout, with `channels` for destinations and `routes` for production paths.
+8. Run `python3 scripts/validate_program.py <program-dir>` when the pack is created or changed.
+9. If One Horizon tools are available and the user wants tracking, create or update `[Ink Program] <name>` under `Ink - Programs`.
+
+## Working Agreement
+
+- Do not replace existing one-off workflows. Programs are optional.
+- Do not store private brand assets, live customer facts, or real performance data in tracked starter packs.
+- Do not silently use the One Horizon default workspace. Use the selected Ink profile workspace.
+- Do not make one Codex skill per program. Program packs are loaded by this builder and by `../content-program-runner/SKILL.md`.
+- Keep program docs concise and operational. Link to existing specialized skills when available and use `../channel-content-writer/SKILL.md` as the broad fallback route.
+- For semi-manual workflows, document what Ink can automate and what remains manual.
+- If a program uses external tools such as design apps, schedulers, music generators, or video editors, produce prompts and handoff steps without claiming Ink performed those external actions.
+
+## Output Shape
+
+Return:
+
+- program name and id
+- created or updated pack path
+- storage choice and why it is tracked or local
+- formats included
+- calendar and performance tracking fields
+- linked One Horizon record when created or updated
+- validation result
+
+## Files
+
+- `references/program-pack-contract.md`: required program pack layout and field contract.
+- `references/channel-taxonomy.md`: canonical channel groups and slugs.
+- `references/program-interview.md`: questions and defaults for designing a new program.
+- `../content-program-runner/SKILL.md`: use after a program exists and the user wants to create runs.
+- `../channel-content-writer/SKILL.md`: generic channel-native drafting and handoffs.
+- `../one-horizon-context-setup/references/ink-profile-contract.md`: profile and local root resolution.
+- `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`: One Horizon parent model.
+- `../../content-programs/`: tracked generic starter packs.
+- `../../scripts/validate_program.py`: pack validator.

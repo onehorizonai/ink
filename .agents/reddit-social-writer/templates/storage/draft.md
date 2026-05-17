@@ -6,6 +6,10 @@ created_at: {{created_at_yaml}}
 title: {{title_yaml}}
 subreddit: {{subreddit_yaml}}
 format_template: {{format_template_yaml}}
+program_id: {{program_id_yaml}}
+format_id: {{format_id_yaml}}
+run_id: {{run_id_yaml}}
+campaign_id: {{campaign_id_yaml}}
 goal: {{goal_yaml}}
 audience: {{audience_yaml}}
 asset_type: {{asset_type_yaml}}

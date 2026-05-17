@@ -2,7 +2,7 @@
 
 Run this as a three-role workflow: orchestrator, journalist, then editor. These are procedural roles inside this skill, not separate skills.
 
-The endpoint is a One Horizon approval record that can be approved, rejected, or prioritized later inside One Horizon. Blog ideas follow the Blog Lifecycle Contract in `../../one-horizon-context-setup/references/ink-initiative-hierarchy.md`. Do not ask the user to approve the idea in chat, and do not draft the LinkedIn post, Reddit post, or blog article in this workflow.
+The endpoint is a One Horizon approval record that can be approved, rejected, or prioritized later inside One Horizon. Blog ideas follow the Blog Lifecycle Contract in `../../one-horizon-context-setup/references/ink-initiative-hierarchy.md`. Generic non-specialized channel ideas can use `Ink - Channel Content`. Do not ask the user to approve the idea in chat, and do not draft the content in this workflow.
 
 ## 1. Orchestrator: Clarify and Load Context
 
@@ -11,7 +11,7 @@ Capture:
 - goal
 - audience
 - timing window
-- channel constraint if any, including LinkedIn, Reddit, blog, or no preference
+- channel constraint if any, including dedicated Ink channels, broad generic channels, Content Program fit, or no preference
 - product area or theme
 - required source, launch, event, or claim if any
 
@@ -47,7 +47,7 @@ If any required author-scoped context doc is missing, use `../../one-horizon-con
 
 If a required doc exists but key fields needed for idea selection are `[unset]` or too thin, ask the user for only the missing business facts needed for this run. Do not overwrite the existing doc from this workflow.
 
-Keep using the local blog path setup rules in the editor stage when blog coverage is possible. Reddit and LinkedIn published archive checks use the repo-local corpus paths directly. Do not use local draft folders for content-idea dedupe.
+Keep using the local blog path setup rules in the editor stage when blog coverage is possible. Reddit and LinkedIn published archive checks use the selected profile corpus paths. Generic channel checks use `contentRoots.channels`, `.local/content/<profile-id>/channels/`, and relevant Content Program examples when available. Do not use local draft folders for content-idea dedupe.
 
 ## 2. Orchestrator: Load or Maintain Trend Sources
 

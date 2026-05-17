@@ -1,0 +1,51 @@
+id: daily-recap-card
+name: Daily Recap Card
+status: starter
+visibility: tracked
+summary: Recurring branded recap image with three short bullets, channel-native copy, and an engagement prompt.
+goals:
+  - brand awareness
+  - audience resonance
+  - recurring channel presence
+channels:
+  - instagram
+  - instagram-reels
+  - tiktok-video
+  - facebook
+  - x
+  - threads
+  - linkedin
+cadence:
+  type: recurring
+  recommendation: working_days
+  batch_size: 5
+audiences:
+  - software teams
+  - founders
+  - operators
+formats:
+  - id: recap-card
+    output: image-copy
+    route: asset-handoff
+  - id: caption
+    output: channel-native-copy
+    route: generic-channel-draft
+  - id: engagement-comment
+    output: comment
+    route: generic-channel-draft
+routes:
+  - id: asset-handoff
+    uses: manual-asset
+    when: create or render the fixed visual card outside Ink
+  - id: generic-channel-draft
+    uses: channel-content-writer
+    when: draft captions, comments, or channel-native variants
+kpis:
+  - reach
+  - saves
+  - comments
+  - profile_visits
+one_horizon:
+  parent: Ink - Programs
+  program_title: "[Ink Program] Daily Recap Card"
+  run_title: "[Ink Program Run] Daily Recap Card - <date>"

@@ -8,11 +8,17 @@ Use this folder only for:
 
 - the machine-local Ink profile registry
 - machine-local blog path state
+- private selected-profile Content Program packs
+- private generic channel drafts, examples, assets, and performance notes
 
 ## Layout
 
 - `.local/context/`
   Runtime files. These stay ignored by git.
+- `.local/content-programs/<profile-id>/`
+  Private Content Program packs. These stay ignored by git.
+- `.local/content/<profile-id>/channels/`
+  Private generic channel work for platforms and surfaces without dedicated Ink roots. These stay ignored by git.
 
 ## Hard Rules
 
@@ -42,9 +48,11 @@ Use `.local/templates/ink-profiles.local.template.json` as the starter. This fil
 - `contentRoots.linkedin`
 - `contentRoots.reddit`
 - `contentRoots.blogDrafts`
+- optional `contentRoots.channels`
 - `blogPublishingConfig`
 - `imageProviderConfig`
 - `imageUploadConfig`
+- optional `contentProgramRoots`
 
 Rules:
 
@@ -52,8 +60,27 @@ Rules:
 - If this config contains more than one profile and no profile was named, ask which profile to use before continuing.
 - Do not silently fall back to the One Horizon default workspace.
 - Use each profile's local content roots for corpus and draft reads/writes.
+- Use `contentRoots.channels` for generic non-specialized channel work when configured. Otherwise use `.local/content/<profile-id>/channels/`; public-safe conventions live in `.agents/channel-content-writer/references/channel-workspace.md`.
 - Use each profile's `blogPublishingConfig` for blog source and publish paths.
 - Use each profile's image provider/upload configs for image downloads, download history, bucket credentials, public URLs, and upload history.
+- Use `contentProgramRoots` when configured. Otherwise resolve private packs from `.local/content-programs/<profile-id>/` first, then tracked generic packs from `content-programs/`.
+
+## Content Program Contract
+
+Keep private program packs in:
+
+- `.local/content-programs/<profile-id>/<program-id>/`
+
+Tracked starter packs live in:
+
+- `content-programs/<program-id>/`
+
+Rules:
+
+- Private packs may include brand assets, unpublished run handoffs, local examples, and performance data.
+- Tracked packs must be generic and safe for open-source users.
+- Program packs follow `.agents/content-program-builder/references/program-pack-contract.md`.
+- Validate packs with `python3 scripts/validate_program.py <program-dir>`.
 
 ## Blog Path Contract
 

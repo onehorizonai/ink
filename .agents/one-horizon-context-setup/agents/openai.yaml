@@ -1,4 +1,4 @@
 interface:
   display_name: "One Horizon Context Setup"
   short_description: "Create missing author context docs"
-  default_prompt: "Use $one-horizon-context-setup to resolve the active Ink profile plus One Horizon workspace/author context, create only confirmed-missing author docs in that workspace, ensure Ink parent initiatives exist there, and repair `Ink - ...` parent placement. If One Horizon auth/tools fail, stop."
+  default_prompt: "Use $one-horizon-context-setup to resolve the active Ink profile plus One Horizon workspace/author context, create only confirmed-missing author docs in that workspace, ensure Ink parent initiatives exist there, optionally include `Ink - Programs` for Content Program work and `Ink - Channel Content` for generic channel work, and repair `Ink - ...` parent placement. If One Horizon auth/tools fail, stop."

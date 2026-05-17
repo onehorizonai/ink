@@ -39,9 +39,15 @@ YYYY-MM-DD-NN--draft--format--short-slug.md
 - `goal`
 - `audience`
 - `format_template`
+- `program_id`
+- `format_id`
+- `run_id`
+- `campaign_id`
 - `asset_type`
 - `source_brief`
 - `based_on_examples`
+
+Content Program fields are optional. Existing one-off drafts remain valid without them.
 
 ## Template
 

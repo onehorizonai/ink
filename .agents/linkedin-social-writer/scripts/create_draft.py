@@ -9,12 +9,14 @@ from pathlib import Path
 from storage_common import (
     FORMAT_BY_FOLDER,
     add_profile_arguments,
+    add_program_metadata_arguments,
     build_draft_filename,
     default_format_template,
     display_path,
     load_text,
     normalize_date,
     plain,
+    program_metadata_values,
     read_body,
     resolve_social_corpus_root,
     resolve_storage_roots,
@@ -38,6 +40,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--body")
     parser.add_argument("--body-file", type=Path)
     add_profile_arguments(parser)
+    add_program_metadata_arguments(parser)
     return parser.parse_args()
 
 
@@ -53,6 +56,7 @@ def build_content(root: Path, args: argparse.Namespace, created_at: str, body: s
         "asset_type_yaml": yaml_string(args.asset_type),
         "source_brief_yaml": yaml_string(args.source_brief),
         "based_on_examples_yaml": yaml_list(args.example_path or [default_example_path]),
+        **program_metadata_values(args),
         "goal_plain": plain(args.goal),
         "body": body,
     }

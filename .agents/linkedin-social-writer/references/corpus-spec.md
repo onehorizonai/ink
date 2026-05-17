@@ -46,6 +46,10 @@ Add these whenever known:
 
 - `title`
 - `format_template`
+- `program_id`
+- `format_id`
+- `run_id`
+- `campaign_id`
 - `audience`
 - `goal`
 - `topic_tags`
@@ -57,6 +61,7 @@ Add these whenever known:
 ## Conditional Frontmatter
 
 - Add `asset_summary` whenever `asset_type` is not `none`.
+- Add Content Program metadata only when the item belongs to a program. Existing corpus items without it remain valid.
 
 ## Body Sections
 

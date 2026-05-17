@@ -1,0 +1,4 @@
+interface:
+  display_name: "Content Program Builder"
+  short_description: "Create repeatable multi-channel Ink programs"
+  default_prompt: "Use $content-program-builder to design or update a repeatable Ink Content Program for any marketing channel or production surface, with channel taxonomy, routes, formats, workflow docs, calendar tracking, performance tracking, and a private local pack by default unless I explicitly ask for a generic tracked starter."

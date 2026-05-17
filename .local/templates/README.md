@@ -11,6 +11,10 @@ cp .local/templates/ink-profiles.local.template.json .local/context/ink-profiles
 
 Replace every placeholder value with machine-local profile values.
 
+If a profile needs custom Content Program roots, set `contentProgramRoots`. Otherwise Ink uses `.local/content-programs/<profile-id>/` first and tracked `content-programs/` second.
+
+If a profile needs a custom private workspace for generic channel drafts, examples, assets, or performance notes, set `contentRoots.channels`. Otherwise use `.local/content/<profile-id>/channels/`.
+
 Copy `blog-publishing.local.template.md` into `.local/context/` and rename it to `blog-publishing.local.md` for the legacy/default One Horizon profile.
 
 Replace every placeholder value with machine-local blog path values.
@@ -29,3 +33,7 @@ Create image provider and upload config files at each profile's `imageProviderCo
 Do not edit templates in place for live work. Copy them into `.local/context/` first.
 
 Live author, company, and personal context belongs in author-scoped One Horizon context docs created by `one-horizon-context-setup` inside the selected profile workspace.
+
+Private Content Program packs belong under `.local/content-programs/<profile-id>/` unless you are intentionally creating a generic tracked starter pack.
+
+Private non-specialized channel work belongs under `.local/content/<profile-id>/channels/` or the selected profile's `contentRoots.channels`. Public-safe conventions live in `.agents/channel-content-writer/references/channel-workspace.md`.
