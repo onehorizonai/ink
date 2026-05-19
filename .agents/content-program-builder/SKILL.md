@@ -17,22 +17,25 @@ Use this skill when the user wants a recurring series, campaign, repeatable form
 2. Read `references/program-pack-contract.md`.
 3. Read `references/channel-taxonomy.md`.
 4. Clarify only the missing high-impact details with `references/program-interview.md`.
-5. Decide storage:
-   - default to `.local/content-programs/<profile-id>/<program-id>/` for user, company, brand, asset, or performance-specific programs
-   - use tracked `content-programs/<program-id>/` only when the user explicitly wants a generic open-source starter pack
-6. Audit relevant existing corpus and program examples:
+5. For new programs, ask the required storage question before writing files: should this be `local/private`, or `public/tracked` as part of the open-source repo? Do not infer the answer from defaults.
+6. Decide storage from the user's answer:
+   - use `.local/content-programs/<profile-id>/<program-id>/` for `local/private` programs
+   - use tracked `content-programs/<program-id>/` only for `public/tracked` programs that are generic and safe for open-source users
+   - for updates to existing packs, preserve the current storage visibility unless the user asks to move it
+7. Audit relevant existing corpus and program examples:
    - selected profile LinkedIn corpus
    - selected profile Reddit corpus
    - selected profile blog source folder when relevant
    - tracked `content-programs/`
    - selected profile local program root
-7. Create or update the program pack using the required layout, with `channels` for destinations and `routes` for production paths.
-8. Run `python3 scripts/validate_program.py <program-dir>` when the pack is created or changed.
-9. If One Horizon tools are available and the user wants tracking, create or update `[Ink Program] <name>` under `Ink - Programs`.
+8. Create or update the program pack using the required layout, with `channels` for destinations and `routes` for production paths.
+9. Run `python3 scripts/validate_program.py <program-dir>` when the pack is created or changed.
+10. If One Horizon tools are available and the user wants tracking, create or update `[Ink Program] <name>` under `Ink - Programs`.
 
 ## Working Agreement
 
 - Do not replace existing one-off workflows. Programs are optional.
+- Always ask whether a new Content Program is `local/private` or `public/tracked` before creating the pack. This is a hard gate even when the program appears obviously private.
 - Do not store private brand assets, live customer facts, or real performance data in tracked starter packs.
 - Do not silently use the One Horizon default workspace. Use the selected Ink profile workspace.
 - Do not make one Codex skill per program. Program packs are loaded by this builder and by `../content-program-runner/SKILL.md`.
@@ -47,7 +50,7 @@ Return:
 
 - program name and id
 - created or updated pack path
-- storage choice and why it is tracked or local
+- confirmed storage choice and why it is tracked or local
 - formats included
 - calendar and performance tracking fields
 - linked One Horizon record when created or updated

@@ -25,6 +25,8 @@ Private selected-profile packs:
 
 If a selected profile defines `contentProgramRoots`, use those roots instead. Tracked roots must remain safe for open-source users.
 
+Before creating a new pack, ask the user to choose `local/private` or `public/tracked` as part of the open-source repo. Do not create the directory until that choice is explicit. For updates to an existing pack, keep the pack's current visibility unless the user asks to move it.
+
 ## Required Layout
 
 ```text

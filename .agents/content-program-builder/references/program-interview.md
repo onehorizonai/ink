@@ -13,7 +13,7 @@ Ask only for details that cannot be discovered from the repo, the selected profi
 - Cadence or batching preference.
 - What Ink should automate.
 - What remains manual.
-- Whether the pack is private/local or generic/tracked.
+- Whether the new pack should be `local/private` or `public/tracked` as part of the open-source repo. Ask this directly before creating files.
 
 ## Useful Optional Details
 
@@ -28,7 +28,7 @@ Ask only for details that cannot be discovered from the repo, the selected profi
 
 ## Defaults
 
-- Storage: local/private.
+- Storage: no default for new programs. Ask `local/private` vs `public/tracked` before creating files. For existing programs, preserve the current storage visibility unless the user asks to move it.
 - Status: `draft` for user-created programs, `starter` for tracked generic examples.
 - Calendar: create the standard header and one placeholder row only when helpful.
 - Performance: create the standard header and no invented metrics.

@@ -35,6 +35,8 @@ Private user or company-specific packs belong under:
 
 Do not commit private brand assets, performance data, customer details, or live campaign context.
 
+Before creating a new Content Program, ask the user whether it should be `local/private` or `public/tracked` as part of the open-source repo. Do not decide from defaults. Existing packs keep their current visibility unless the user asks to move them.
+
 ## Pack Layout
 
 Every program pack uses this shape:

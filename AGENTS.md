@@ -13,6 +13,7 @@ Start with [README.md](README.md).
 - Use [page-brief-builder](.agents/page-brief-builder/SKILL.md) as the entry point for website page briefs.
 - Use [channel-content-writer](.agents/channel-content-writer/SKILL.md) for one-off or program-run outputs on channels without a dedicated Ink workflow, such as Instagram, TikTok, YouTube, X/Twitter, Facebook, newsletters, email sequences, Discord, forums, podcasts, webinars, ads, SMS, push, in-app messages, listings, events, and sales collateral.
 - Use [content-program-builder](.agents/content-program-builder/SKILL.md) to create or update repeatable Content Program packs for any marketing channel, format, or production surface.
+- Before creating any new Content Program pack, ask whether it should be `local/private` or `public/tracked` as part of the open-source repo. Do not infer this from defaults or create files before the user answers. For updates to existing packs, preserve the existing visibility unless the user asks to move it.
 - Use [content-program-runner](.agents/content-program-runner/SKILL.md) to execute Content Program runs and route them through dedicated skills, `channel-content-writer`, or manual handoff artifacts.
 - Treat the shared references under `.agents/linkedin-social-writer/references/` as the source of truth for LinkedIn writing rules.
 - Treat the shared references under `.agents/blog-post-writer/references/` as the source of truth for blog writing rules.

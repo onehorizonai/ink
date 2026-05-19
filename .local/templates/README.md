@@ -34,6 +34,6 @@ Do not edit templates in place for live work. Copy them into `.local/context/` f
 
 Live author, company, and personal context belongs in author-scoped One Horizon context docs created by `one-horizon-context-setup` inside the selected profile workspace.
 
-Private Content Program packs belong under `.local/content-programs/<profile-id>/` unless you are intentionally creating a generic tracked starter pack.
+Before creating a new Content Program, ask whether it should be `local/private` or `public/tracked` as part of the open-source repo. Private Content Program packs belong under `.local/content-programs/<profile-id>/`; public tracked starter packs belong under `content-programs/` and must stay generic.
 
 Private non-specialized channel work belongs under `.local/content/<profile-id>/channels/` or the selected profile's `contentRoots.channels`. Public-safe conventions live in `.agents/channel-content-writer/references/channel-workspace.md`.

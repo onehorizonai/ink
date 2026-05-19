@@ -235,18 +235,19 @@ Program workflow:
 ```mermaid
 flowchart TD
     A["Resolve Ink profile"] --> B["Clarify goal, audience, channels, routes, cadence, and automation boundary"]
-    B --> C{"Private or generic?"}
-    C -- "Private" --> D["Create local pack under .local/content-programs/<profile-id>"]
-    C -- "Generic" --> E["Create tracked starter pack under content-programs"]
-    D --> F["Write README, program.yaml, workflow, formats, prompts, calendar, performance tracker"]
-    E --> F
-    F --> G["Validate the program pack"]
-    G --> H["Optional [Ink Program] record in One Horizon"]
+    B --> C["Ask required storage question"]
+    C --> D{"Local/private or public/tracked?"}
+    D -- "Local/private" --> E["Create local pack under .local/content-programs/<profile-id>"]
+    D -- "Public/tracked" --> F["Create tracked open-source-safe pack under content-programs"]
+    E --> G["Write README, program.yaml, workflow, formats, prompts, calendar, performance tracker"]
+    F --> G
+    G --> H["Validate the program pack"]
+    H --> I["Optional [Ink Program] record in One Horizon"]
 ```
 
 Use `content-program-runner` after a program exists and you want to create one or more runs. Runs can route to specialized skills when they exist, use `channel-content-writer` for broad channel-native outputs, or return manual handoff bundles for steps that require external tools such as schedulers, email platforms, design editors, music generators, video editors, or ad platforms.
 
-Tracked starter packs live in `content-programs/`. Private selected-profile packs belong under `.local/content-programs/<profile-id>/` unless the profile config overrides `contentProgramRoots`.
+Before creating a new Content Program, Ink must ask whether the pack should be `local/private` or `public/tracked` as part of this open-source repo. Tracked starter packs live in `content-programs/` and must be generic enough for open-source users. Private selected-profile packs belong under `.local/content-programs/<profile-id>/` unless the profile config overrides `contentProgramRoots`.
 
 Use `.agents/content-program-builder/references/channel-taxonomy.md` for canonical channel slugs. Ink supports broad channel families such as social platforms, video and audio, owned web and email, communities, paid and partner channels, direct/product messaging, events, and sales collateral.
 
