@@ -16,7 +16,7 @@ Use this format for behavior-triggered, account-triggered, lifecycle, onboarding
 ## Required Inputs
 
 - Trigger, audience state, product behavior, data available, desired next action, and business goal.
-- Timing, frequency cap, exclusion/suppression logic, personalization fields, support resources, and owner.
+- Timing, frequency cap, exclusion/suppression logic, personalization fields, support resources, reply/support owner, and any cross-channel escalation plan.
 - Whether the message is transactional, relationship, marketing, or mixed.
 
 ## Output Shape
@@ -25,6 +25,7 @@ Use this format for behavior-triggered, account-triggered, lifecycle, onboarding
 - Subject, preview, body, CTA, fallback copy, and optional variants.
 - Personalization/data fields and guardrails for missing data.
 - Manual automation setup, QA, and metrics notes.
+- Cross-channel caveats when the flow proposes SMS, WhatsApp, push, or in-app escalation.
 
 ## Copy And Creative Rules
 
@@ -35,6 +36,7 @@ Use this format for behavior-triggered, account-triggered, lifecycle, onboarding
 - Avoid shaming inactive users. Use helpful context and clear value.
 - For renewal/risk messages, be direct, specific, and useful.
 - Include support paths when friction or confusion is likely.
+- Do not escalate to SMS, WhatsApp, push, or another direct channel merely to chase higher opens. Use another channel only when the user opted in for that channel, the message category fits that channel, and the escalation helps the user's current task.
 
 ## Psychological Levers
 
@@ -51,6 +53,7 @@ Use this format for behavior-triggered, account-triggered, lifecycle, onboarding
 - Reactivation: remind users of unfinished value, not just discounts.
 - Renewal: clarify value received, risk of lapse, and next steps.
 - Expansion: use behavior-based fit, not generic upsell pressure.
+- Cross-channel lifecycle: load the relevant direct/product format guide before drafting channel-specific copy, especially `sms-whatsapp.md`, `push-notification.md`, or `in-app-message.md`.
 
 ## Variants And Testing
 
@@ -65,6 +68,7 @@ Use this format for behavior-triggered, account-triggered, lifecycle, onboarding
 - Missing personalization fields have fallback behavior.
 - Transactional versus marketing status is flagged.
 - Suppression, frequency, support, and manual automation tasks are included.
+- Any direct-message escalation has a documented opt-in, channel fit, opt-out path, and manual configuration owner.
 
 ## Failure Diagnostics
 
@@ -72,6 +76,7 @@ Use this format for behavior-triggered, account-triggered, lifecycle, onboarding
 - High support tickets: instructions unclear or product state mismatched.
 - High opt-outs: marketing pressure exceeds relationship context.
 - Low retention: email solves communication but not product value.
+- Cross-channel complaints: escalation was unexpected, too interruptive, or missing channel-specific consent.
 
 ## Anti-Patterns
 
@@ -80,3 +85,4 @@ Use this format for behavior-triggered, account-triggered, lifecycle, onboarding
 - "We miss you" without a useful reason to return.
 - Upselling before activation.
 - No fallback for missing or stale product data.
+- Using WhatsApp, SMS, or push as an open-rate hack instead of a consented lifecycle channel.

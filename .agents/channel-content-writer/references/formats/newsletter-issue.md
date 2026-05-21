@@ -30,6 +30,7 @@ Use this format for subscribed editorial or marketing newsletters. Load `../chan
 ## Copy And Creative Rules
 
 - Reward the open quickly. The opening should prove the issue is worth the subscriber's attention.
+- Pass a send-worthiness gate before drafting: this issue should help the subscriber learn, decide, act, adopt, attend, or feel meaningfully included. Do not send every blog post, vanity milestone, internal update, or low-context announcement by default.
 - Use one dominant idea. Roundups can include multiple links, but still need an editorial reason for existing.
 - Make preview text a second hook, not a subject repeat.
 - Keep sections scannable: short headers, clear summaries, and obvious links.
@@ -61,6 +62,7 @@ Use this format for subscribed editorial or marketing newsletters. Load `../chan
 ## Review Checklist
 
 - Subscriber expectation and permission state are clear.
+- The issue has a recipient benefit strong enough to justify an inbox interruption.
 - Subject and preview text are truthful and non-duplicative.
 - The issue has one editorial center of gravity.
 - Links, claims, sponsor notes, unsubscribe, and compliance elements are verified or flagged.
@@ -76,6 +78,7 @@ Use this format for subscribed editorial or marketing newsletters. Load `../chan
 ## Anti-Patterns
 
 - Turning every issue into a sales blast.
+- Sending internal milestones, new blog posts, or generic announcements when they do not give the subscriber a clear benefit.
 - Repeating the subject line in preview text.
 - Hiding the best idea below long housekeeping.
 - Stuffing too many CTAs into one issue.
