@@ -50,6 +50,7 @@ Good fits:
 - the goal is reach, lifecycle activation, community engagement, video discovery, email nurture, product adoption, partner distribution, event support, or sales enablement
 
 Use canonical slugs from `../../content-program-builder/references/channel-taxonomy.md` where possible.
+Resolve broad channels through `../../channel-content-writer/references/channel-format-index.md` and `../../channel-content-writer/references/channel-format-registry.csv` so the eventual draft inherits the right channel family and format guidance.
 
 Good fits:
 

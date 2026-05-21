@@ -21,28 +21,28 @@ Use this for one-off channel content and Content Program runs. It can produce dr
    - Blog: `../blog-post-writer/SKILL.md`
    - Website/page briefs: `../page-brief-builder/SKILL.md`
    - Final page copy: `../copywriting/SKILL.md`
-4. For Instagram Reels, also read `references/instagram-reels.md` before drafting or preparing the handoff.
+4. Read `references/channel-format-index.md` and resolve the request through `references/channel-format-registry.csv`.
 5. For broad channels, load only the relevant One Horizon context and any selected Content Program pack.
 6. Produce a channel-native output or handoff bundle. Do not publish, schedule, send email, generate video/music, or upload externally unless a real tool is available and explicitly used.
 7. Store private drafts or examples only when requested, under the selected profile's channel workspace.
 
 ## Channel Defaults
 
-- Short social: hook, body/caption, visual brief, alt text when relevant, hashtags only if native.
-- Short video: hook, beat script, shot list, on-screen text, caption, asset notes.
-- Long video or podcast: title options, premise, outline, segment beats, intro/outro, thumbnail or cover brief.
-- Newsletter or email: subject options, preview text, body, CTA, segmentation notes.
-- Community or forum: native title/opening, body, discussion prompt, rule/risk notes.
-- Paid or partner: angle, creative brief, copy variants, claim/compliance notes, landing-page dependency.
-- Direct or product messaging: trigger, audience segment, message, CTA, frequency/risk notes.
-- Events or sales: talk/deck outline, key message, proof needs, follow-up assets.
+- Social: load `references/channels/social.md`, then the registry's channel and format guides.
+- Video and audio: load `references/channels/video-audio.md`, then the registry's channel and format guides.
+- Owned and email: load `references/channels/owned-email.md`, then the registry's channel and format guides.
+- Communities: load `references/channels/communities.md`, then the registry's channel and format guides.
+- Paid and partner: load `references/channels/paid-partner.md`, then the registry's channel and format guides.
+- Direct and product: load `references/channels/direct-product.md`, then the registry's channel and format guides.
+- Events and sales: load `references/channels/events-sales.md`, then the registry's channel and format guides.
+- Dedicated adapters: route to the dedicated skill and its playbooks from the registry.
 
 ## Guardrails
 
 - Be channel-native, not a generic social rewrite.
 - Keep production notes out of audience-facing copy. Do not leak labels such as `<brand> angle:`, `CTA:`, `hook:`, `note:`, `audience:`, or `internal:` into captions, descriptions, scripts, comments, or post bodies unless the platform-native artifact explicitly calls for that visible label.
 - Put strategy, rationale, assumptions, and review notes in separate handoff sections instead of inside the final copy block.
-- Respect platform norms and likely moderation or deliverability risk.
+- Respect platform norms and likely moderation, compliance, or deliverability risk.
 - Keep claims, metrics, prices, and customer examples out unless provided or verified.
 - Separate generation from manual execution for tools such as Buffer, Metricool, email service providers, design tools, music generators, and video editors.
 - Use existing review skills for longer narrative drafts or risky claims.
@@ -63,6 +63,9 @@ Return:
 
 - `../content-program-builder/references/channel-taxonomy.md`
 - `../content-program-runner/references/run-contract.md`
+- `references/channel-format-index.md`
+- `references/channel-format-registry.csv`
 - `references/channel-workspace.md`
-- `references/instagram-reels.md`
+- `references/channels/`
+- `references/formats/`
 - selected profile local channel workspace, usually `.local/content/<profile-id>/channels/`
