@@ -4,6 +4,7 @@
 
 - **Program**: strategic container with goal, audience, channels, routes, cadence, assets, workflow, and measurement.
 - **Format**: repeatable creative unit inside a program.
+- **Channel/format guidance**: reusable channel or format rules loaded from `.agents/channel-content-writer/references/channel-format-index.md` and `.agents/channel-content-writer/references/channel-format-registry.csv` before program-specific constraints.
 - **Run**: one execution of a format on a date or batch.
 - **Campaign**: optional time-boxed program or phase.
 - **Channel**: where the content goes.
@@ -54,6 +55,7 @@ Include:
 - format summary
 - workflow diagram when useful
 - links to relevant repo skills or references
+- links to relevant channel and format guidance when the program uses a broad channel
 - notes about what is automated versus manual
 
 Use Mermaid for workflows when it improves clarity.
@@ -171,3 +173,26 @@ Existing channel records may include these optional fields:
 - `campaign_id`
 
 Workflows must remain valid when these fields are missing.
+
+## Channel And Format Inheritance
+
+Programs must not become the source of truth for reusable channel or format rules. For broad channels, load shared guidance first:
+
+```text
+channel-content-writer/
+├── SKILL.md
+└── references/
+    ├── channel-format-index.md
+    ├── channel-format-registry.csv
+    ├── channels/<channel-or-family>.md
+    └── formats/<format>.md
+```
+
+Program packs may add:
+
+- the exact audience, offer, cadence, and campaign constraints
+- format consistency rules specific to that program
+- asset requirements and manual tool handoffs
+- approval flow, calendar, and performance tracking fields
+
+Program packs should not duplicate channel-wide deliverability, compliance, social SEO, platform behavior, or reusable psychological/copy rules. Move those rules to the shared channel or format guidance so other programs inherit them.

@@ -20,14 +20,15 @@ Use this skill only after a program pack exists. Use `../content-program-builder
    - tracked `content-programs/`
 3. If tracked and local packs have the same `program.yaml` id, prefer the selected profile's local pack and say so.
 4. Read the selected pack's `program.yaml`, `README.md`, `workflow.md`, relevant `formats/*.md`, and relevant `prompts/*.md`.
-5. Confirm only missing run facts: count, theme, date window, channels, and output type.
-6. Create run output:
+5. For broad channels, read `../channel-content-writer/references/channel-format-index.md`, resolve the slug in `../channel-content-writer/references/channel-format-registry.csv`, and load the matching channel and format guides before applying program-specific constraints.
+6. Confirm only missing run facts: count, theme, date window, channels, and output type.
+7. Create run output:
    - route to specialized skills when the route uses one
    - route broad channels to `../channel-content-writer/SKILL.md`
    - create a manual handoff bundle when external tools or design work are required
-7. Update `calendar.csv` only when the user asked to persist the plan.
-8. Update `performance.csv` only from provided published metrics.
-9. Validate the pack with `python3 scripts/validate_program.py <program-dir>` after persistent edits.
+8. Update `calendar.csv` only when the user asked to persist the plan.
+9. Update `performance.csv` only from provided published metrics.
+10. Validate the pack with `python3 scripts/validate_program.py <program-dir>` after persistent edits.
 
 ## Routing
 
@@ -41,6 +42,8 @@ Use existing repo skills instead of duplicating channel logic. Specialized skill
 - Blog/image sourcing: `../blog-image-finder/SKILL.md`, `../blog-image-uploader/SKILL.md`
 - Review passes: local review skills such as `../content-humanizer/SKILL.md`, `../content-tone-review/SKILL.md`, `../content-style-review/SKILL.md`, and `../fact-check/SKILL.md`
 - Broad channels and unsupported surfaces: `../channel-content-writer/SKILL.md`
+
+For broad channels, shared channel and format guidance is loaded before program pack rules. Content Programs add consistency, cadence, campaign, asset, and KPI constraints; they do not replace reusable channel guidance.
 
 For `manual-asset` or `manual-external-tool`, return prompts, asset briefs, and step-by-step handoff notes. Do not claim external publishing, scheduling, email sending, music generation, video editing, upload, or design rendering happened unless the tool actually did it.
 
@@ -72,6 +75,8 @@ Return:
 - `../content-program-builder/references/channel-taxonomy.md`
 - `references/run-contract.md`
 - `../channel-content-writer/SKILL.md`
+- `../channel-content-writer/references/channel-format-index.md`
+- `../channel-content-writer/references/channel-format-registry.csv`
 - `../one-horizon-context-setup/references/ink-profile-contract.md`
 - `../one-horizon-context-setup/references/ink-initiative-hierarchy.md`
 - `../../content-programs/`

@@ -38,6 +38,8 @@ Channels describe where the content is intended to go. Routes describe which Ink
 - `changelog`
 - `help-center`
 
+For email work, use `newsletter`, `email-sequence`, or `lifecycle-email` as the destination slug, then load the shared email channel and format guidance from `../../channel-content-writer/references/channel-format-index.md` and `../../channel-content-writer/references/channel-format-registry.csv`. Treat cold outreach as `Email -> Cold Outreach`, not as a standalone Content Program.
+
 ## Communities
 
 - `reddit`
@@ -91,3 +93,5 @@ Use `channel-content-writer` for channel-native drafting or handoff work on all 
 - Prefer a canonical slug from this file.
 - If a new surface is needed, add the slug here before using it in `program.yaml`.
 - Do not create a new skill just because a new platform appears. Use `channel-content-writer` unless the channel earns a dedicated workflow.
+- Do not create a new Content Program just to hold reusable channel or format guidance. Put shared rules in `channel-content-writer` references, then let programs inherit them.
+- Every slug in this file must have one row in `../../channel-content-writer/references/channel-format-registry.csv`.

@@ -26,7 +26,7 @@
 - Do not use false hooks, generic engagement bait, or hashtags that promise a different topic than the Reel delivers.
 - Do not stuff keywords into the list. Search terms should help classification while still reading naturally to a human.
 - Do not output more or fewer than 5 hashtags for this program.
-- Keep broad Instagram/Reels optimization guidance in `.agents/channel-content-writer/references/instagram-reels.md`; keep this workflow focused on the hook-list format.
+- Keep broad Instagram/Reels optimization guidance in `.agents/channel-content-writer/references/channels/instagram.md` and `.agents/channel-content-writer/references/formats/instagram-reels.md`; keep this workflow focused on the hook-list format.
 
 ## Output Bundle
 

@@ -8,7 +8,7 @@ This starter is generic and public-safe. Keep real brand footage, trend referenc
 
 - Turn one specific audience need, pain, tool, category, or recurring question into a saveable and searchable Instagram Reel.
 - Use the video and overlay hook to earn attention, then use the description list to deliver depth, keywords, and reasons to save or share.
-- Keep reusable Instagram Reels best practices in `.agents/channel-content-writer/references/instagram-reels.md` so other Reels programs can share the same guidance.
+- Keep reusable Instagram Reels best practices in `.agents/channel-content-writer/references/channels/instagram.md` and `.agents/channel-content-writer/references/formats/instagram-reels.md` so other Reels programs can share the same guidance.
 
 ## Format
 
@@ -48,7 +48,9 @@ flowchart TD
 
 ## Links
 
-- Instagram Reels guidance: `.agents/channel-content-writer/references/instagram-reels.md`
+- Channel/format index: `.agents/channel-content-writer/references/channel-format-index.md`
+- Instagram channel guidance: `.agents/channel-content-writer/references/channels/instagram.md`
+- Instagram Reels format guidance: `.agents/channel-content-writer/references/formats/instagram-reels.md`
 - Program contract: `.agents/content-program-builder/references/program-pack-contract.md`
 - Channel taxonomy: `.agents/content-program-builder/references/channel-taxonomy.md`
 - Runner skill: `.agents/content-program-runner/SKILL.md`

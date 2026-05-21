@@ -15,7 +15,7 @@ Claude Code and Cursor are the smoothest path. Codex works too; it just needs on
 - Researches subreddits before drafting so the post fits the community
 - Drafts Reddit posts and follow-up replies that read native to the thread
 - Writes blog posts with internal research, staged review passes, and optional image sourcing
-- Drafts or prepares channel-native handoffs for broader channels such as Instagram, TikTok, YouTube, X/Twitter, Facebook, newsletters, communities, podcasts, ads, direct/product messaging, events, and sales collateral
+- Drafts or prepares channel-native handoffs for broader channels through a channel/format registry covering social, video, audio, email, communities, paid/partner, direct/product messaging, events, and sales collateral
 - Turns approved One Horizon ideas into reviewable drafts, with Blog staying on one initiative from idea to PR review
 - Creates concise locked briefs for new or updated website pages
 - Builds repeatable Content Programs for recurring series, campaigns, creative formats, calendars, and performance tracking across any marketing channel or production surface
@@ -247,9 +247,11 @@ flowchart TD
 
 Use `content-program-runner` after a program exists and you want to create one or more runs. Runs can route to specialized skills when they exist, use `channel-content-writer` for broad channel-native outputs, or return manual handoff bundles for steps that require external tools such as schedulers, email platforms, design editors, music generators, video editors, or ad platforms.
 
+Content Programs inherit reusable channel and format guidance from `.agents/channel-content-writer/references/channel-format-index.md` and `.agents/channel-content-writer/references/channel-format-registry.csv`. Put shared channel behavior, deliverability, compliance, platform norms, and reusable format rules in channel/format references; use programs only for repeatable audience, cadence, campaign, asset, approval, and KPI constraints.
+
 Before creating a new Content Program, Ink must ask whether the pack should be `local/private` or `public/tracked` as part of this open-source repo. Tracked starter packs live in `content-programs/` and must be generic enough for open-source users. Private selected-profile packs belong under `.local/content-programs/<profile-id>/` unless the profile config overrides `contentProgramRoots`.
 
-Use `.agents/content-program-builder/references/channel-taxonomy.md` for canonical channel slugs. Ink supports broad channel families such as social platforms, video and audio, owned web and email, communities, paid and partner channels, direct/product messaging, events, and sales collateral.
+Use `.agents/content-program-builder/references/channel-taxonomy.md` for canonical channel slugs. Every canonical slug must resolve through `.agents/channel-content-writer/references/channel-format-registry.csv` to either a dedicated adapter, shared channel/format guidance, or a documented manual handoff boundary.
 
 ## Write a LinkedIn post
 

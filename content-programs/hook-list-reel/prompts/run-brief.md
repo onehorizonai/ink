@@ -26,7 +26,7 @@ Return:
 - suggested success metrics
 
 Constraints:
-- read .agents/channel-content-writer/references/instagram-reels.md first
+- read .agents/channel-content-writer/references/channel-format-index.md, .agents/channel-content-writer/references/channels/instagram.md, and .agents/channel-content-writer/references/formats/instagram-reels.md first
 - make the video original, watermark-free, mobile-first, and readable without sound
 - keep broad Instagram/Reels advice in the shared reference, not inside this program output
 - do not leak internal labels like "<brand> angle:", "CTA:", "hook:", "note:", or "audience:" into the audience-facing description

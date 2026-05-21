@@ -1,6 +1,6 @@
 # Output Patterns
 
-Use these patterns when the user or program format does not provide a stricter shape.
+Use these patterns as a fallback after loading `channel-format-index.md` and the registry row for the requested slug. Prefer the specific format guide from `references/formats/` whenever one applies.
 
 ## Instagram Or Facebook Post
 
@@ -19,7 +19,7 @@ Use these patterns when the user or program format does not provide a stricter s
 - Caption
 - Manual editing or publishing steps
 
-For Instagram Reels, also read `instagram-reels.md` and apply its original-content, mobile safe-zone, caption SEO, accessibility, hashtag, and performance guidance.
+For Instagram Reels, load the registry row for `instagram-reels`, including the social/video family guides, `channels/instagram.md`, `formats/short-video.md`, and `formats/instagram-reels.md`.
 
 ## YouTube Long Form
 
@@ -31,7 +31,7 @@ For Instagram Reels, also read `instagram-reels.md` and apply its original-conte
 - CTA
 - Asset or B-roll needs
 
-## Newsletter Or Email
+## Newsletter Or Editorial Email
 
 - Subject options
 - Preview text
@@ -39,6 +39,8 @@ For Instagram Reels, also read `instagram-reels.md` and apply its original-conte
 - CTA
 - Segment and send notes
 - Risk notes for deliverability or claims
+
+For cold outreach, do not use this newsletter shape. Load the registry row for `email-sequence`, then apply `formats/email-cold-outreach.md`.
 
 ## Community Or Forum
 
