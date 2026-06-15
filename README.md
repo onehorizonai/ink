@@ -230,6 +230,11 @@ Create a Content Program for YouTube Shorts and TikTok clips from our weekly pro
 Ink should generate scripts, shot lists, captions, and manual editing handoffs.
 ```
 
+```text
+Create a Content Program for quarterly hosted events and conference attendance.
+Ink should prepare event strategy, promotion, run-of-show, logistics handoffs, follow-up, and performance tracking.
+```
+
 Program workflow:
 
 ```mermaid

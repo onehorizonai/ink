@@ -81,9 +81,11 @@ Direct and product:
 
 Events and sales:
 
-- `conference-talk`, `workshop`, `sales-deck`, `one-pager`, `case-study`
+- `conference-talk`, `conference-booth`, `field-event`, `hackathon`, `meetup`, `roundtable`, `sponsored-event`, `workshop`
+- `sales-deck`, `one-pager`, `case-study`
 - family guide: `channels/events-sales.md`
-- common formats: `event-talk-workshop.md`, `sales-deck.md`, `one-pager.md`, `case-study.md`
+- common event formats: `event-hosting.md`, `event-attendance.md`, `event-promotion-follow-up.md`, `event-talk-workshop.md`, `conference-booth.md`, `hackathon.md`, `meetup-roundtable.md`, `livestream-webinar.md`
+- common sales formats: `sales-deck.md`, `one-pager.md`, `case-study.md`
 
 ## Intent Aliases
 
@@ -100,6 +102,10 @@ Use these mappings when the user describes a format instead of naming a slug:
 - SMS or WhatsApp -> direct slug plus `formats/sms-whatsapp.md`.
 - Push or in-app -> direct/product slug plus the matching product-message format.
 - App store, marketplace, integration listing, or plugin listing -> listing slug plus `formats/app-store-marketplace-listing.md`.
+- Hosting a meetup, community event, user group, field event, customer event, breakfast, dinner, drinks, roundtable, or local partner event -> matching event slug plus `formats/event-hosting.md`, `formats/event-promotion-follow-up.md`, and any specific event-type format.
+- Attending, sponsoring, exhibiting, tabling, speaking at, or networking around an external event -> `conference-booth`, `conference-talk`, or `sponsored-event` plus `formats/event-attendance.md` and the matching format guide.
+- Webinar, livestream, virtual demo, office hours, or online event -> `webinar` or `livestream` plus `formats/livestream-webinar.md` and event promotion/follow-up guidance.
+- Hackathon -> `hackathon` plus `formats/hackathon.md`.
 - Talk, workshop, deck, one-pager, or case study -> event/sales slug plus the matching enablement format.
 
 ## Extension Rules

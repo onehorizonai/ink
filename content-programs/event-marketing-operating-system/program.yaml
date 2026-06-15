@@ -1,0 +1,72 @@
+id: event-marketing-operating-system
+name: Event Marketing Operating System
+status: starter
+visibility: tracked
+summary: Repeatable public-safe program for hosting, attending, promoting, following up, and measuring events as a marketing channel.
+goals:
+  - event marketing quality
+  - audience growth
+  - partner leverage
+  - pipeline and community learning
+channels:
+  - meetup
+  - workshop
+  - webinar
+  - livestream
+  - conference-talk
+  - conference-booth
+  - hackathon
+  - roundtable
+  - field-event
+  - sponsored-event
+cadence:
+  type: recurring
+  recommendation: quarterly_or_campaign_based
+  batch_size: 1
+audiences:
+  - founders
+  - marketers
+  - community builders
+  - developer-relations teams
+  - sales and partnerships teams
+formats:
+  - id: event-strategy-brief
+    output: event-decision-brief
+    route: generic-channel-draft
+  - id: hosted-event-plan
+    output: hosted-event-runbook
+    route: generic-channel-draft
+  - id: attended-event-plan
+    output: field-marketing-runbook
+    route: generic-channel-draft
+  - id: promotion-and-follow-up-pack
+    output: event-promotion-and-follow-up-copy
+    route: generic-channel-draft
+  - id: webinar-run-of-show
+    output: webinar-run-of-show
+    route: generic-channel-draft
+  - id: hackathon-program-plan
+    output: hackathon-operator-pack
+    route: generic-channel-draft
+routes:
+  - id: generic-channel-draft
+    uses: channel-content-writer
+    when: draft event strategy, runbooks, promotion copy, speaker kits, booth scripts, follow-up, retros, and handoff assets
+  - id: manual-logistics
+    uses: manual-external-tool
+    when: book venues, purchase catering or beverages, configure platforms, set up booths, submit reimbursements, travel, publish, or update CRM systems
+  - id: review
+    uses: review-only
+    when: check sponsor claims, partner obligations, consent, budget, safety, accessibility, and manual readiness
+kpis:
+  - registrations
+  - attendance_rate
+  - qualified_conversations
+  - meetings_booked
+  - community_joins
+  - content_reuse
+  - follow_up_completion
+one_horizon:
+  parent: Ink - Programs
+  program_title: "[Ink Program] Event Marketing Operating System"
+  run_title: "[Ink Program Run] Event Marketing Operating System - <event>"

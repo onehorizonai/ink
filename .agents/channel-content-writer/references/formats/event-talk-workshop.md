@@ -1,6 +1,6 @@
 # Event Talk And Workshop Format Playbook
 
-Use this format for conference talks, workshops, meetups, panels, user-group sessions, trainings, and field events. Load `../channels/events-sales.md` first.
+Use this format for conference talks, workshops, meetups, panels, user-group sessions, trainings, and field events. Load `../channels/events-sales.md` first. When the event is hosted by the brand, also load `event-hosting.md`; when the team is attending an external event, also load `event-attendance.md`.
 
 ## Source Guidance
 
@@ -18,12 +18,15 @@ Use this format for conference talks, workshops, meetups, panels, user-group ses
 - Event type, audience, session length, speaker, venue/platform, level, and expected interaction.
 - Session goal, attendee takeaways, required assets, sponsor constraints, and CTA.
 - Logistics: slides, demo, worksheet, Q&A, recording, accessibility, and follow-up owner.
+- Room design: seating, mic plan, projector/screen, demo connectivity, table supplies, facilitator count, arrival flow, and networking window.
+- Audience acquisition path: invite sources, speaker/partner promotion, registration page, reminder cadence, capacity, waitlist, and no-show assumption.
 
 ## Output Shape
 
 - Title, abstract, audience, prerequisites, and takeaways.
 - Run of show with timing, sections, examples, interaction, demo/workshop steps, Q&A, and close.
 - Slide outline, speaker notes, handout/worksheet ideas, promotion copy, and follow-up notes.
+- Operator notes: setup checklist, supplies, AV test, host script, sponsor thank-you, content capture points, attendee questions to log, and post-event owner.
 
 ## Copy And Creative Rules
 
@@ -31,8 +34,11 @@ Use this format for conference talks, workshops, meetups, panels, user-group ses
 - Design for the room. Talks need narrative and pacing; workshops need instructions and practice.
 - Use examples and artifacts instead of abstract frameworks alone.
 - Build in interaction early enough that attendees participate before the end.
+- Make the first interaction low-risk. A poll, hands-up question, two-minute pair prompt, or simple worksheet beat warms the room before heavier exercises.
 - Keep sponsor/product content proportionate and disclosed.
 - End with a useful next step: resource, worksheet, community, trial, meeting, or implementation checklist.
+- For workshops, design the exercise as the artifact attendees came for. Every teaching block should feed a decision, template, sketch, configuration, or take-home plan.
+- For talks, design one remembered line and one remembered visual. If the attendee cannot retell the point later, the talk was too diffuse.
 
 ## Psychological Levers
 
@@ -46,8 +52,10 @@ Use this format for conference talks, workshops, meetups, panels, user-group ses
 
 - Conference talk: stronger title, narrative arc, memorable examples, and stage timing.
 - Workshop: prerequisites, exercises, materials, checkpoints, and facilitator prompts.
+- Meetup: shorter setup, stronger host warmth, more networking oxygen, and one useful idea people can discuss afterward.
 - Panel: clear thesis, guest roles, question flow, and moderator control.
 - User training: steps, demos, practice, support links, and follow-up.
+- Field event: local relevance, partner/sponsor balance, hospitality, check-in, audience mix, and next-event invitation.
 
 ## Variants And Testing
 
