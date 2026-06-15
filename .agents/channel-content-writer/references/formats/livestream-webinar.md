@@ -1,6 +1,6 @@
 # Livestream And Webinar Format Playbook
 
-Use this format for webinars, livestreams, virtual events, live demos, fireside chats, office hours, and recorded sessions. Load `../channels/video-audio.md` and any event/channel guide first.
+Use this format for webinars, livestreams, virtual events, live demos, fireside chats, office hours, and recorded sessions. Load `../channels/video-audio.md`, `../channels/events-sales.md`, and `event-promotion-follow-up.md` first.
 
 ## Source Guidance
 
@@ -20,6 +20,8 @@ Use this format for webinars, livestreams, virtual events, live demos, fireside 
 - Event type: educational, demand-gen, product demo, training, partner, community, analyst/customer, or office hours.
 - Offer/CTA, follow-up plan, sponsor/partner disclosures, and data/privacy constraints.
 - Assets: slides, demo, polls, handouts, landing page, reminder emails, and replay plan.
+- Technical plan: host connection, speaker connection, backup host, audio test, screen-share order, demo fallback recording, chat/Q&A ownership, recording consent, captioning, and post-event export owner.
+- Attendance model: target audience list, invite sources, partner promotion, no-show assumption, reminder cadence, replay segmentation, and sales/community routing.
 
 ## Output Shape
 
@@ -27,6 +29,7 @@ Use this format for webinars, livestreams, virtual events, live demos, fireside 
 - Run of show with timings, speaker roles, interaction moments, transitions, and contingency notes.
 - Slide or section outline, talk track, demo notes, poll/Q&A prompts, chat prompts, and closing CTA.
 - Follow-up email/replay notes, repurposing ideas, and manual production checklist.
+- Engagement plan: opening chat prompt, poll purpose, Q&A seeding, resource drops, hand-raise or CTA timing, replay chapters, and sales/support follow-up tags.
 
 ## Copy And Creative Rules
 
@@ -36,6 +39,9 @@ Use this format for webinars, livestreams, virtual events, live demos, fireside 
 - Use fewer, stronger slides. Webinars fail when they become narrated PDFs.
 - Make the CTA contextual: book a consult, try a workflow, download template, join community, watch replay, or answer a question.
 - Write a replay/on-demand version with a shorter intro and chapter-like structure.
+- Build two openings: a live opening with participation instructions and a replay opening that gets to the core promise faster.
+- Put the strongest proof or demo before the halfway mark. If value arrives too late, live attendees drift and replay viewers skip.
+- Prepare the follow-up before the event. Segment no-shows, attendees, high-engagement attendees, question askers, demo clickers, and replay viewers differently.
 
 ## Psychological Levers
 
@@ -51,6 +57,7 @@ Use this format for webinars, livestreams, virtual events, live demos, fireside 
 - YouTube/LinkedIn livestreams: stronger public hook, chat moderation, thumbnail/title, and replay packaging.
 - Customer training: reduce promotion, increase prerequisites, steps, and support links.
 - Partner webinars: clarify speaker roles, audience ownership, list-use rules, and co-branding.
+- Private executive briefing: smaller invite list, stronger confidentiality framing, no recording unless agreed, more discussion time, and direct follow-up.
 
 ## Variants And Testing
 

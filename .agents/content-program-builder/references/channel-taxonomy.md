@@ -68,10 +68,19 @@ For email work, use `newsletter`, `email-sequence`, or `lifecycle-email` as the 
 - `app-store-listing`
 - `marketplace-listing`
 
-## Events And Sales
+## Events
 
 - `conference-talk`
+- `conference-booth`
+- `field-event`
+- `hackathon`
+- `meetup`
+- `roundtable`
+- `sponsored-event`
 - `workshop`
+
+## Sales
+
 - `sales-deck`
 - `one-pager`
 - `case-study`
