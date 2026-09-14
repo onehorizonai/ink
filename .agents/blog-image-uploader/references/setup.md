@@ -112,3 +112,29 @@ Treat the repo-root `.mcp.json` as the canonical registration for this server. C
 - Troubleshooting: run `uv run .agents/mcp/verify_servers.py --profile <profile-id> blog-image-uploader` only after a concrete failure to check repo-local registration, stdio startup, and selected-profile local config status. If `uv` cannot initialize its cache, retry with `UV_CACHE_DIR=/tmp/uv-cache uv run .agents/mcp/verify_servers.py --profile <profile-id> blog-image-uploader`.
 - Set `public_base_url` when the live site serves images through a CDN or vanity domain.
 - Use this skill after `../blog-image-finder/SKILL.md` when the image started in the local Unsplash download flow.
+
+## Release note / changelog images
+
+Changelog hero images on the One Horizon website use a **different bucket and profile** from blog posts and docs screenshots.
+
+| Surface | Profile | Config | Object key | MDX helper |
+| --- | --- | --- | --- | --- |
+| Blog | Ink blog profile | `.secrets/.../blog-image-s3.json` | `images/posts/...` | `getImageUrl('posts/...')` |
+| Docs screenshots | `docs-screenshots` | `.secrets/docs-screenshots-s3.json` | `images/screenshots/...` | `getDocsScreenshotUrl(...)` |
+| **Changelog** | **`release-notes-images`** | **`.secrets/release-notes-s3.json`** | **`images/changelog/...`** | **`getImageUrl('changelog/...')`** |
+
+Program references: `.local/content-programs/local/release-notes/`
+
+Example upload:
+
+```json
+{
+  "profile": "release-notes-images",
+  "profile_config": ".local/content-programs/local/release-notes/image-upload-profile.local.json",
+  "local_path": "/absolute/path/to/roadmap.png",
+  "object_key": "images/changelog/2-4-0/roadmap.png",
+  "overwrite": false
+}
+```
+
+Do not reuse the blog config or docs screenshot config for changelog MDX. Capture dashboard screenshots per `.local/content-programs/local/release-notes/references/screenshot-capture.md` before upload.

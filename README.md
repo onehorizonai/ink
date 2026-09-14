@@ -582,7 +582,7 @@ flowchart TD
 | Skill | Use it for |
 | --- | --- |
 | `blog-image-finder` | Search Unsplash and download candidate blog images into the selected profile's staging folder |
-| `blog-image-uploader` | Upload approved blog images to the selected profile's configured S3 bucket |
+| `blog-image-uploader` | Upload approved blog images to the selected profile's configured S3 bucket; also used for docs screenshots and release-note changelog images via dedicated upload profiles |
 
 ## What stays local
 
@@ -676,6 +676,40 @@ Create the selected profile's image upload config at its `imageUploadConfig` pat
 ```
 
 Use `addressing_style: "path"` for path-style S3 endpoints. Use `virtual` for bucket-subdomain hosts with matching TLS support. Do not point a profile at another profile's bucket/CDN unless that sharing is intentional.
+
+### S3 setup for release note / changelog images
+
+Release-note hero images on the One Horizon website use a **separate bucket** from blog posts and docs screenshots.
+
+| Surface | Object key prefix | Public bucket | Upload profile |
+| --- | --- | --- | --- |
+| Blog | `images/posts/...` | `one-ui-blog` | Ink blog `imageUploadConfig` |
+| Docs screenshots | `images/screenshots/...` | `one-ui-docs` | `docs-screenshots` |
+| **Changelog** | **`images/changelog/...`** | **`one-ui-website`** | **`release-notes-images`** |
+
+Program pack: `.local/content-programs/local/release-notes/`
+
+Create the local credentials file at `.secrets/release-notes-s3.json` (gitignored):
+
+```json
+{
+  "bucket": "one-ui-website",
+  "region": "<region>",
+  "access_key_id": "YOUR_ACCESS_KEY_ID",
+  "secret_access_key": "YOUR_SECRET_ACCESS_KEY",
+  "session_token": "",
+  "endpoint_url": "https://<project>.storage.supabase.co/storage/v1/s3",
+  "public_base_url": "https://auth.onehorizon.ai/storage/v1/object/public/one-ui-website",
+  "key_prefix": "",
+  "history_path": "./.secrets/release-notes-upload-history.json",
+  "addressing_style": "path",
+  "timeout_seconds": 30
+}
+```
+
+Upload with the `release-notes-images` profile via `image-upload-profile.local.json` in the release-notes program. Pass an explicit `object_key` such as `images/changelog/2-4-0/roadmap.png`. Reference uploaded assets in release-note MDX with `getImageUrl('changelog/2-4-0/roadmap.png')` — not `getDocsScreenshotUrl`.
+
+Capture dashboard screenshots per `.local/content-programs/local/release-notes/references/screenshot-capture.md` (monorepo visual regression README and Playwright helpers).
 
 ### Manual blog path setup
 
