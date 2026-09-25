@@ -8,6 +8,9 @@ Capture:
 - topic, product, or discussion area
 - goal of the Reddit presence
 - hard boundaries such as no links, no product mention, or no self-promo
+- intended motion: subreddit post, comment engagement, DM follow-up, or mixed
+- campaign ask, such as feedback, Product Hunt visit/comment, honest review, download, website visit, or support
+- known posting-account status, such as account age, total karma, subreddit-specific karma, local comment karma, prior participation, recent removals, and posting-frequency limits
 - whether the next step is drafting or just research
 
 ## 2. Ask only if the research would be misleading
@@ -38,6 +41,7 @@ If a required One Horizon tool call is missing or fails, follow `../../one-horiz
 - Translate the topic into 3-5 audience or problem-space queries.
 - Prefer terms real Reddit users would search for, not marketing taglines.
 - Use adjacent problem statements as well as direct solution terms.
+- For comment engagement, also generate phrases people would use when asking for help, comparing alternatives, complaining about existing options, or requesting recommendations.
 
 ## 5. Shortlist candidate subreddits
 
@@ -66,8 +70,10 @@ If a required One Horizon tool call is missing or fails, follow `../../one-horiz
 }
 ```
 
-- Read the rules, posting guidance, submission type, and any obvious anti-promo language.
+- Read the rules, posting guidance, submission type, account eligibility gates, and any obvious anti-promo language.
+- Capture a rule snapshot with date, account age/karma/local karma/local comment karma requirements when known, link policy, flair or megathread requirements, self-promotion policy, modmail advice, and whether product links are allowed.
 - Drop communities that clearly punish the intended style of post.
+- Mark communities as warm-up-required when posting is otherwise relevant but the current account does not meet a known eligibility gate.
 
 ## 7. Analyze recent winners
 
@@ -101,13 +107,31 @@ If a required One Horizon tool call is missing or fails, follow `../../one-horiz
   - what comments or debates the strongest posts tend to trigger
   - what looks overused or unwelcome
 
-## 8. Produce the handoff
+## 8. Map comment and DM opportunities
+
+When the goal includes comment engagement, use `reddit_search_posts` for high-intent phrases inside finalist subreddits.
+
+Classify opportunities as:
+
+- answer-only: reply publicly with no product mention
+- disclosed mention: product can be named without a link if directly relevant
+- allowed link: link appears permitted and useful
+- mod-approved or weekly thread only: wait for the right thread or ask moderators
+- skip: promotion risk is too high
+
+For DM eligibility, default to no DM. Mark private follow-up as permission-gated only when a public reply can ask whether DM is welcome, or allowed only after direct invitation when the user explicitly requests private details.
+
+## 9. Produce the handoff
 
 Return:
 
 - ranked subreddit recommendations
 - why each subreddit fits or does not fit
 - rule and tone constraints
+- account eligibility gates and any warm-up required before posting
+- keyword and thread opportunities when relevant
+- link and CTA decision
+- DM eligibility decision
 - post-angle opportunities
 - one recommended subreddit plus a compact writing brief
 

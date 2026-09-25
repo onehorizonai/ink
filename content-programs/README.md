@@ -66,6 +66,7 @@ See `.agents/content-program-builder/references/program-pack-contract.md` for th
 - `channel-starter-formats`: generic starter formats for short video, newsletters, community posts, and YouTube outlines.
 - `event-marketing-operating-system`: repeatable event marketing program for hosting, attending, promoting, following up, and measuring events.
 - `hook-list-reel`: Instagram Reel with hook overlay video, keyword-rich list description, and exactly 5 bottom hashtags.
+- `reddit-community-growth`: Reddit growth operating system for subreddit posts, public comment engagement, and consent-gated DMs.
 
 ## Channels And Routes
 

@@ -27,6 +27,12 @@ Start with [README.md](README.md).
 - Use [ink-initiative-hierarchy.md](.agents/one-horizon-context-setup/references/ink-initiative-hierarchy.md) whenever a skill creates or processes Ink initiatives; move existing initiatives under the matching `Ink - Blog`, `Ink - LinkedIn`, `Ink - Reddit`, `Ink - Website Briefs`, optional `Ink - Programs`, or optional `Ink - Channel Content` parent with `update_initiative` if they are missing or under the wrong parent.
 - Set One Horizon work to `In Review` whenever a human needs to look at it, confirm it, or answer a blocker. Do not leave human-action items in `Planned`.
 - Treat `.local/context/ink-profiles.local.json` as the gitignored source of truth for profile routing, local content roots, optional generic channel roots, blog publishing config, and image provider/upload configs. Treat the selected profile's `blogPublishingConfig` as the source of truth for that profile's active blog corpus source folder and published blog output folder.
+- When `.local/context/<profile-id>/gtm/snapshot.md` exists, load its relevant
+  sections as the canonical company, product, positioning, messaging, and GTM
+  context before drafting. Author-scoped One Horizon documents still own the
+  selected person's voice and personal context. Refresh the generated snapshot
+  with `python3 scripts/import_gtm_snapshot.py --profile <profile-id>`; do not
+  hand-edit it.
 - Use `one-horizon-context-setup` to create missing One Horizon author context docs. Do not overwrite or refresh existing author context docs.
 - Do not create or read live runtime context from tracked repo files.
 - If a repo skill is missing from the current Codex session, run `./scripts/sync_repo_skills.sh` from the repo root, then start a new Codex thread or restart Codex. Current sessions do not reliably reload the skill list after syncing.

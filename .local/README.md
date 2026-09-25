@@ -7,6 +7,7 @@ Live author, company, and personal context now lives in author-scoped One Horizo
 Use this folder only for:
 
 - the machine-local Ink profile registry
+- generated GTM snapshots imported from a selected profile's source repo
 - machine-local blog path state
 - private selected-profile Content Program packs
 - private generic channel drafts, examples, assets, and performance notes
@@ -32,6 +33,12 @@ Runtime files:
 
 - `ink-profiles.local.json`
 - `blog-publishing.local.md`
+- `<profile-id>/gtm/snapshot.md` and `snapshot.json`
+
+Refresh an imported GTM snapshot with `python3 scripts/import_gtm_snapshot.py
+--profile <profile-id>`. Check it without changing files by adding `--check`.
+The snapshot is generated from the selected profile's `sourceRepo`; never edit
+it here.
 
 ## Ink Profile Contract
 

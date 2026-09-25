@@ -1,0 +1,59 @@
+id: reddit-community-growth
+name: Reddit Community Growth
+status: starter
+visibility: tracked
+summary: Public-safe Reddit growth program for subreddit posts, comment engagement, and consent-gated DMs.
+goals:
+  - community trust
+  - qualified conversations
+  - feedback
+  - product discovery
+  - safe launch support
+channels:
+  - reddit
+cadence:
+  type: recurring
+  recommendation: weekly_research_plus_selective_engagement
+  batch_size: 1
+audiences:
+  - founders
+  - indie makers
+  - product marketers
+  - developer advocates
+  - community builders
+  - software teams
+formats:
+  - id: subreddit-intelligence-brief
+    output: subreddit-research-and-risk-brief
+    route: reddit-research
+  - id: subreddit-post-pack
+    output: reddit-post-draft-pack-with-exact-repost-targets
+    route: reddit-draft
+  - id: comment-opportunity-pack
+    output: reddit-comment-opportunity-and-reply-pack
+    route: reddit-draft
+  - id: consent-gated-dm-pack
+    output: public-permission-reply-and-dm-draft
+    route: reddit-draft
+routes:
+  - id: reddit-research
+    uses: reddit-research
+    when: discover subreddits, inspect rules, analyze recent posts, map keyword and thread opportunities, and assess DM eligibility
+  - id: reddit-draft
+    uses: reddit-social-writer
+    when: draft subreddit-native posts, public comment replies, permission replies, and consent-gated DM drafts
+  - id: safety-review
+    uses: review-only
+    when: check promotional links, affiliation disclosure, review asks, Product Hunt asks, download CTAs, website CTAs, modmail needs, and DM opt-in
+kpis:
+  - accepted_posts
+  - removed_posts
+  - useful_replies
+  - qualified_conversations
+  - opt_in_dms
+  - link_clicks
+  - reports_or_warnings
+one_horizon:
+  parent: Ink - Programs
+  program_title: "[Ink Program] Reddit Community Growth"
+  run_title: "[Ink Program Run] Reddit Community Growth - <date>"

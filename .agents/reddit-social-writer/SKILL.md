@@ -11,7 +11,7 @@ Ground every Reddit draft in the subreddit first, then in the author's context a
 
 ## Intent Split
 
-- Use this skill to draft or revise Reddit posts and comment replies.
+- Use this skill to draft or revise Reddit posts, comment replies, public permission replies, and consent-gated DM drafts.
 - Use `../reddit-research/SKILL.md` for subreddit discovery, rules, and top-post analysis.
 - Use `../reddit-store-post/SKILL.md` for storage-only requests.
 - Use `../reddit-finalize-post/SKILL.md` when the draft is already close and needs the final review loop before optional storage.
@@ -23,10 +23,11 @@ Ground every Reddit draft in the subreddit first, then in the author's context a
 3. Read `../reddit-research/references/tool-contracts.md` if you need to call Reddit tools directly.
 4. Run `../reddit-research/SKILL.md` unless the user already supplied a stable subreddit brief with rules and angle constraints.
 5. Search the selected profile's `contentRoots.reddit` for 3-5 relevant examples when the local Reddit corpus exists.
-6. Draft against the matching playbook in `references/format-playbooks.md`.
-7. Run the review passes described in `references/review-passes.md`.
-8. Save unpublished drafts under the selected profile's Reddit draft root if the user wants them persisted.
-9. Use the dedicated finalize/store paths when the user wants approval or storage rather than fresh drafting.
+6. Read `references/promotion-guardrails.md` when the draft has a product, business, launch, review, download, website, waitlist, community, Product Hunt, or outreach goal.
+7. Draft against the matching playbook in `references/format-playbooks.md`.
+8. Run the review passes described in `references/review-passes.md`.
+9. Save unpublished drafts under the selected profile's Reddit draft root if the user wants them persisted.
+10. Use the dedicated finalize/store paths when the user wants approval or storage rather than fresh drafting.
 
 ## Working Agreement
 
@@ -39,8 +40,11 @@ Ground every Reddit draft in the subreddit first, then in the author's context a
 - If a One Horizon tool call is missing or fails, follow `../one-horizon-context-setup/references/mcp-readiness.md`. Do not search tracked repo files as a substitute for live context.
 - Reuse patterns, not sentences. Do not lift title shapes or body phrasing from top Reddit posts.
 - Treat subreddit rules and anti-promo norms as hard constraints, not suggestions.
+- For product or business goals, use the promotion ladder and safe campaign asks in `references/promotion-guardrails.md`.
 - Default to text-first discussion posts. Do not assume links, screenshots, or product mentions are welcome.
 - Do not draft until you have one target subreddit plus the rule and anti-promo constraints that apply there. If those are missing, run `../reddit-research/SKILL.md`.
+- Do not draft a consent-gated DM unless the user opted in, directly invited private follow-up, or the output is explicitly a manual draft that still requires a public permission reply first.
+- Never claim Ink sent, scheduled, automated, scraped, voted, or messaged on Reddit.
 - Ask only the smallest set of high-leverage questions. If the prompt, research, and One Horizon context are enough, do not ask.
 - Keep unpublished drafts separate from the published Reddit corpus at all times.
 - If the user asks to store, save, import, or log existing Reddit posts, route to `../reddit-store-post/SKILL.md`.
@@ -68,6 +72,8 @@ For comment replies:
 
 - `post`: Deliver one polished Reddit post for a specific subreddit. Include a title and body when the subreddit uses titled text posts.
 - `comment-reply`: Reply to the actual thread or comment first. Keep it conversational, useful, and non-promotional.
+- `public-permission-reply`: Publicly answer the user, then ask whether a private follow-up is welcome. Do not include a product pitch.
+- `consent-gated-dm`: Draft one short manual DM only after explicit opt-in or direct invitation. Disclose affiliation, include one useful next step, and do not include a follow-up sequence.
 
 ## Supporting Skills
 
@@ -115,6 +121,7 @@ For `comment-reply`, return the reply only unless the user asks for alternatives
 - If a One Horizon tool call fails, read `../one-horizon-context-setup/references/mcp-readiness.md` for recovery.
 - Read `references/review-passes.md` for pass order and responsibilities.
 - Read `references/format-playbooks.md` for format-specific drafting rules.
+- Read `references/promotion-guardrails.md` for product, business, launch, review, download, website, waitlist, community, Product Hunt, or outreach goals.
 - Read `../social-common/references/repetition-guard.md` when comparing a draft against recent corpus or subreddit patterns.
 - Read `../reddit-research/references/tool-contracts.md` if you need to call the Reddit tools directly.
 - Resolve the active Ink profile with `../one-horizon-context-setup/references/ink-profile-contract.md`, then resolve the author with One Horizon MCP tools and load relevant author-scoped context from the selected workspace using the naming and missing-doc contract in `../one-horizon-context-setup/references/context-doc-templates.md`.

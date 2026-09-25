@@ -43,13 +43,13 @@ Generic social:
 
 - `instagram`, `facebook`, `x`, `threads`, `bluesky`, `mastodon`, `pinterest`
 - family guide: `channels/social.md`
-- common formats: `social-post.md`, `carousel.md`
+- common formats: `social-post.md`, `carousel.md`, `social-dm-automation.md` when the request involves DMs or messaging automation
 
 Generic video and audio:
 
 - `youtube-long`, `youtube-shorts`, `instagram-reels`, `tiktok-video`, `tiktok`, `podcast`, `webinar`, `livestream`
 - family guide: `channels/video-audio.md`
-- common formats: `short-video.md`, `long-video-outline.md`, `podcast-episode.md`, `livestream-webinar.md`
+- common formats: `short-video.md`, `long-video-outline.md`, `podcast-episode.md`, `livestream-webinar.md`, `social-dm-automation.md` when short-form video drives comment or keyword DM flows
 - channel overrides: `youtube.md`, `tiktok.md`, `instagram.md`
 
 Owned and email:
@@ -95,6 +95,7 @@ Use these mappings when the user describes a format instead of naming a slug:
 - Newsletter, digest, or editorial send -> `newsletter` plus `formats/newsletter-issue.md`.
 - Onboarding, activation, retention, winback, or product-triggered email -> `lifecycle-email` plus `formats/lifecycle-email.md`.
 - Reel, TikTok, Shorts, vertical video, or hook video -> the matching video slug plus `formats/short-video.md`; for Reels also load `formats/instagram-reels.md`.
+- Social DM automation, comment-to-DM, DM keyword, Story reply automation, follower welcome DM, Manychat setup, TikTok Business Messaging, or automated link delivery -> `instagram`, `instagram-reels`, `tiktok`, or `tiktok-video` plus `formats/social-dm-automation.md`.
 - Community launch, discussion prompt, or Discord/Slack post -> community slug plus `formats/community-post.md`.
 - Q&A answer, forum answer, Hacker News post, or Quora answer -> community slug plus `formats/forum-qa-post.md`.
 - Ad creative, paid search, or paid social -> paid slug plus `formats/paid-ad.md`.

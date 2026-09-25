@@ -7,11 +7,11 @@ description: Research Reddit communities and winning discussion patterns using p
 
 ## Overview
 
-Find the right subreddit before drafting. Shortlist communities, inspect their rules and top posts, then distill the hooks, tones, and discussion patterns that actually work there.
+Find the right subreddit before drafting. Shortlist communities, inspect their rules and top posts, then distill the hooks, tones, comment opportunities, DM eligibility, and discussion patterns that actually work there.
 
 ## Intent Split
 
-- Use this skill for subreddit discovery, rule analysis, top-post analysis, and writing handoff briefs.
+- Use this skill for subreddit discovery, rule analysis, top-post analysis, keyword/thread opportunity maps, DM eligibility notes, and writing handoff briefs.
 - Do not use this skill to draft the Reddit post itself. Use `../reddit-social-writer/SKILL.md`.
 - Do not use this skill for storage-only requests. Use `../reddit-store-post/SKILL.md`.
 
@@ -21,7 +21,7 @@ Find the right subreddit before drafting. Shortlist communities, inspect their r
 2. Resolve the active Ink profile, then resolve the author and load only the relevant author-scoped One Horizon context docs from that profile workspace. Use `../one-horizon-context-setup/references/context-doc-templates.md` for the naming and missing-doc contract.
 3. Read `references/tool-contracts.md` for the exact Reddit tool argument shapes.
 4. Read `../linkedin-social-writer/references/mcp-tools.md` before using Ink's local research tools.
-5. Use the Reddit tools to shortlist subreddits, inspect rules, and analyze top posts from the past week.
+5. Use the Reddit tools to shortlist subreddits, inspect rules, analyze top posts from the past week, and map thread/comment opportunities when relevant.
 6. Return a compact handoff brief for `../reddit-social-writer/SKILL.md` when the next step is drafting.
 
 ## Working Agreement
@@ -34,6 +34,8 @@ Find the right subreddit before drafting. Shortlist communities, inspect their r
 - If a required author-scoped context doc is missing or unusable, use `../one-horizon-context-setup/SKILL.md` to create the missing doc through its confirmation flow before researching.
 - If a One Horizon tool call is missing or fails, follow `../one-horizon-context-setup/references/mcp-readiness.md`. Do not search tracked repo files as a substitute for live context.
 - Surface promotion risk explicitly. If a subreddit is likely to reject branded, link-heavy, or self-promotional posts, say so.
+- For product, business, launch, review, download, website, Product Hunt, or DM goals, apply `../reddit-social-writer/references/promotion-guardrails.md`.
+- Include link policy, promotional-post fit, comment fit, and DM eligibility when those affect the recommended motion.
 - Separate general subreddit fit from topic-specific post fit. A large subreddit can still be the wrong place for a given angle.
 - Produce a drafting handoff, not just raw research notes.
 - Use the exact tool schemas from `references/tool-contracts.md`. Do not improvise argument keys.
@@ -45,8 +47,11 @@ Unless the user asks differently, return:
 
 - `Recommended Subreddits`: 3 or fewer ranked by fit
 - `Rules And Risks`: notable rules, anti-promo risks, and tone constraints
+- `Account Eligibility`: known account age, karma, local karma, local comment karma, prior participation, and posting-frequency gates that affect posting or reposting
 - `Winning Patterns`: the recent post patterns that matter
+- `Keyword And Thread Opportunities`: searches, phrases, and thread types worth monitoring when relevant
 - `Angle Options`: 2 or 3 viable angles the author could post about
+- `DM Eligibility`: whether private follow-up is excluded, permission-gated, or only allowed after direct invitation
 - `Writer Handoff`: one recommended brief for `reddit-social-writer` using the required handoff fields
 - `Sources Used`: the One Horizon context docs and research tools used
 
@@ -54,6 +59,7 @@ Unless the user asks differently, return:
 
 - Read `references/workflow.md`.
 - Read `references/tool-contracts.md` before calling the Reddit tools.
+- Read `../reddit-social-writer/references/promotion-guardrails.md` for product, business, launch, review, download, website, Product Hunt, or DM goals.
 - If a One Horizon tool call fails, read `../one-horizon-context-setup/references/mcp-readiness.md` for recovery.
 - Resolve the active Ink profile with `../one-horizon-context-setup/references/ink-profile-contract.md`, then resolve the author with One Horizon MCP tools and load relevant author-scoped context from the selected workspace using the naming and missing-doc contract in `../one-horizon-context-setup/references/context-doc-templates.md`: `Profile`, `Current Work`, and `Market Context`.
 - Read `../linkedin-social-writer/references/mcp-tools.md` before using Ink's local research tools.

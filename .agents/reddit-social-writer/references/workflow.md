@@ -12,6 +12,7 @@ Capture:
 - what must not be said or linked
 - desired close, such as a question or debatable statement
 - hard constraints such as banned claims, brand mentions, or timing
+- whether the goal involves a product, business, Product Hunt launch, review, download, website visit, or DM
 
 ## 2. Ask only necessary questions
 
@@ -49,6 +50,7 @@ If a required One Horizon tool call is missing or fails, follow `../../one-horiz
   - candidate subreddits
   - winning recent post patterns
   - rule constraints
+  - account eligibility gates and warm-up requirements
   - anti-promo guardrails
   - the recommended close style
 
@@ -57,8 +59,11 @@ Do not proceed with drafting until you have:
 - one `target_subreddit`
 - one `recommended_angle`
 - the matching `rules_and_guardrails`
+- account eligibility status when the subreddit has known age, karma, local karma, local comment karma, prior participation, or posting-frequency gates
 
 If the request is a comment reply and includes a Reddit URL, use `reddit_post_thread` with the exact argument shape from `../../reddit-research/references/tool-contracts.md` before drafting.
+
+For product, business, launch, review, download, website, community, Product Hunt, or outreach goals, read `promotion-guardrails.md` before drafting and choose the lowest viable promotion ladder rung.
 
 ## 5. Retrieve examples
 
@@ -73,11 +78,20 @@ If the request is a comment reply and includes a Reddit URL, use `reddit_post_th
 - Stay close to the subreddit fit, not to any single source post.
 - Keep one central idea per draft.
 - Default to a useful, discussion-first close instead of a CTA.
+- For comment replies, answer the public thread first and mention products only when relevant, disclosed, and allowed.
+- For public permission replies, provide useful public help before asking whether DM is okay.
+- For consent-gated DMs, draft one manual message only after explicit opt-in or direct invitation. Do not create follow-up sequences.
 
 For posts, structure the result as:
 
 - `Title`
 - `Body`
+
+For consent-gated DM outputs, include:
+
+- opt-in evidence
+- manual DM draft
+- no-follow-up note
 
 ## 7. Run staged review passes
 

@@ -80,6 +80,24 @@ Each selected profile owns its own local paths:
 
 Image config files belong under ignored local paths such as `.secrets/<profile-id>/`. Do not share one image upload config between profiles unless the profiles intentionally publish to the same bucket/CDN. When multiple profiles exist, image MCP tools must resolve the selected Ink profile before searching, downloading, or uploading images.
 
+## Imported GTM Context
+
+When the selected profile's `sourceRepo` contains `packages/gtm`, refresh its
+versioned snapshot with:
+
+```bash
+python3 scripts/import_gtm_snapshot.py --profile <profile-id>
+```
+
+The generated files live under `.local/context/<profile-id>/gtm/` and remain
+ignored. Treat `snapshot.md` as canonical for company facts, product claims,
+positioning, brand guidance, objections, and audience messages. Do not
+hand-edit it. Run the command with `--check` when freshness matters.
+
+This snapshot does not replace author-scoped One Horizon documents. Those
+documents continue to own personal background, opinions, voice, and other
+author-specific context.
+
 Content Program packs under `.local/content-programs/<profile-id>/` are private by default. Tracked packs under `content-programs/` must be generic and safe for open-source users.
 
 Legacy behavior is allowed only when no profile config exists. In that case scripts and old docs may still use `content/linkedin`, `content/reddit`, `content/blog/drafts`, tracked `content-programs/`, `.local/context/blog-publishing.local.md`, `.secrets/image-provider.json`, and `.secrets/blog-image-s3.json`.

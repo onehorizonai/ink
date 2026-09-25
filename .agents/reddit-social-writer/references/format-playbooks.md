@@ -47,9 +47,64 @@ Check:
 - the reply makes sense in context
 - the tone matches the thread and subreddit
 - the reply does not pivot into a pitch
+- any product mention is relevant, disclosed, and allowed by the thread/subreddit
+- the reply is useful even if no one clicks a link
 
 Avoid:
 
 - repeating the original point back at length
 - turning the reply into a funnel step
 - sounding overproduced for a thread reply
+
+## Public Permission Reply
+
+Purpose:
+
+- answer publicly first and ask whether private follow-up is welcome
+- create a consent gate before any DM draft
+
+Build with:
+
+- a direct answer to the public question
+- a reason private follow-up may help, such as details, screenshots, account-specific context, or a longer resource
+- one low-pressure permission line
+
+Check:
+
+- the reply does not withhold the useful answer just to force a DM
+- the permission ask is optional and non-pushy
+- no private follow-up is implied unless the user opts in
+- the subreddit allows this kind of public reply
+
+Avoid:
+
+- "DM me" as the only useful answer
+- vague promises such as "I have the perfect thing"
+- repeated permission asks across many similar threads
+
+## Consent-Gated DM
+
+Purpose:
+
+- send one manual private note only after explicit opt-in or direct invitation
+
+Build with:
+
+- a clear reference to the public thread or the user's request
+- disclosure when the sender is affiliated with a product, business, launch, or community
+- one useful answer, resource, or next step
+- an easy out that requires no reply
+
+Check:
+
+- opt-in or direct invitation exists
+- the message is not automated, bulk, or substantially similar to many other DMs
+- the message contains no pressure, review manipulation, upvote ask, or hidden affiliation
+- the message does not include a follow-up sequence
+
+Avoid:
+
+- cold unsolicited promotional DMs
+- repeated follow-ups after silence
+- asking for Product Hunt upvotes or positive reviews
+- sending links before explaining relevance
