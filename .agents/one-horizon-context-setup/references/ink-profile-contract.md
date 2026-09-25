@@ -23,7 +23,8 @@ Required shape:
       "authorName": "<author-name>",
       "authorUserId": "",
       "website": "https://example.com",
-      "sourceRepo": "/absolute/path/to/one-horizon-source",
+      "sourceRepo": "/absolute/path/to/product-source",
+      "gtmRepo": "/absolute/path/to/gtm-source-at-the-pinned-release",
       "contentRoots": {
         "linkedin": "content/linkedin",
         "reddit": "content/reddit",
@@ -82,8 +83,8 @@ Image config files belong under ignored local paths such as `.secrets/<profile-i
 
 ## Imported GTM Context
 
-When the selected profile's `sourceRepo` contains `packages/gtm`, refresh its
-versioned snapshot with:
+When the selected profile has `gtmRepo`, refresh its pinned, verified snapshot
+with:
 
 ```bash
 python3 scripts/import_gtm_snapshot.py --profile <profile-id>

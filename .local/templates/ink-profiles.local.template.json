@@ -9,6 +9,7 @@
       "authorUserId": "",
       "website": "https://example.com",
       "sourceRepo": "/absolute/path/to/one-horizon-source",
+      "gtmRepo": "/absolute/path/to/one-horizon-gtm-at-the-pinned-release",
       "contentRoots": {
         "linkedin": "content/linkedin",
         "reddit": "content/reddit",
@@ -30,6 +31,7 @@
       "authorUserId": "",
       "website": "https://example.com",
       "sourceRepo": "/absolute/path/to/fit-horizon-source",
+      "gtmRepo": "",
       "contentRoots": {
         "linkedin": ".local/content/fit-horizon/linkedin",
         "reddit": ".local/content/fit-horizon/reddit",
