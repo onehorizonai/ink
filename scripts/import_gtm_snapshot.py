@@ -5,6 +5,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -72,12 +74,37 @@ def export(source: Path, output: Path) -> None:
         raise SystemExit("Generated Ink GTM snapshot does not match the pinned release.")
 
 
+def refresh(source: Path, target: Path) -> None:
+    target.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="ink-gtm-refresh-", dir=target.parent) as temp:
+        staged = Path(temp) / "snapshot"
+        export(source, staged)
+        backup = Path(temp) / "previous"
+        had_target = target.exists()
+        if had_target:
+            os.replace(target, backup)
+        try:
+            os.replace(staged, target)
+        except BaseException:
+            if had_target:
+                os.replace(backup, target)
+            raise
+        if backup.exists():
+            shutil.rmtree(backup)
+
+
+def comparable_snapshot(directory: Path) -> tuple[bytes, dict]:
+    metadata = json.loads((directory / "snapshot.json").read_text(encoding="utf-8"))
+    metadata.pop("exportedAt", None)
+    return (directory / "snapshot.md").read_bytes(), metadata
+
+
 def main() -> int:
     args = parse_args()
     source = profile_source(args.profile, args.source_repo)
     target = ROOT / ".local/context" / args.profile / "gtm"
     if not args.check:
-        export(source, target)
+        refresh(source, target)
         print(f"Ink profile: {args.profile}")
         return 0
 
@@ -87,8 +114,8 @@ def main() -> int:
     with tempfile.TemporaryDirectory(prefix="ink-gtm-check-") as temp:
         fresh = Path(temp)
         export(source, fresh)
-        current = (target / "snapshot.md").read_bytes()
-        expected = (fresh / "snapshot.md").read_bytes()
+        current = comparable_snapshot(target)
+        expected = comparable_snapshot(fresh)
     if current != expected:
         print(f"STALE: refresh GTM for Ink profile {args.profile}", file=sys.stderr)
         return 1
