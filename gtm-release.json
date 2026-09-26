@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "repository": "onehorizonai/gtm",
+  "version": "1.1.0",
+  "sourceCommit": "444abaa1a468c7b54de778e045c972be414529c4",
+  "releaseUrl": "https://github.com/onehorizonai/gtm/releases/tag/v1.1.0",
+  "manifestSha256": "2dee99673a80cc4fbad86a9599796f472e7f324885ddd8c879a39fbeed41504d",
+  "snapshots": {"ink": "0ffb4a9631207a3cedc04ac85d5e81ac8b0702bbd9dec99f8ba47e6f2d77dc99"}
+}

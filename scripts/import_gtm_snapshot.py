@@ -13,6 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PROFILES = ROOT / ".local/context/ink-profiles.local.json"
+LOCK = ROOT / "gtm-release.json"
 
 
 def parse_args() -> argparse.Namespace:
@@ -21,7 +22,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--source-repo",
         type=Path,
-        help="Override the profile's sourceRepo for this run",
+        help="Override the profile's gtmRepo for this run",
     )
     parser.add_argument(
         "--check",
@@ -41,23 +42,34 @@ def profile_source(profile: str, override: Path | None) -> Path:
     config = registry.get("profiles", {}).get(profile)
     if not isinstance(config, dict):
         raise SystemExit(f"Unknown Ink profile: {profile}")
-    value = config.get("sourceRepo")
+    value = config.get("gtmRepo")
     if not isinstance(value, str) or not value.strip():
         raise SystemExit(
-            f"Profile {profile!r} has no sourceRepo. Set it locally or pass --source-repo."
+            f"Profile {profile!r} has no gtmRepo. Set it locally or pass --source-repo."
         )
     return Path(value).expanduser().resolve()
 
 
 def export(source: Path, output: Path) -> None:
-    script = source / "packages/gtm/scripts/export_snapshot.py"
+    lock = json.loads(LOCK.read_text(encoding="utf-8"))
+    script = source / "scripts/export_snapshot.py"
     if not script.is_file():
         raise SystemExit(f"GTM exporter not found: {script}")
+    revision = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=source, check=True, capture_output=True, text=True
+    ).stdout.strip()
+    if revision != lock["sourceCommit"]:
+        raise SystemExit(
+            f"Pinned GTM revision is {lock['sourceCommit']}; source repo is {revision}."
+        )
     subprocess.run(
         [sys.executable, str(script), "--audience", "ink", "--output", str(output)],
         cwd=source,
         check=True,
     )
+    metadata = json.loads((output / "snapshot.json").read_text(encoding="utf-8"))
+    if metadata.get("release") != lock["version"] or metadata.get("sha256") != lock["snapshots"]["ink"]:
+        raise SystemExit("Generated Ink GTM snapshot does not match the pinned release.")
 
 
 def main() -> int:
