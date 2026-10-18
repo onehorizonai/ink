@@ -138,6 +138,7 @@ Good first prompts:
 - `Outline a blog post about...`
 - `Draft an Instagram Reel script about...`
 - `Create a newsletter issue about...`
+- `Draft an e27 contributor article about...`
 - `Create missing context docs from my website and LinkedIn`
 - `Create a Content Program for a weekly meme carousel`
 
@@ -212,6 +213,16 @@ flowchart TD
     L --> J
     J --> K["Move approved ideas to Planned"]
 ```
+
+## Write for e27
+
+Use `channel-content-writer` with destination `e27` for contributor thought leadership, pitches, and submission packages. Ink loads the [e27 editorial guide](.agents/channel-content-writer/references/channels/e27.md), article format, and selected author's One Horizon publication brief. Public platform guidance stays in the repo; personal context stays in the selected workspace.
+
+```text
+As the author in my One Horizon profile, draft an e27 contributor article about the hidden review cost of AI-generated software. Use my e27 brief and check recent coverage before choosing the argument.
+```
+
+The author reviews and submits through their own e27 account. Article preparation does not imply submission or acceptance.
 
 ## Build a Content Program
 

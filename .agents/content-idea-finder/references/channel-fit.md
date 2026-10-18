@@ -1,5 +1,9 @@
 # Channel Fit
 
+## Explicit Publication Destinations
+
+When the user names e27, use canonical channel `e27` and load `../../channel-content-writer/references/channels/e27.md`, including its selected-author publication brief. Develop an argument for that readership and check recent coverage. Do not classify an e27 article as the owned `blog` channel just because the user calls it a blog or guest post.
+
 ## Choose LinkedIn when
 
 - the idea reacts to something timely or visible now

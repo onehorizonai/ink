@@ -87,10 +87,16 @@ Events and sales:
 - common event formats: `event-hosting.md`, `event-attendance.md`, `event-promotion-follow-up.md`, `event-talk-workshop.md`, `conference-booth.md`, `hackathon.md`, `meetup-roundtable.md`, `livestream-webinar.md`
 - common sales formats: `sales-deck.md`, `one-pager.md`, `case-study.md`
 
+Contributor publications:
+
+- `e27` -> `channels/editorial.md`, `channels/e27.md`, and `formats/thought-leadership-article.md`
+- Load the selected author's publication brief as directed by the destination guide. Personal positioning and live context stay outside tracked references.
+
 ## Intent Aliases
 
 Use these mappings when the user describes a format instead of naming a slug:
 
+- e27 contributor article, e27 thought leadership, e27 guest post, or blog for e27 -> `e27`. Destination takes precedence over the word “blog”; do not use the owned-blog publishing workflow.
 - Cold email, cold outreach, outbound sales email, or partner outreach -> `email-sequence` plus `formats/email-cold-outreach.md`.
 - Newsletter, digest, or editorial send -> `newsletter` plus `formats/newsletter-issue.md`.
 - Onboarding, activation, retention, winback, or product-triggered email -> `lifecycle-email` plus `formats/lifecycle-email.md`.

@@ -1,6 +1,6 @@
 ---
 name: channel-content-writer
-description: Draft or prepare channel-native marketing outputs for Ink channels that do not yet have a dedicated writer skill, including Instagram, TikTok, YouTube, X/Twitter, Facebook, newsletters, email sequences, Discord, forums, communities, podcasts, webinars, ads, SMS, push, in-app messages, app-store listings, marketplace listings, events, sales collateral, and program-run handoffs. Route to specialized Ink skills when available.
+description: Draft or prepare channel-native marketing outputs for Ink channels that do not yet have a dedicated writer skill, including e27 contributor articles and pitches, Instagram, TikTok, YouTube, X/Twitter, Facebook, newsletters, email sequences, Discord, forums, communities, podcasts, webinars, ads, SMS, push, in-app messages, app-store listings, marketplace listings, events, sales collateral, and program-run handoffs. Route to specialized Ink skills when available.
 ---
 
 # Channel Content Writer
@@ -15,14 +15,14 @@ Use this for one-off channel content and Content Program runs. It can produce dr
 
 1. Resolve the active Ink profile with `../one-horizon-context-setup/references/ink-profile-contract.md`.
 2. Read `../content-program-builder/references/channel-taxonomy.md`.
-3. If the requested channel has a dedicated skill, route there:
+3. Resolve an explicit destination before the format: e27 contributor articles stay here as `e27`, including requests phrased as blogs or guest posts. Otherwise, if the requested channel has a dedicated skill, route there:
    - LinkedIn: `../linkedin-social-writer/SKILL.md`
    - Reddit: `../reddit-research/SKILL.md` then `../reddit-social-writer/SKILL.md`
    - Blog: `../blog-post-writer/SKILL.md`
    - Website/page briefs: `../page-brief-builder/SKILL.md`
    - Final page copy: `../copywriting/SKILL.md`
 4. Read `references/channel-format-index.md` and resolve the request through `references/channel-format-registry.csv`.
-5. For broad channels, load only the relevant One Horizon context and any selected Content Program pack.
+5. For broad channels, load only the relevant One Horizon context and any selected Content Program pack. For e27, resolve the selected-author publication brief as directed by `references/channels/e27.md` before drafting.
 6. Produce a channel-native output or handoff bundle. Do not publish, schedule, send email, generate video/music, or upload externally unless a real tool is available and explicitly used.
 7. Store private drafts or examples only when requested, under the selected profile's channel workspace.
 
@@ -35,6 +35,7 @@ Use this for one-off channel content and Content Program runs. It can produce dr
 - Paid and partner: load `references/channels/paid-partner.md`, then the registry's channel and format guides.
 - Direct and product: load `references/channels/direct-product.md`, then the registry's channel and format guides.
 - Events and sales: load `references/channels/events-sales.md`, then the registry's channel and format guides.
+- Contributor publications: load `references/channels/editorial.md`, then the destination guide and `references/formats/thought-leadership-article.md`.
 - Dedicated adapters: route to the dedicated skill and its playbooks from the registry.
 
 ## Guardrails

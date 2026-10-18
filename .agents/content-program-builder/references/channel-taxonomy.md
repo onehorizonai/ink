@@ -50,6 +50,12 @@ For email work, use `newsletter`, `email-sequence`, or `lifecycle-email` as the 
 - `product-hunt`
 - `quora`
 
+## Contributor Publications
+
+- `e27`
+
+Use `e27` for e27 contributor articles, pitches, and submission packages, including requests phrased as guest posts or blogs for e27. Route through `channel-content-writer`; the owned `blog` adapter has a different publishing contract.
+
 ## Paid And Partner
 
 - `paid-social`
