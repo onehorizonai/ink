@@ -806,3 +806,18 @@ repository.
 Non-One Horizon profiles must set their own `gtmReleaseLock`. A lock can specify
 an exporter path within its source repo and the snapshot hash field. This avoids
 using One Horizon's release pin or exporter assumptions for another brand.
+
+`render_batch.mjs <profile> <batch.json>` routes each unique slide through the
+profile's `socialRenderer` adapter and hashes the actual PNG bytes. Changed bytes
+invalidate the previous media URL and approval hash. Configure `gtm-cli` for an
+existing brand renderer or `html` for a brand-owned template, font and explicit
+Playwright module. No implicit brand or workspace fallback is allowed.
+
+`knowledge_mcp.py` reads the selected profile's private `knowledgeMcpConfig` and
+supports only `search`/`retrieve` tool calls using MCP 2026-07-28 discovery and
+per-request metadata. Follow the exact IDs, dates and warnings in each result.
+
+`write_release_log.py` writes only reviewed release metadata to the selected
+profile's bucket. This JSON writer is separate from the images-only skill. All
+writers must run on the same Mac through its exclusive local lock: the configured
+Supabase S3 endpoint was tested and does not honor conditional PUT headers.
