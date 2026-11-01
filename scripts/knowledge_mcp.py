@@ -4,10 +4,12 @@ import argparse
 import json
 from pathlib import Path
 import urllib.request
+from urllib.parse import urlparse
 
 class KnowledgeClient:
     def __init__(self, config: Path):
         self.config = json.loads(config.read_text())
+        if urlparse(self.config['url']).scheme != 'https': raise ValueError('Knowledge credentials require HTTPS')
         self.session = None
         self.counter = 0
     def request(self, method, params):
@@ -35,8 +37,12 @@ class KnowledgeClient:
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config',type=Path,required=True)
-    parser.add_argument('--list',action='store_true')
-    parser.add_argument('--query')
+    action=parser.add_mutually_exclusive_group(required=True)
+    action.add_argument('--list',action='store_true')
+    action.add_argument('--query')
+    action.add_argument('--retrieve',help='An exact ID returned by search')
+    parser.add_argument('--selection',type=Path,help='Search selection JSON, including date and purpose')
     args=parser.parse_args()
     client=KnowledgeClient(args.config); client.initialize()
-    print(json.dumps(client.request('tools/list',{}) if args.list else client.call('search',{'query':args.query,'limit':5}),ensure_ascii=False))
+    result = client.request('tools/list',{}) if args.list else client.call('retrieve',{'id':args.retrieve}) if args.retrieve else client.call('search',{'query':args.query,'limit':5,**({'selection':json.loads(args.selection.read_text())} if args.selection else {})})
+    print(json.dumps(result,ensure_ascii=False))
