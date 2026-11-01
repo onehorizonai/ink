@@ -1,9 +1,10 @@
 import sys
+import json
 import unittest
 from datetime import datetime, timezone
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from social_batch import digest, scheduling_intents, validate
+from social_batch import digest, scheduling_intents, validate, metricool_payload
 
 class SocialBatchTests(unittest.TestCase):
     def batch(self):
@@ -18,3 +19,12 @@ class SocialBatchTests(unittest.TestCase):
     def test_factbase_linkedin_is_disabled(self):
         batch=self.batch(); batch['profile']='factbase'; batch['posts'][0]['channel']='linkedin'
         with self.assertRaises(ValueError): validate(batch)
+
+    def test_metricool_payload_preserves_order_alt_and_native_caption(self):
+        batch=self.batch(); approval=dict(batchHash=digest(batch),decision='approved',reviewerId='reviewer')
+        intent=scheduling_intents(batch,approval,{},datetime.now(timezone.utc),'reviewer')[0]
+        payload=metricool_payload(intent); info=json.loads(payload['info'])
+        self.assertEqual(info['text'],batch['posts'][0]['caption'])
+        self.assertEqual(info['mediaAltText'],['Useful text'])
+        self.assertEqual(info['publicationDate']['timezone'],'Europe/Amsterdam')
+        self.assertFalse(info['draft'])

@@ -73,6 +73,22 @@ def scheduling_intents(batch: dict, approval: dict, ledger: dict, now: datetime,
     return result
 
 
+def metricool_payload(intent: dict) -> dict:
+    """Build official ScheduledPost JSON for the connected MCP, without a write."""
+    post = intent['post']
+    stamp = datetime.fromisoformat(post['scheduledAt']).astimezone(ZoneInfo('Europe/Amsterdam'))
+    info = {
+        'text': post['caption'],
+        'publicationDate': {'dateTime': stamp.strftime('%Y-%m-%dT%H:%M:%S'), 'timezone': 'Europe/Amsterdam'},
+        'providers': [{'network': post['channel']}],
+        'media': [slide['url'] for slide in post['slides']],
+        'mediaAltText': [slide['alt'] for slide in post['slides']],
+        'autoPublish': True, 'saveExternalMediaFiles': True, 'draft': False,
+    }
+    if post['channel'] == 'instagram': info['instagramData'] = {'autoPublish': True, 'type': 'POST'}
+    return {'blogId': str(intent['brandId']), 'date': post['scheduledAt'], 'info': json.dumps(info, ensure_ascii=False)}
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('batch', type=Path)
