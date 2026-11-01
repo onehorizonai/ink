@@ -16,6 +16,24 @@ SPEC.loader.exec_module(MODULE)
 
 
 class RefreshSnapshotTests(unittest.TestCase):
+    def test_other_brands_cannot_inherit_one_horizon_pin(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            registry = Path(temp) / "profiles.json"
+            registry.write_text(json.dumps({"profiles": {"fit-horizon": {}}}))
+            with patch.object(MODULE, "PROFILES", registry):
+                with self.assertRaisesRegex(SystemExit, "own gtmReleaseLock"):
+                    MODULE.profile_lock("fit-horizon")
+
+    def test_profile_uses_explicit_release_lock(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            registry = Path(temp) / "profiles.json"
+            lock = Path(temp) / "fit-release.json"
+            registry.write_text(json.dumps({"profiles": {
+                "fit-horizon": {"gtmReleaseLock": str(lock)}
+            }}))
+            with patch.object(MODULE, "PROFILES", registry):
+                self.assertEqual(MODULE.profile_lock("fit-horizon"), lock.resolve())
+
     def test_comparison_ignores_export_timestamp(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             first = Path(temp) / "first"

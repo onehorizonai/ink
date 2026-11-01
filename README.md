@@ -785,3 +785,24 @@ The repo also includes:
 - a pull request template for describing the change, review path, and checks
 - a bug report template for setup, workflow, MCP, and skill issues
 - a feature request template for new workflows and improvements
+
+### Versioned social review bundles
+
+`scripts/social_batch.py <batch.json>` validates an explicit profile/workspace
+bundle and prints its canonical approval hash. `scheduling_intents` requires the
+expected reviewer ID, exact approved hash, future timezone-aware slots, sources,
+alt text and public media URLs. Persist each idempotency key before a provider
+write; an uncertain result must be reconciled, never blindly retried. The helper
+produces intents only. Real scheduling and read-back use the connected Metricool
+MCP, with channel/brand IDs verified from the live account.
+
+`scripts/render_social.mjs` renders a brand-owned HTML template and JSON payload
+with explicit Playwright module and font paths. It escapes copy, loads the brand
+font and rejects safe-area overflow. Fit Horizon keeps its existing GTM renderer;
+this renderer does not replace its store asset workflow. Brand templates, private
+programs, drafts, credentials and performance data do not belong in Ink's public
+repository.
+
+Non-One Horizon profiles must set their own `gtmReleaseLock`. A lock can specify
+an exporter path within its source repo and the snapshot hash field. This avoids
+using One Horizon's release pin or exporter assumptions for another brand.
