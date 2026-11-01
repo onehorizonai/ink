@@ -22,9 +22,10 @@ AMSTERDAM = ZoneInfo('Europe/Amsterdam')
 def validate_records(records, now):
     seen = set()
     for record in records:
-        if set(record) - {'slug','date','hash','publishedAt','sourceReviewedAt'}:
+        if set(record) - {'slug','date','modified','hash','publishedAt','sourceReviewedAt'}:
             raise ValueError('Release records cannot contain article text or extra metadata')
-        if record['date'] > now.astimezone(AMSTERDAM).date().isoformat():
+        if record.get('modified',record['date']) < record['date']: raise ValueError('Modification predates original publication')
+        if record.get('modified',record['date']) > now.astimezone(AMSTERDAM).date().isoformat():
             raise ValueError('Future records cannot enter the public log')
         if len(record['hash']) != 64 or any(c not in '0123456789abcdef' for c in record['hash']):
             raise ValueError('A reviewed SHA-256 content hash is required')
@@ -38,7 +39,7 @@ def validate_records(records, now):
                 raise ValueError('Explicit timestamp offsets are required')
             if not reviewed <= published <= now:
                 raise ValueError('Invalid review/publication chronology')
-            if any(t.astimezone(AMSTERDAM).date().isoformat() != record['date'] for t in [reviewed,published]):
+            if any(t.astimezone(AMSTERDAM).date().isoformat() != record.get('modified',record['date']) for t in [reviewed,published]):
                 raise ValueError('Source review and actual publication must be on the stated day')
 
 
