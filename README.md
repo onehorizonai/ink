@@ -785,3 +785,58 @@ The repo also includes:
 - a pull request template for describing the change, review path, and checks
 - a bug report template for setup, workflow, MCP, and skill issues
 - a feature request template for new workflows and improvements
+
+### Versioned social review bundles
+
+`scripts/social_batch.py <batch.json>` validates an explicit profile/workspace
+bundle and prints its canonical approval hash. `scheduling_intents` requires the
+expected reviewer ID, exact approved hash, future timezone-aware slots, sources,
+alt text and public media URLs. Persist each idempotency key before a provider
+write; an uncertain result must be reconciled, never blindly retried. The helper
+produces intents only. Real scheduling and read-back use the connected Metricool
+MCP, with channel/brand IDs verified from the live account.
+
+`scripts/render_social.mjs` renders a brand-owned HTML template and JSON payload
+with explicit Playwright module and font paths. It escapes copy, loads the brand
+font and rejects safe-area overflow. Brand contracts can require an explicit
+allowed layout and minimum content font size; visible content descendants are
+checked too, so a large container cannot hide undersized or overflowing copy. Fit Horizon keeps its existing GTM renderer;
+this renderer does not replace its store asset workflow. Brand templates, private
+programs, drafts, credentials and performance data do not belong in Ink's public
+repository.
+
+Non-One Horizon profiles must set their own `gtmReleaseLock`. A lock can specify
+an exporter path within its source repo and the snapshot hash field. This avoids
+using One Horizon's release pin or exporter assumptions for another brand.
+
+`render_batch.mjs <profile> <batch.json>` routes each unique slide through the
+profile's `socialRenderer` adapter and hashes the actual PNG bytes. Changed bytes
+invalidate the previous media URL and approval hash. Configure `gtm-cli` for an
+existing brand renderer or `html` for a brand-owned template, font and explicit
+Playwright module. No implicit brand or workspace fallback is allowed.
+
+`knowledge_mcp.py` reads the selected profile's private `knowledgeMcpConfig` and
+supports only `search`/`retrieve` tool calls using MCP 2026-07-28 discovery and
+per-request metadata. Follow the exact IDs, dates and warnings in each result.
+
+`write_release_log.py` writes only reviewed release metadata to the selected
+profile's bucket. This JSON writer is separate from the images-only skill. All
+writers must run on the same Mac through its exclusive local lock: the configured
+Supabase S3 endpoint was tested and does not honor conditional PUT headers.
+
+Brand HTML templates now carry an adjacent `template-contract.json` and asset
+manifest. The renderer embeds approved logo/icon files, safely injects structured
+JSON, waits for fonts/images/paint and rejects template script errors, overflow
+or repeated footer domains. Each template declares its profile; batch rendering
+rejects a different brand's template. Visual data stays structured and editable,
+while layout decisions remain in the owning brand repository.
+
+Social batches specify primary channel plus explicit `channels`: Instagram always
+uses `["instagram", "facebook"]` in one scheduled item. LinkedIn uses its own
+caption and all reviewed teaching slides; `documentTitle` is required for the
+PDF carousel conversion. Single-image payloads must have an empty `slideLabel`.
+`metricool_update_payload` preserves the full current post and selected network
+settings/tags while removing unselected network defaults rejected by Metricool.
+Always reconcile provider UUID/ID and read back every amended post; do not turn
+an uncertain update into a new post. Brand header-box contracts reject carousel
+position drift independently of normal font-size and overflow checks.

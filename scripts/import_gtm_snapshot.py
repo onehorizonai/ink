@@ -16,6 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PROFILES = ROOT / ".local/context/ink-profiles.local.json"
 LOCK = ROOT / "gtm-release.json"
+PROFILE = "one-horizon"
 
 
 def parse_args() -> argparse.Namespace:
@@ -52,9 +53,30 @@ def profile_source(profile: str, override: Path | None) -> Path:
     return Path(value).expanduser().resolve()
 
 
+def profile_lock(profile: str) -> Path:
+    """Never apply One Horizon's release pin to another brand."""
+    registry = json.loads(PROFILES.read_text(encoding="utf-8"))
+    config = registry.get("profiles", {}).get(profile)
+    if not isinstance(config, dict):
+        raise SystemExit(f"Unknown Ink profile: {profile}")
+    value = config.get("gtmReleaseLock")
+    if isinstance(value, str) and value.strip():
+        path = Path(value).expanduser()
+        return path.resolve() if path.is_absolute() else (ROOT / path).resolve()
+    if profile == "one-horizon":
+        return ROOT / "gtm-release.json"
+    raise SystemExit(
+        f"Profile {profile!r} needs its own gtmReleaseLock; refusing a cross-brand export."
+    )
+
+
 def export(source: Path, output: Path) -> None:
     lock = json.loads(LOCK.read_text(encoding="utf-8"))
-    script = source / "scripts/export_snapshot.py"
+    if PROFILE != "one-horizon" and lock.get("profile") != PROFILE:
+        raise SystemExit("Release lock belongs to a different brand")
+    script = (source / lock.get("exporter", "scripts/export_snapshot.py")).resolve()
+    if not script.is_relative_to(source.resolve()):
+        raise SystemExit("Exporter must stay inside the source repository")
     if not script.is_file():
         raise SystemExit(f"GTM exporter not found: {script}")
     revision = subprocess.run(
@@ -69,8 +91,12 @@ def export(source: Path, output: Path) -> None:
         cwd=source,
         check=True,
     )
+    if lock.get("snapshotHeading"):
+        heading = (output / "snapshot.md").read_text(encoding="utf-8").splitlines()[0]
+        if heading != lock["snapshotHeading"]:
+            raise SystemExit("Exported snapshot belongs to a different brand")
     metadata = json.loads((output / "snapshot.json").read_text(encoding="utf-8"))
-    if metadata.get("release") != lock["version"] or metadata.get("sha256") != lock["snapshots"]["ink"]:
+    if metadata.get("release") != lock["version"] or metadata.get(lock.get("hashField", "sha256")) != lock["snapshots"]["ink"]:
         raise SystemExit("Generated Ink GTM snapshot does not match the pinned release.")
 
 
@@ -100,7 +126,10 @@ def comparable_snapshot(directory: Path) -> tuple[bytes, dict]:
 
 
 def main() -> int:
+    global LOCK, PROFILE
     args = parse_args()
+    PROFILE = args.profile
+    LOCK = profile_lock(args.profile)
     source = profile_source(args.profile, args.source_repo)
     target = ROOT / ".local/context" / args.profile / "gtm"
     if not args.check:
