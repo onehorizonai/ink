@@ -42,6 +42,14 @@ try {
     const style=getComputedStyle(el); if(style.display==='none' || !el.getClientRects().length) return false;
     const r=el.getBoundingClientRect(); return Number.parseFloat(style.fontSize)<minSize || r.bottom>1150 || r.right>1016 || r.left<50 || el.scrollWidth>el.clientWidth+1
   }).map(el=>el.textContent), contract.minimumContentFontSize || 0)
+  const headerErrors = await page.evaluate(boxes => {
+    const selectors={eyebrow:'.intro .eyebrow',headline:'.intro h1',support:'.intro .support'};
+    return Object.entries(boxes||{}).filter(([key,expected])=>{
+      const box=document.querySelector(selectors[key]).getBoundingClientRect();
+      return [box.x,box.y,box.width,box.height].some((value,i)=>Math.abs(value-expected[i])>.5);
+    }).map(([key])=>'Carousel header anchor changed: '+key);
+  },contract.headerBoxes)
+  errors.push(...headerErrors)
   errors.push(...contentErrors)
   if(errors.length) throw new Error(`Text overflows safe area: ${JSON.stringify(errors)}`)
   await mkdir(path.dirname(outputPath),{recursive:true})

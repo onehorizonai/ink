@@ -4,6 +4,7 @@ Provider writes belong to the connected Metricool MCP. This helper never posts.
 """
 from __future__ import annotations
 import argparse
+import copy
 import hashlib
 import json
 from datetime import datetime, timezone
@@ -30,15 +31,26 @@ def validate(batch: dict) -> None:
             raise ValueError('Unsupported channel')
         if post['channel'] == 'linkedin' and batch['profile'] == 'factbase':
             raise ValueError('FactBase LinkedIn is disabled')
+        expected_channels = ['instagram', 'facebook'] if post['channel'] == 'instagram' else ['linkedin']
+        if post.get('channels') != expected_channels:
+            raise ValueError('Instagram must also publish to Facebook; LinkedIn stays separate')
+        if post['channel'] == 'linkedin' and len(post['slides']) > 1 and not post.get('documentTitle', '').strip():
+            raise ValueError('LinkedIn carousel requires a document title')
         limit = 2200 if post['channel'] == 'instagram' else 3000
         if not post['caption'].strip() or len(post['caption']) > limit:
             raise ValueError('Invalid caption length')
         if not 1 <= len(post['slides']) <= 10:
             raise ValueError('Expected one to ten images')
-        for slide in post['slides']:
+        for slide_index, slide in enumerate(post['slides']):
             image = Path(slide.get('image', ''))
             if slide.get('imageHash') and image.is_file() and hashlib.sha256(image.read_bytes()).hexdigest() != slide['imageHash']:
                 raise ValueError('Rendered image changed after review')
+            payload_path = Path(slide.get('payload', ''))
+            if payload_path.is_file():
+                payload = json.loads(payload_path.read_text())
+                expected_label = f"{slide_index + 1} / {len(post['slides'])}" if len(post['slides']) > 1 else ''
+                if payload.get('slideLabel', '') != expected_label:
+                    raise ValueError('Pagination must match the actual media count')
             if not slide.get('alt', '').strip() or not slide.get('headline', '').strip():
                 raise ValueError('Each slide needs a headline and alt text')
         if not post.get('sources'):
@@ -80,13 +92,35 @@ def metricool_payload(intent: dict) -> dict:
     info = {
         'text': post['caption'],
         'publicationDate': {'dateTime': stamp.strftime('%Y-%m-%dT%H:%M:%S'), 'timezone': 'Europe/Amsterdam'},
-        'providers': [{'network': post['channel']}],
+        'providers': [{'network': channel} for channel in post['channels']],
         'media': [slide['url'] for slide in post['slides']],
         'mediaAltText': [slide['alt'] for slide in post['slides']],
         'autoPublish': True, 'saveExternalMediaFiles': True, 'draft': False,
     }
-    if post['channel'] == 'instagram': info['instagramData'] = {'autoPublish': True, 'type': 'POST'}
+    if post['channel'] == 'instagram':
+        info['instagramData'] = {'autoPublish': True, 'type': 'POST'}
+        info['facebookData'] = {'type': 'POST'}
+    if post['channel'] == 'linkedin':
+        carousel = len(post['slides']) > 1
+        info['linkedinData'] = {'type': 'POST', 'publishImagesAsPDF': carousel, 'previewIncluded': False}
+        if carousel: info['linkedinData']['documentTitle'] = post['documentTitle']
     return {'blogId': str(intent['brandId']), 'date': post['scheduledAt'], 'info': json.dumps(info, ensure_ascii=False)}
+
+
+def metricool_update_payload(brand_id: str, current: dict, post: dict) -> dict:
+    """Preserve current post fields while applying an explicitly approved replacement."""
+    expected = json.loads(metricool_payload({'brandId': brand_id, 'post': post})['info'])
+    info = copy.deepcopy(current)
+    info.update(text=expected['text'], media=expected['media'], mediaAltText=expected['mediaAltText'], saveExternalMediaFiles=True)
+    providers = {provider['network']: provider for provider in current['providers']}
+    info['providers'] = [providers.get(network, {'network': network}) for network in post['channels']]
+    network_fields = {'twitterData':'twitter', 'facebookData':'facebook', 'instagramData':'instagram', 'linkedinData':'linkedin', 'pinterestData':'pinterest', 'youtubeData':'youtube', 'tiktokData':'tiktok', 'threadsData':'threads', 'blueskyData':'bluesky', 'twitchData':'twitch', 'gmbData':'gmb'}
+    for field, network in network_fields.items():
+        if network not in post['channels']:
+            info.pop(field, None)  # The provider rejects unselected network defaults from read-back.
+        elif field in expected:
+            info[field] = dict(info.get(field) or {}, **expected[field])
+    return {'blogId':str(brand_id), 'id':str(current['id']), 'uuid':current['uuid'], 'info':json.dumps(info, ensure_ascii=False)}
 
 
 if __name__ == '__main__':

@@ -830,3 +830,13 @@ JSON, waits for fonts/images/paint and rejects template script errors, overflow
 or repeated footer domains. Each template declares its profile; batch rendering
 rejects a different brand's template. Visual data stays structured and editable,
 while layout decisions remain in the owning brand repository.
+
+Social batches specify primary channel plus explicit `channels`: Instagram always
+uses `["instagram", "facebook"]` in one scheduled item. LinkedIn uses its own
+caption and all reviewed teaching slides; `documentTitle` is required for the
+PDF carousel conversion. Single-image payloads must have an empty `slideLabel`.
+`metricool_update_payload` preserves the full current post and selected network
+settings/tags while removing unselected network defaults rejected by Metricool.
+Always reconcile provider UUID/ID and read back every amended post; do not turn
+an uncertain update into a new post. Brand header-box contracts reject carousel
+position drift independently of normal font-size and overflow checks.
