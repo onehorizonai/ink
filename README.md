@@ -821,3 +821,10 @@ per-request metadata. Follow the exact IDs, dates and warnings in each result.
 profile's bucket. This JSON writer is separate from the images-only skill. All
 writers must run on the same Mac through its exclusive local lock: the configured
 Supabase S3 endpoint was tested and does not honor conditional PUT headers.
+
+Brand HTML templates now carry an adjacent `template-contract.json` and asset
+manifest. The renderer embeds approved logo/icon files, safely injects structured
+JSON, waits for fonts/images/paint and rejects template script errors, overflow
+or repeated footer domains. Each template declares its profile; batch rendering
+rejects a different brand's template. Visual data stays structured and editable,
+while layout decisions remain in the owning brand repository.

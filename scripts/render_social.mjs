@@ -5,10 +5,19 @@ import { pathToFileURL } from 'node:url'
 const [templatePath, payloadPath, outputPath, browserModule, fontPath] = process.argv.slice(2)
 if (!fontPath) throw new Error('Usage: render_social.mjs template payload output playwright-module font')
 const payload = JSON.parse(await readFile(payloadPath, 'utf8'))
+const contract = JSON.parse(await readFile(path.join(path.dirname(templatePath), 'template-contract.json'), 'utf8'))
+for (const field of contract.requiredFields) if (!(field in payload)) throw new Error(`Missing template input: ${field}`)
+if (!contract.visualKinds.includes(payload.visual?.kind) || !payload.visual.title || !Array.isArray(payload.visual.items) || !payload.visual.items.length || payload.visual.items.length > 4 || payload.visual.items.some(item => !item.title)) throw new Error('Invalid structured visual payload')
 const escape = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))
 const font = await readFile(fontPath)
 const values = {...payload, fontUrl:`data:font/${fontPath.endsWith('woff2')?'woff2':'ttf'};base64,${font.toString('base64')}`}
+const assets = JSON.parse(await readFile(path.join(path.dirname(templatePath), 'assets.json'), 'utf8').catch(() => '{}'))
+for (const [key, relative] of Object.entries(assets)) {
+  const bytes = await readFile(path.resolve(path.dirname(templatePath), relative))
+  values[key] = `data:image/${relative.endsWith('.svg') ? 'svg+xml' : 'png'};base64,${bytes.toString('base64')}`
+}
 const html = (await readFile(templatePath,'utf8')).replace(/\{\{(\w+)\}\}/g, (_,key) => {
+  if (key === 'payloadJson') return JSON.stringify(payload).replace(/</g, '\\u003c').replace(/>/g, '\\u003e')
   if (!(key in values)) throw new Error(`Missing template field: ${key}`)
   return escape(values[key])
 })
@@ -16,10 +25,15 @@ const { chromium } = await import(pathToFileURL(path.resolve(browserModule)).hre
 const browser = await chromium.launch({channel:'chrome',headless:true})
 try {
   const page = await browser.newPage({viewport:{width:1080,height:1350},deviceScaleFactor:1})
+  const scriptErrors = []
+  page.on('pageerror', error => scriptErrors.push(error.message))
   await page.setContent(html)
-  await page.evaluate(() => document.fonts.ready)
+  await page.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].map(image => image.decode())); await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))) })
+  if (scriptErrors.length) throw new Error(`Template script failed: ${scriptErrors.join('; ')}`)
+  const footer = await page.locator('footer').innerText()
+  if (footer.split(contract.footerDomain).length !== 2) throw new Error('Render exactly one brand domain in the footer')
   const errors = await page.evaluate(() => [...document.querySelectorAll('[data-fit]')].filter(el => {
-    const r=el.getBoundingClientRect(); return r.bottom>1150 || r.right>1005 || el.scrollWidth>el.clientWidth
+    const r=el.getBoundingClientRect(); return r.bottom>1150 || r.right>1016 || el.scrollWidth>el.clientWidth || el.scrollHeight>el.clientHeight
   }).map(el=>el.textContent))
   if(errors.length) throw new Error(`Text overflows safe area: ${JSON.stringify(errors)}`)
   await mkdir(path.dirname(outputPath),{recursive:true})

@@ -12,6 +12,10 @@ const batch = JSON.parse(await readFile(batchPath,'utf8'))
 if(!config || batch.profile !== profile || batch.workspaceId !== config.workspaceId) throw new Error('Profile/workspace mismatch')
 const renderer=config.socialRenderer
 if(!renderer) throw new Error('Selected profile has no socialRenderer')
+if(renderer.kind==='html'){
+ const contract=JSON.parse(await readFile(path.join(path.dirname(renderer.template),'template-contract.json'),'utf8'))
+ if(contract.profile!==profile) throw new Error('Template belongs to a different brand')
+}
 const completed=new Map()
 for(const post of batch.posts) for(const slide of post.slides){
  if(!completed.has(slide.image)){
