@@ -798,7 +798,9 @@ MCP, with channel/brand IDs verified from the live account.
 
 `scripts/render_social.mjs` renders a brand-owned HTML template and JSON payload
 with explicit Playwright module and font paths. It escapes copy, loads the brand
-font and rejects safe-area overflow. Fit Horizon keeps its existing GTM renderer;
+font and rejects safe-area overflow. Brand contracts can require an explicit
+allowed layout and minimum content font size; visible content descendants are
+checked too, so a large container cannot hide undersized or overflowing copy. Fit Horizon keeps its existing GTM renderer;
 this renderer does not replace its store asset workflow. Brand templates, private
 programs, drafts, credentials and performance data do not belong in Ink's public
 repository.
