@@ -14,7 +14,9 @@ const values = {...payload, fontUrl:`data:font/${fontPath.endsWith('woff2')?'wof
 const assets = JSON.parse(await readFile(path.join(path.dirname(templatePath), 'assets.json'), 'utf8').catch(() => '{}'))
 for (const [key, relative] of Object.entries(assets)) {
   const bytes = await readFile(path.resolve(path.dirname(templatePath), relative))
-  values[key] = `data:image/${relative.endsWith('.svg') ? 'svg+xml' : 'png'};base64,${bytes.toString('base64')}`
+  const mime = {'.svg':'image/svg+xml','.png':'image/png','.ttf':'font/ttf','.woff2':'font/woff2'}[path.extname(relative)]
+  if (!mime) throw new Error(`Unsupported template asset: ${relative}`)
+  values[key] = `data:${mime};base64,${bytes.toString('base64')}`
 }
 const html = (await readFile(templatePath,'utf8')).replace(/\{\{(\w+)\}\}/g, (_,key) => {
   if (key === 'payloadJson') return JSON.stringify(payload).replace(/</g, '\\u003c').replace(/>/g, '\\u003e')
