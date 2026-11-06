@@ -840,3 +840,15 @@ settings/tags while removing unselected network defaults rejected by Metricool.
 Always reconcile provider UUID/ID and read back every amended post; do not turn
 an uncertain update into a new post. Brand header-box contracts reject carousel
 position drift independently of normal font-size and overflow checks.
+
+### Explicit historical blog dates
+
+The release-log writer accepts an explicit `backfill: true` record for a historical
+editorial date only when a user requests it. Keep the real `sourceReviewedAt` and
+`publishedAt` timestamps on the same actual Amsterdam day. New backfill records
+require `scripts/write_release_log.py --allow-backfill`; ordinary scheduled runs
+do not use this flag. Existing backfill records remain part of immutable history
+and can be preserved by later normal releases without renewed backfill authority.
+The reader must support the flag before the log is written. `--check` validates
+record structure; the write path also verifies history and authorization under
+the existing exclusive local publication lock.
