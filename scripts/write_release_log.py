@@ -22,8 +22,12 @@ AMSTERDAM = ZoneInfo('Europe/Amsterdam')
 def validate_records(records, now):
     seen = set()
     for record in records:
-        if set(record) - {'slug','date','modified','hash','publishedAt','sourceReviewedAt'}:
+        if set(record) - {'slug','date','modified','hash','publishedAt','sourceReviewedAt','backfill'}:
             raise ValueError('Release records cannot contain article text or extra metadata')
+        if 'backfill' in record and record['backfill'] is not True:
+            raise ValueError('Backfill must be an explicit true flag')
+        if record.get('backfill') and ('modified' in record or not all(k in record for k in ('publishedAt','sourceReviewedAt'))):
+            raise ValueError('Backfills require real review/release timestamps and no modification date')
         if record.get('modified',record['date']) < record['date']: raise ValueError('Modification predates original publication')
         if record.get('modified',record['date']) > now.astimezone(AMSTERDAM).date().isoformat():
             raise ValueError('Future records cannot enter the public log')
@@ -39,8 +43,19 @@ def validate_records(records, now):
                 raise ValueError('Explicit timestamp offsets are required')
             if not reviewed <= published <= now:
                 raise ValueError('Invalid review/publication chronology')
-            if any(t.astimezone(AMSTERDAM).date().isoformat() != record.get('modified',record['date']) for t in [reviewed,published]):
+            publication_day=published.astimezone(AMSTERDAM).date().isoformat()
+            if record.get('backfill'):
+                if reviewed.astimezone(AMSTERDAM).date().isoformat() != publication_day or record['date'] >= publication_day:
+                    raise ValueError('A backfill needs an earlier editorial date and same-day source review/release')
+            elif any(t.astimezone(AMSTERDAM).date().isoformat() != record.get('modified',record['date']) for t in [reviewed,published]):
                 raise ValueError('Source review and actual publication must be on the stated day')
+
+
+def validate_history(records, previous, allow_backfill=False):
+    if any(record not in records for record in previous):
+        raise ValueError('Refusing to remove existing release history')
+    if not allow_backfill and any(record.get('backfill') and record not in previous for record in records):
+        raise ValueError('New backfills require explicit --allow-backfill authorization')
 
 
 def main():
@@ -49,6 +64,7 @@ def main():
     parser.add_argument('--records', type=Path, required=True)
     parser.add_argument('--key', default='publication/releases.json')
     parser.add_argument('--check', action='store_true')
+    parser.add_argument('--allow-backfill', action='store_true', help='Permit new historical-date records only when the user explicitly requested them')
     args = parser.parse_args()
     if args.check:
         validate_records(json.loads(args.records.read_text()), datetime.now(AMSTERDAM))
@@ -80,14 +96,13 @@ def publish(args):
     client=module.S3Client(config)
     url,host,uri=client._build_request_target(args.key)
     headers=client._signed_headers('GET',host,uri,'','',{})
+    previous=[]
     try:
         with urllib.request.urlopen(urllib.request.Request(url,headers=headers),timeout=30) as response:
             previous=json.loads(response.read())
-        # Preserve approved history and rollback hashes.
-        if any(record not in records for record in previous):
-            raise ValueError('Refusing to remove existing release history')
     except urllib.error.HTTPError as error:
         if error.code!=404: raise
+    validate_history(records, previous, args.allow_backfill)
     body=(json.dumps(records,ensure_ascii=False,indent=2)+'\n').encode()
     extra={'content-type':'application/json','cache-control':'public, max-age=0, must-revalidate'}
     headers=client._signed_headers('PUT',host,uri,'',hashlib.sha256(body).hexdigest(),extra)
