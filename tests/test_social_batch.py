@@ -16,9 +16,19 @@ class SocialBatchTests(unittest.TestCase):
         batch=self.batch(); approval=dict(batchHash=digest(batch),decision='approved',reviewerId='reviewer')
         intent=scheduling_intents(batch,approval,{},datetime.now(timezone.utc), "reviewer")[0]
         self.assertEqual(scheduling_intents(batch,approval,{intent['idempotencyKey']:{'status':'uncertain'}},datetime.now(timezone.utc), "reviewer"),[])
-    def test_factbase_linkedin_is_disabled(self):
-        batch=self.batch(); batch['profile']='factbase'; batch['posts'][0]['channel']='linkedin'
-        with self.assertRaises(ValueError): validate(batch)
+    def test_factbase_linkedin_can_schedule_an_approved_document(self):
+        batch=self.batch(); batch['profile']='factbase'
+        post=batch['posts'][0]
+        post.update(channel='linkedin',channels=['linkedin'],documentTitle='Control over client data')
+        post['slides']*=2
+        approval=dict(batchHash=digest(batch),decision='approved',reviewerId='reviewer')
+        intent=scheduling_intents(batch,approval,{},datetime.now(timezone.utc),'reviewer')[0]
+        info=json.loads(metricool_payload(intent)['info'])
+        self.assertEqual(info['providers'],[{'network':'linkedin'}])
+        self.assertTrue(info['linkedinData']['publishImagesAsPDF'])
+        self.assertEqual(info['linkedinData']['documentTitle'],post['documentTitle'])
+        self.assertEqual(info['media'],[slide['url'] for slide in post['slides']])
+        self.assertNotIn('instagramData',info)
 
     def test_metricool_payload_preserves_order_alt_and_native_caption(self):
         batch=self.batch(); approval=dict(batchHash=digest(batch),decision='approved',reviewerId='reviewer')
