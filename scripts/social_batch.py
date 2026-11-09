@@ -29,8 +29,6 @@ def validate(batch: dict) -> None:
         seen.add(key)
         if post['channel'] not in ('instagram', 'linkedin'):
             raise ValueError('Unsupported channel')
-        if post['channel'] == 'linkedin' and batch['profile'] == 'factbase':
-            raise ValueError('FactBase LinkedIn is disabled')
         expected_channels = ['instagram', 'facebook'] if post['channel'] == 'instagram' else ['linkedin']
         if post.get('channels') != expected_channels:
             raise ValueError('Instagram must also publish to Facebook; LinkedIn stays separate')
