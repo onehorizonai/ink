@@ -831,6 +831,11 @@ or repeated footer domains. Each template declares its profile; batch rendering
 rejects a different brand's template. Visual data stays structured and editable,
 while layout decisions remain in the owning brand repository.
 
+A brand can opt a visual kind into a product image layout through
+`imageVisualLayouts` in its template contract. The payload's visual supplies a
+PNG filename beside the payload and its alt text. The renderer embeds the file
+and the owning brand template defines its placement and scaling.
+
 Social batches specify primary channel plus explicit `channels`: Instagram always
 uses `["instagram", "facebook"]` in one scheduled item. LinkedIn uses its own
 caption and all reviewed teaching slides; `documentTitle` is required for the

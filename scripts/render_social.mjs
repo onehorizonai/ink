@@ -1,5 +1,5 @@
 // Deterministic HTML renderer. Brand layouts and assets belong to the selected brand repository.
-import { readFile, mkdir } from 'node:fs/promises'
+import { readFile, mkdir, realpath } from 'node:fs/promises'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 const [templatePath, payloadPath, outputPath, browserModule, fontPath] = process.argv.slice(2)
@@ -7,11 +7,31 @@ if (!fontPath) throw new Error('Usage: render_social.mjs template payload output
 const payload = JSON.parse(await readFile(payloadPath, 'utf8'))
 const contract = JSON.parse(await readFile(path.join(path.dirname(templatePath), 'template-contract.json'), 'utf8'))
 for (const field of contract.requiredFields) if (!(field in payload)) throw new Error(`Missing template input: ${field}`)
-if (!contract.visualKinds.includes(payload.visual?.kind) || !payload.visual.title || !Array.isArray(payload.visual.items) || !payload.visual.items.length || payload.visual.items.length > 4 || payload.visual.items.some(item => !item.title)) throw new Error('Invalid structured visual payload')
+if (!contract.visualKinds.includes(payload.visual?.kind)) throw new Error('Invalid structured visual kind')
 if (contract.layouts && !contract.layouts.includes(payload.layout)) throw new Error('Invalid brand layout: ' + payload.layout)
+const visual = payload.visual
+const imageLayouts = contract.imageVisualLayouts ?? {}
+const imageLayout = Object.hasOwn(imageLayouts, visual.kind) ? imageLayouts[visual.kind] : null
+let productImageUrl = ''
+if (imageLayout) {
+  if (payload.layout !== imageLayout || typeof visual.file !== 'string' ||
+      !/^[a-zA-Z0-9][a-zA-Z0-9_.-]*\.png$/.test(visual.file) ||
+      typeof visual.alt !== 'string' || !visual.alt.trim()) {
+    throw new Error('Product visuals require the image layout, a local PNG filename, and alt text')
+  }
+  const directory = await realpath(path.dirname(payloadPath))
+  const imagePath = await realpath(path.join(directory, visual.file))
+  if (path.dirname(imagePath) !== directory) throw new Error('Product image must be beside its payload')
+  const bytes = await readFile(imagePath)
+  productImageUrl = `data:image/png;base64,${bytes.toString('base64')}`
+} else if (Object.values(imageLayouts).includes(payload.layout) ||
+    !visual.title || !Array.isArray(visual.items) || !visual.items.length ||
+    visual.items.length > 4 || visual.items.some(item => !item?.title)) {
+  throw new Error('Invalid structured visual payload')
+}
 const escape = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))
 const font = await readFile(fontPath)
-const values = {...payload, fontUrl:`data:font/${fontPath.endsWith('woff2')?'woff2':'ttf'};base64,${font.toString('base64')}`}
+const values = {...payload, productImageUrl, fontUrl:`data:font/${fontPath.endsWith('woff2')?'woff2':'ttf'};base64,${font.toString('base64')}`}
 const assets = JSON.parse(await readFile(path.join(path.dirname(templatePath), 'assets.json'), 'utf8').catch(() => '{}'))
 for (const [key, relative] of Object.entries(assets)) {
   const bytes = await readFile(path.resolve(path.dirname(templatePath), relative))
