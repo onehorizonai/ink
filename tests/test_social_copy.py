@@ -14,3 +14,8 @@ class AudienceCopyTests(unittest.TestCase):
     def test_keeps_useful_instruction_and_private_evidence(self):
         validate_audience_copy(['Keep the heel down.', 'Example: retry the upload.', 'Anatomy: Z-Anatomy, CC BY-SA 4.0.'])
         validate_audience_copy(visible_social_copy({'headline': 'Control the return.', 'visual': {'images': [{'source': 'Actual catalog capture'}]}}))
+
+    def test_rejects_unfinished_public_placeholders(self):
+        for text in ['Nog niet bevestigd', 'Lorem ipsum', 'TBD', 'Vul [onderwerp] hier in']:
+            with self.assertRaises(ValueError):
+                validate_audience_copy([text])
