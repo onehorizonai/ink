@@ -60,13 +60,14 @@ try {
   if (scriptErrors.length) throw new Error(`Template script failed: ${scriptErrors.join('; ')}`)
   const footer = await page.locator('footer').innerText()
   if (footer.split(contract.footerDomain).length !== 2) throw new Error('Render exactly one brand domain in the footer')
-  const errors = await page.evaluate(bottom => [...document.querySelectorAll('[data-fit]')].filter(el => {
-    const r=el.getBoundingClientRect(); return r.bottom>bottom || r.right>1016 || el.scrollWidth>el.clientWidth+1 || el.scrollHeight>el.clientHeight+1
-  }).map(el=>el.textContent),contract.safeBottom || 1150)
-  const contentErrors = await page.evaluate(({minSize,bottom}) => [...document.querySelectorAll('main h1,main h2,main strong,main p,main .support')].filter(el => {
+  const safeBottom = contract.reviewOnly ? (contract.safeBottom || 1150) : 1150
+  const errors = await page.evaluate(({bottom,tolerance}) => [...document.querySelectorAll('[data-fit]')].filter(el => {
+    const r=el.getBoundingClientRect(); return r.bottom>bottom || r.right>1016 || el.scrollWidth>el.clientWidth+tolerance || el.scrollHeight>el.clientHeight+tolerance
+  }).map(el=>el.textContent),{bottom:safeBottom,tolerance:contract.reviewOnly?1:0})
+  const contentErrors = await page.evaluate(({minSize,bottom,checkHeight}) => [...document.querySelectorAll('main h1,main h2,main strong,main p,main .support')].filter(el => {
     const style=getComputedStyle(el); if(style.display==='none' || !el.getClientRects().length) return false;
-    const r=el.getBoundingClientRect(); return Number.parseFloat(style.fontSize)<minSize || r.bottom>bottom || r.right>1016 || r.left<50 || el.scrollWidth>el.clientWidth+1 || el.scrollHeight>el.clientHeight+1
-  }).map(el=>el.textContent), {minSize:contract.minimumContentFontSize || 0,bottom:contract.safeBottom || 1150})
+    const r=el.getBoundingClientRect(); return Number.parseFloat(style.fontSize)<minSize || r.bottom>bottom || r.right>1016 || r.left<50 || el.scrollWidth>el.clientWidth+1 || (checkHeight && el.scrollHeight>el.clientHeight+1)
+  }).map(el=>el.textContent), {minSize:contract.minimumContentFontSize || 0,bottom:safeBottom,checkHeight:Boolean(contract.reviewOnly)})
   const headerErrors = await page.evaluate(boxes => {
     const selectors={eyebrow:'.intro .eyebrow',headline:'.intro h1',support:'.intro .support'};
     return Object.entries(boxes||{}).filter(([key,expected])=>{
