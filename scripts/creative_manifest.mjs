@@ -45,6 +45,20 @@ export async function validateCreativePhotos(manifest) {
   }
  }
 }
+/** One concept may share a photograph across channels, never across concepts/slides. */
+export async function validateBatchPhotos(batch) {
+ const ids=new Map(),hashes=new Map(),payloads=new Map()
+ for(const post of batch.posts)for(const [slideIndex,slide]of post.slides.entries()){
+  if(!payloads.has(slide.payload))payloads.set(slide.payload,JSON.parse(await readFile(slide.payload,'utf8')))
+  const images=payloads.get(slide.payload).visual?.images??[]
+  for(const [assetIndex,asset]of images.entries())if(asset.kind==='photography'){
+   const id=asset.photoId??asset.source,hash=asset.sha256,owner=JSON.stringify([post.conceptId??post.id,slideIndex,assetIndex])
+   if(!id||!/^[a-f0-9]{64}$/.test(hash??''))throw new Error('Photographs require a source identity and SHA-256')
+   if((ids.has(id)&&ids.get(id)!==owner)||(hashes.has(hash)&&hashes.get(hash)!==owner))throw new Error('Use a different photograph for each concept and slide; only channel adaptations may share it')
+   ids.set(id,owner);hashes.set(hash,owner)
+  }
+ }
+}
 export async function creativeHash(manifest){
  const records=[]
  for(const d of manifest.directions)for(const s of d.slides){records.push([s.image,createHash('sha256').update(await readFile(s.image)).digest('hex')]);records.push([s.payload,createHash('sha256').update(await readFile(s.payload)).digest('hex')])}
