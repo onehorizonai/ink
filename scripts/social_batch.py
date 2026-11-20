@@ -100,6 +100,7 @@ def scheduling_intents(batch: dict, approval: dict, ledger: dict, now: datetime,
 def metricool_payload(intent: dict) -> dict:
     """Build official ScheduledPost JSON for the connected MCP, without a write."""
     post = intent['post']
+    validate_audience_copy([post['caption']])
     stamp = datetime.fromisoformat(post['scheduledAt']).astimezone(ZoneInfo('Europe/Amsterdam'))
     info = {
         'text': post['caption'],

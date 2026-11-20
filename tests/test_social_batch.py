@@ -12,6 +12,7 @@ class SocialBatchTests(unittest.TestCase):
     def test_audience_copy_is_checked_before_scheduling(self):
         batch=self.batch();batch['posts'][0]['caption']='Actual catalog movement, not an injury treatment claim'
         with self.assertRaisesRegex(ValueError,'disclaimers'):validate(batch)
+        with self.assertRaisesRegex(ValueError,'disclaimers'):metricool_payload({'brandId':'fictional-brand','post':batch['posts'][0]})
         import tempfile
         with tempfile.TemporaryDirectory() as folder:
             payload=Path(folder)/'payload.json'
