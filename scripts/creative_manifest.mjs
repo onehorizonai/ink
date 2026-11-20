@@ -7,6 +7,7 @@ export function validateCreativeManifest(manifest, profile) {
  let images=0,carousels=0,substantial=0
  for(const d of manifest.directions){
   if(!d.brief?.trim() || !d.sources?.length) throw new Error('Direction requires a brief and sources')
+  if(!['substantial','medium'].includes(d.captionLength)) throw new Error('Choose a declared caption length')
   const n=d.slides?.length
   if(d.kind==='carousel'){if(n!==6)throw new Error('One complete six-slide carousel required');carousels++}
   else if(d.kind!=='pair' || n!==2)throw new Error('A study is a pair or complete carousel')
