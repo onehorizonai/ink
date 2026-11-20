@@ -9,6 +9,16 @@ from social_batch import digest, scheduling_intents, validate, metricool_payload
 class SocialBatchTests(unittest.TestCase):
     def batch(self):
         return dict(schemaVersion=1, profile='fit-horizon', workspaceId='fictional-workspace', metricoolBrandId='fictional-brand', posts=[dict(id='one', channel='instagram', channels=['instagram','facebook'], caption='A useful caption', sources=['https://example.com'], scheduledAt='2099-01-01T18:00:00+01:00', slides=[dict(headline='Useful', alt='Useful text', url='https://example.com/image.png')])])
+    def test_audience_copy_is_checked_before_scheduling(self):
+        batch=self.batch();batch['posts'][0]['caption']='Actual catalog movement, not an injury treatment claim'
+        with self.assertRaisesRegex(ValueError,'disclaimers'):validate(batch)
+        import tempfile
+        with tempfile.TemporaryDirectory() as folder:
+            payload=Path(folder)/'payload.json'
+            payload.write_text(json.dumps({'headline':'Control the return.','visual':{'note':'Actual Fit Horizon anatomy — illustrative pose'}}))
+            batch=self.batch();batch['posts'][0]['slides'][0]['payload']=str(payload)
+            with self.assertRaisesRegex(ValueError,'disclaimers'):validate(batch)
+
     def test_stale_approval_is_rejected(self):
         batch=self.batch(); approval=dict(batchHash=digest(batch),decision='approved',reviewerId='reviewer'); batch['posts'][0]['caption']='Changed'
         with self.assertRaises(ValueError): scheduling_intents(batch,approval,{},datetime.now(timezone.utc), "reviewer")

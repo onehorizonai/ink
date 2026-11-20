@@ -6,3 +6,8 @@ test('review manifest enforces brand, teaching copy and complete sequences',()=>
  assert.equal(validateCreativeManifest(manifest(),'factbase').directions.length,8)
  for(const edit of [m=>m.reviewOnly=false,m=>m.profile='other',m=>m.directions[0].slides.pop(),m=>m.directions[2].captions.linkedin='short',m=>m.directions[1].id='FB0',m=>m.directions[7].captionLength='short']){const m=manifest();edit(m);assert.throws(()=>validateCreativeManifest(m,'factbase'))}
 })
+
+test('captions cannot leak capture commentary into a review bundle',()=>{
+ const m=manifest();m.directions[0].captions.instagram='Actual Fit Horizon anatomy — illustrative pose. '+'x'.repeat(1300)
+ assert.throws(()=>validateCreativeManifest(m,'factbase'),/disclaimers/)
+})
