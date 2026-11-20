@@ -9,6 +9,9 @@
     "\\b(?:echte|echt) (?:productweergave|documenteditor|werkdocument)\\b",
     "\\buitsnede van het echte\\b",
     "\\bgeen cli[eë]ntgegevens\\b",
-    "\\bthe (?:image|photo|photograph|render) (?:does not|cannot) (?:verify|prove|establish)\\b"
+    "\\bthe (?:image|photo|photograph|render) (?:does not|cannot) (?:verify|prove|establish)\\b",
+    "\\bnog niet bevestigd\\b",
+    "\\b(?:lorem ipsum|TBD)\\b",
+    "\\[(?:onderwerp|voorwaarden|gegeven|relevante periode|insert text|title here)\\]"
   ]
 }

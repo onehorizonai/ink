@@ -10,3 +10,7 @@ test('allows useful instruction, examples, factual limits and attribution',()=>{
  const payload={headline:'Choose a manageable position.',visual:{note:'Control the return.',images:[{source:'Actual catalog capture',alt:'Actual anatomy pose'}]}}
  assert.doesNotThrow(()=>validateAudienceCopy(visibleSocialCopy(payload)))
 })
+
+test('rejects unfinished public placeholders',()=>{
+ for(const text of ['Nog niet bevestigd','Lorem ipsum dolor sit amet','TBD','Vul [onderwerp] hier in'])assert.throws(()=>validateAudienceCopy([text]))
+})

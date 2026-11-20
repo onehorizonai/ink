@@ -11,3 +11,12 @@ test('captions cannot leak capture commentary into a review bundle',()=>{
  const m=manifest();m.directions[0].captions.instagram='Actual Fit Horizon anatomy — illustrative pose. '+'x'.repeat(1300)
  assert.throws(()=>validateCreativeManifest(m,'factbase'),/disclaimers/)
 })
+
+test('image-specific captions must be safe and belong to the selected image',()=>{
+ const m=manifest();m.directions[1].captionsByImage={missing:{instagram:'Useful',linkedin:'Useful'}}
+ assert.throws(()=>validateCreativeManifest(m,'factbase'),/match an image/)
+ m.directions[1].captionsByImage={a:{instagram:'Useful photo edition',linkedin:'Useful photo edition'}}
+ validateCreativeManifest(m,'factbase')
+ m.directions[1].captionsByImage.a.instagram='Nog niet bevestigd'
+ assert.throws(()=>validateCreativeManifest(m,'factbase'),/disclaimers/)
+})

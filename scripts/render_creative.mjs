@@ -3,10 +3,11 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { spawn } from 'node:child_process'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import {validateCreativeManifest,creativeHash} from './creative_manifest.mjs'
+import {validateCreativeManifest,validateCreativePhotos,creativeHash} from './creative_manifest.mjs'
 const [profile,manifestPath,adapterPath]=process.argv.slice(2)
 if(!adapterPath)throw new Error('Usage: render_creative.mjs profile manifest.json explicit-adapter.json')
 const manifest=validateCreativeManifest(JSON.parse(await readFile(manifestPath,'utf8')),profile)
+await validateCreativePhotos(manifest)
 const a=JSON.parse(await readFile(adapterPath,'utf8'))
 const c=JSON.parse(await readFile(path.join(path.dirname(a.template),'template-contract.json'),'utf8'))
 if(a.profile!==profile || c.profile!==profile || !c.reviewOnly)throw new Error('Review adapter brand mismatch')
