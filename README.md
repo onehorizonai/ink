@@ -857,3 +857,21 @@ and can be preserved by later normal releases without renewed backfill authority
 The reader must support the flag before the log is written. `--check` validates
 record structure; the write path also verifies history and authorization under
 the existing exclusive local publication lock.
+
+### Creative direction reviews
+
+`node scripts/render_creative.mjs <profile> <creative-manifest.json> <explicit-adapter.json>`
+renders experimental, review-only v8 layouts from the owning brand repository.
+The adapter is supplied for this run; it never replaces the production profile
+renderer. A manifest contains eight directions: seven unpaginated pairs and one
+complete six-slide carousel, twenty images in total. Each direction carries its
+brief, sources, alt text and independent Instagram/Facebook and LinkedIn copy.
+Six captions are substantial and two medium; channel limits include credits.
+
+Assets remain inside the private run, with exact SHA-256, source and alt metadata.
+Brand contracts define allowed layouts, asset counts and header anchors per
+composition family. Different compositions can keep their own anchors. Long
+copy fails instead of shrinking type. Inspect every full-size and 360px export;
+a successful geometry check is only one part of visual review. Candidate creation
+never grants publication approval. Select directions first, then prepare a new
+exact-hash social batch through the existing approval flow.
