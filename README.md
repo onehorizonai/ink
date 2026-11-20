@@ -809,11 +809,20 @@ Non-One Horizon profiles must set their own `gtmReleaseLock`. A lock can specify
 an exporter path within its source repo and the snapshot hash field. This avoids
 using One Horizon's release pin or exporter assumptions for another brand.
 
-`render_batch.mjs <profile> <batch.json>` routes each unique slide through the
+`render_batch.mjs <profile> <batch.json> [registry.json]` routes each unique slide through the
 profile's `socialRenderer` adapter and hashes the actual PNG bytes. Changed bytes
 invalidate the previous media URL and approval hash. Configure `gtm-cli` for an
 existing brand renderer or `html` for a brand-owned template, font and explicit
 Playwright module. No implicit brand or workspace fallback is allowed.
+
+An explicit run registry can select an adopted composition library for new batches
+without changing historical profile defaults. Batch rendering rejects a repeated
+photograph across concepts or slide positions, including resized or renamed
+copies identified by source ID or SHA-256. Give channel adaptations of one concept
+the same `conceptId`; they may share the photograph at the same slide position.
+Keep photo history, release-feature coverage, editorial variation and individual
+mobile QA in the private program workflow. The renderer does not infer semantic
+variety or grant publication approval.
 
 `knowledge_mcp.py` reads the selected profile's private `knowledgeMcpConfig` and
 supports only `search`/`retrieve` tool calls using MCP 2026-07-28 discovery and

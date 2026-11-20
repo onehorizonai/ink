@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto'
 import { spawn } from 'node:child_process'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import {validateBatchPhotos} from './creative_manifest.mjs'
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const [profile, batchPath, registryPath = path.join(root,'.local/context/ink-profiles.local.json')] = process.argv.slice(2)
 if(!profile || !batchPath) throw new Error('Usage: render_batch.mjs profile batch.json [registry.json]')
@@ -17,6 +18,7 @@ if(renderer.kind==='html'){
  if(contract.profile!==profile) throw new Error('Template belongs to a different brand')
 }
 const completed=new Map()
+await validateBatchPhotos(batch)
 for(const post of batch.posts) for(const slide of post.slides){
  if(!completed.has(slide.image)){
   const args = renderer.kind==='gtm-cli'
