@@ -1,0 +1,14 @@
+{
+  "patterns": [
+    "\\bactual (?:fit horizon |one horizon )?(?:anatomy|catalog|comment field|conversation ui|document editor|review component|product component|capability setting)",
+    "\\billustrative pose\\b",
+    "\\b(?:fictional|fictieve) (?:demonstration|demonstratie|training data|meeting|decision brief|contract note|weekly report)\\b",
+    "\\bthese are actual catalog poses\\b",
+    "\\bnot (?:an? )?(?:injury treatment claim|treatment plan|medical recommendation|screenshot of a new|support-point comparison|measured activation)\\b",
+    "\\bno added screenshot frame\\b",
+    "\\b(?:echte|echt) (?:productweergave|documenteditor|werkdocument)\\b",
+    "\\buitsnede van het echte\\b",
+    "\\bgeen cli[eë]ntgegevens\\b",
+    "\\bthe (?:image|photo|photograph|render) (?:does not|cannot) (?:verify|prove|establish)\\b"
+  ]
+}

@@ -7,9 +7,21 @@ import argparse
 import copy
 import hashlib
 import json
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
+
+
+_COPY_PATTERNS = [re.compile(value, re.IGNORECASE) for value in json.loads(Path(__file__).with_name('social_copy_policy.json').read_text())['patterns']]
+
+def validate_audience_copy(texts: list) -> None:
+    if any(isinstance(text, str) and pattern.search(text) for text in texts for pattern in _COPY_PATTERNS):
+        raise ValueError('Remove production notes or defensive disclaimers from audience copy')
+
+def visible_social_copy(payload: dict) -> list:
+    visual = payload.get('visual', {})
+    return [payload.get(key, '') for key in ('eyebrow', 'headline', 'support', 'footerNote')] + [visual.get(key, '') for key in ('title', 'note', 'label', 'statement')] + [item.get(key, '') for item in visual.get('items', []) for key in ('title', 'body', 'label', 'value')]
 
 
 def digest(batch: dict) -> str:
@@ -37,6 +49,7 @@ def validate(batch: dict) -> None:
         limit = 2200 if post['channel'] == 'instagram' else 3000
         if not post['caption'].strip() or len(post['caption']) > limit:
             raise ValueError('Invalid caption length')
+        validate_audience_copy([post['caption']])
         if not 1 <= len(post['slides']) <= 10:
             raise ValueError('Expected one to ten images')
         for slide_index, slide in enumerate(post['slides']):
@@ -46,6 +59,7 @@ def validate(batch: dict) -> None:
             payload_path = Path(slide.get('payload', ''))
             if payload_path.is_file():
                 payload = json.loads(payload_path.read_text())
+                validate_audience_copy(visible_social_copy(payload))
                 expected_label = f"{slide_index + 1} / {len(post['slides'])}" if len(post['slides']) > 1 else ''
                 if payload.get('slideLabel', '') != expected_label:
                     raise ValueError('Pagination must match the actual media count')
@@ -86,6 +100,7 @@ def scheduling_intents(batch: dict, approval: dict, ledger: dict, now: datetime,
 def metricool_payload(intent: dict) -> dict:
     """Build official ScheduledPost JSON for the connected MCP, without a write."""
     post = intent['post']
+    validate_audience_copy([post['caption']])
     stamp = datetime.fromisoformat(post['scheduledAt']).astimezone(ZoneInfo('Europe/Amsterdam'))
     info = {
         'text': post['caption'],

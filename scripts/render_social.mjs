@@ -3,6 +3,7 @@ import { readFile, mkdir, realpath } from 'node:fs/promises'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { creativeAssets } from './creative_assets.mjs'
+import {validateAudienceCopy,visibleSocialCopy} from './social_copy.mjs'
 const [templatePath, payloadPath, outputPath, browserModule, fontPath] = process.argv.slice(2)
 if (!fontPath) throw new Error('Usage: render_social.mjs template payload output playwright-module font')
 const payload = JSON.parse(await readFile(payloadPath, 'utf8'))
@@ -11,6 +12,7 @@ for (const field of contract.requiredFields) if (!(field in payload)) throw new 
 if (!contract.visualKinds.includes(payload.visual?.kind)) throw new Error('Invalid structured visual kind')
 if (contract.layouts && !contract.layouts.includes(payload.layout)) throw new Error('Invalid brand layout: ' + payload.layout)
 if(contract.reviewOnly && (!contract.headerFamilies?.[payload.headerFamily] || contract.layoutFamilies?.[payload.layout] !== payload.headerFamily)) throw new Error('Creative layout needs its declared header family')
+validateAudienceCopy(visibleSocialCopy(payload))
 const visual = payload.visual
 const imageLayouts = contract.imageVisualLayouts ?? {}
 const imageLayout = Object.hasOwn(imageLayouts, visual.kind) ? imageLayouts[visual.kind] : null

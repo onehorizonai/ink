@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
+import {validateAudienceCopy} from './social_copy.mjs'
 
 export function validateCreativeManifest(manifest, profile) {
  if(manifest.profile!==profile || manifest.reviewOnly!==true || manifest.templateVersion!==8) throw new Error('Explicit review profile/version required')
@@ -14,6 +15,7 @@ export function validateCreativeManifest(manifest, profile) {
   images+=n
   for(const channel of ['instagram','linkedin']){
    const caption=d.captions?.[channel];if(typeof caption!=='string')throw new Error('Both channel-native captions required')
+   validateAudienceCopy([caption])
    const [min,max]=d.captionLength==='substantial'?(channel==='instagram'?[1200,2200]:[1500,3000]):[600,1100]
    if([...caption].length<min || [...caption].length>max)throw new Error(`${d.id} ${channel} caption outside ${min}–${max}`)
   }
